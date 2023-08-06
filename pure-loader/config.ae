@@ -1,0 +1,7 @@
+database: [
+   database: cloud_test
+   password: cloud_test
+   port: 3306
+   host: web-interface.eu
+   user: cloud_test
+]

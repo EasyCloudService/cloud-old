@@ -1,0 +1,37 @@
+package net.purecloud.api.network.code;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.handler.codec.ByteToMessageDecoder;
+import net.purecloud.api.network.NetworkBuf;
+import net.purecloud.api.network.packet.PacketHandler;
+
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
+public final class PacketDecoder extends ByteToMessageDecoder {
+    private final PacketHandler packetHandler;
+
+    public PacketDecoder(PacketHandler packetHandler) {
+        this.packetHandler = packetHandler;
+    }
+
+    @Override
+    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) {
+        //System.out.println("DECODE");
+        var index = byteBuf.readInt();
+        var clazz = this.packetHandler.getPacketClass(index);
+        if (clazz != null) {
+            try {
+                var packet = clazz.getDeclaredConstructor().newInstance();
+                packet.handle(new NetworkBuf(byteBuf));
+                list.add(packet);
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException exception) {
+                throw new RuntimeException(exception);
+            }
+        }
+        //System.out.println("DECODE-END");
+    }
+
+}
