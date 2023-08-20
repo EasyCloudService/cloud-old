@@ -15,27 +15,17 @@ public final class ServiceCommand extends CloudCommand {
         var logger = Base.getInstance().getLogger();
 
         if (args.length >= 2) {
-            if (args[1].equalsIgnoreCase("list")) {
+            if (args[1].equalsIgnoreCase("shutdown") || args[1].equalsIgnoreCase("stop")) {
                 if (Base.getInstance().getGroupProvider().getRepository().findAll().isEmpty()) {
                     logger.log("There is currently no group!");
                     return;
                 }
 
-                Base.getInstance().getGroupProvider().getRepository().findAll().forEach(group -> {
-                    logger.log(group.getName() + " " + argument(group.getMaxMemory() + "mb") + " §7| " + "§f0 Online");
+                Base.getInstance().getServiceProvider().getServices().stream().filter(it -> it.getId().equalsIgnoreCase(args[2])).findFirst().ifPresentOrElse(service -> {
+                    Base.getInstance().getServiceProvider().stop(service.getId());
+                }, () -> {
+                    logger.log("Please provide a valid service!", LogType.ERROR);
                 });
-                return;
-            }
-            if (args[1].equalsIgnoreCase("types")) {
-                for (GroupType value : GroupType.values()) {
-                    logger.log(value.name());
-                }
-                return;
-            }
-            if (args[1].equalsIgnoreCase("versions")) {
-                for (GroupVersion version : GroupVersion.values()) {
-                    logger.log(version.name() + " " + argument(version.getUrl()));
-                }
                 return;
             }
             if (args.length == 4) {
@@ -58,7 +48,7 @@ public final class ServiceCommand extends CloudCommand {
         }
         logger.log("");
         logger.log("service start " + argument("group") + " " + argument("amount"));
-        logger.log("service shutdown " + argument("name"));
+        logger.log("service shutdown|stop " + argument("name"));
         logger.log("");
     }
 

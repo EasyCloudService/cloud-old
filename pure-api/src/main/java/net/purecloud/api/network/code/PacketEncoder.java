@@ -16,9 +16,7 @@ public final class PacketEncoder extends MessageToByteEncoder<Packet> {
 
     @Override
     protected void encode(ChannelHandlerContext channelHandlerContext, Packet packet, ByteBuf byteBuf) {
-        //System.out.println("ENCODE " + packet.getClass().getSimpleName());
         byteBuf.writeInt(packetHandler.getPacketId(packet.getClass()));
         packet.write(new NetworkBuf(byteBuf));
-        //System.out.println("ENCODE-FINISHED " + packet.getClass().getSimpleName());
     }
 }

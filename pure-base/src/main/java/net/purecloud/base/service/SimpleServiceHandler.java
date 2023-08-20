@@ -76,7 +76,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
             ((Service) service).stop();
             services.remove(service);
 
-            Base.getInstance().getNettyProvider().sendPacket(new ServiceDisconnectPacket(id, service.getGroup(), service.getPort()));
+            Base.getInstance().getNettyProvider().sendPacket(new ServiceDisconnectPacket(service.getGroup(), id, service.getPort()));
         }
         update();
     }

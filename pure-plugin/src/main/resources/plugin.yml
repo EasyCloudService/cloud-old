@@ -1,0 +1,10 @@
+name: CloudAPI
+description: Its just an API
+api-version: "1.20"
+author: FlxwDNS
+main: net.purecloud.spigot.SpigotPlugin
+version: 1
+
+commands:
+  services:
+    description: List all services.

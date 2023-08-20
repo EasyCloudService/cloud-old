@@ -2,6 +2,7 @@ package net.purecloud.wrapper.classloader;
 
 import net.purecloud.api.group.misc.GroupType;
 import net.purecloud.wrapper.service.Service;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.lang.instrument.Instrumentation;
@@ -42,22 +43,27 @@ public final class ApplicationExternalObjectLoader {
             instrumentation.appendToSystemClassLoaderSearch(new JarFile(applicationFile.toFile()));
             var mainClass = Class.forName(main, true, classLoader);
 
-            var thread = new Thread(() -> {
-                try {
-                    if(service.getGroup().getType().equals(GroupType.PROXY)) {
-                        mainClass.getMethod("main", String[].class).invoke(null, (Object) new String[]{"--port=" + service.getPort()});
-                    } else {
-                        mainClass.getMethod("main", String[].class).invoke(null, (Object) new String[]{"--port=" + service.getPort(), "nogui"});
-                    }
-                } catch (Exception exception) {
-                    throw new RuntimeException(exception);
-                }
-            }, "Service-Thread");
-            thread.setContextClassLoader(classLoader);
-            thread.start();
-            return thread;
+            return getThread(service, mainClass, classLoader);
         } catch (ClassNotFoundException | IOException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    @NotNull
+    private static Thread getThread(Service service, Class<?> mainClass, ClassLoader classLoader) {
+        var thread = new Thread(() -> {
+            try {
+                if(service.getGroup().getType().equals(GroupType.PROXY)) {
+                    mainClass.getMethod("main", String[].class).invoke(null, (Object) new String[]{"--port=" + service.getPort()});
+                } else {
+                    mainClass.getMethod("main", String[].class).invoke(null, (Object) new String[]{"--port=" + service.getPort(), "nogui"});
+                }
+            } catch (Exception exception) {
+                throw new RuntimeException(exception);
+            }
+        }, "Service-Thread");
+        thread.setContextClassLoader(classLoader);
+        thread.start();
+        return thread;
     }
 }

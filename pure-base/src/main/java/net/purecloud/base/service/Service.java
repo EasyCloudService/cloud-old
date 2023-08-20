@@ -51,24 +51,6 @@ public class Service implements IService {
                 throw new RuntimeException(exception);
             }
         }).start();
-
-        /*new Thread(() -> {
-            try {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    if (console) {
-                        Base.getInstance().getLogger().log("§7[§r" + id + "§7] §r" + line);
-                    }
-                    System.out.println(id + " ADDED LINE " + consoleCache.size());
-                    consoleCache.add(line);
-                }
-                reader.close();
-            } catch (IOException exception) {
-                throw new RuntimeException(exception);
-            }
-        }).start();*/
     }
 
     public void execute(String command) {

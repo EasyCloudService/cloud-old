@@ -5,6 +5,7 @@ import net.purecloud.api.group.Group;
 import net.purecloud.api.network.packet.Packet;
 import net.purecloud.api.network.packet.PacketListener;
 import net.purecloud.api.network.packet.defaults.ServiceConnectPacket;
+import net.purecloud.api.network.packet.defaults.ServiceDisconnectPacket;
 import net.purecloud.api.network.packet.defaults.ServiceRequestStartPacket;
 import net.purecloud.api.network.packet.defaults.ServiceRequestStopPacket;
 import net.purecloud.api.service.IService;
@@ -27,6 +28,10 @@ public final class ServiceHandler implements ServiceProvider {
         var packetHandler = Wrapper.getInstance().getNettyProvider().getPacketHandler();
         packetHandler.subscribe(ServiceConnectPacket.class, (channel, packet) -> {
             services.add(new Service(packet.getGroup(), packet.getName(), packet.getPort()));
+        });
+
+        packetHandler.subscribe(ServiceDisconnectPacket.class, (channel, packet) -> {
+            services.removeIf(it -> it.getId().equals(packet.getName()));
         });
     }
 

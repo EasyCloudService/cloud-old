@@ -3,6 +3,7 @@ package net.purecloud.api.network.server;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.AllArgsConstructor;
+import net.purecloud.api.CloudDriver;
 import net.purecloud.api.network.packet.Packet;
 import net.purecloud.api.network.packet.defaults.HandshakeAuthenticationPacket;
 
@@ -12,8 +13,6 @@ public class NettyServerChannel extends SimpleChannelInboundHandler<Packet> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Packet packet) {
-        //System.out.println("[DEBUG] NettyServer recived: " + packet);
-
         if(packet instanceof HandshakeAuthenticationPacket authPacket) {
             if(authPacket.getKey().equals("23645gcji687456zhhj4c5u67z34tx5t6z3hu4x5")) {
                 nettyServer.getChannels().add(channelHandlerContext.channel());

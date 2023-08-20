@@ -58,8 +58,6 @@ public final class VelocityPlugin {
         }
         System.out.println();
 
-        //CloudDriver.getInstance().getEventHandler().register(new ServerConnectListener());
-
         CloudDriver.getInstance().getNettyProvider().getPacketHandler().subscribe(ServiceConnectPacket.class, (channel, packet) -> {
             if(server.getServer(packet.getName()).isEmpty() && !packet.getGroup().getType().equals(GroupType.PROXY)) {
                 System.out.println("Service " + packet.getName() + " will be started...");

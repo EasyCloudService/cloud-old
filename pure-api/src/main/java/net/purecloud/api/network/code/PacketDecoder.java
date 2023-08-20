@@ -18,7 +18,6 @@ public final class PacketDecoder extends ByteToMessageDecoder {
 
     @Override
     protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) {
-        //System.out.println("DECODE");
         var index = byteBuf.readInt();
         var clazz = this.packetHandler.getPacketClass(index);
         if (clazz != null) {
@@ -31,7 +30,6 @@ public final class PacketDecoder extends ByteToMessageDecoder {
                 throw new RuntimeException(exception);
             }
         }
-        //System.out.println("DECODE-END");
     }
 
 }

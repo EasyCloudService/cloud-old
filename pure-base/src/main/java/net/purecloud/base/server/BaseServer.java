@@ -12,7 +12,7 @@ public final class BaseServer extends NettyServer {
 
         getPacketHandler().subscribe(HandshakeAuthenticationPacket.class, (channel, packet) -> {
             Base.getInstance().getServiceProvider().getServices().forEach(service -> {
-                sendPacket(new ServiceConnectPacket(service.getGroup(), service.getId(), service.getPort()));
+                channel.writeAndFlush(new ServiceConnectPacket(service.getGroup(), service.getId(), service.getPort()));
             });
         });
     }

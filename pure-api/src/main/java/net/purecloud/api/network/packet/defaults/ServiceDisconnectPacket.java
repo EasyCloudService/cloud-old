@@ -12,13 +12,13 @@ import net.purecloud.api.network.packet.Packet;
 @AllArgsConstructor
 @NoArgsConstructor
 public final class ServiceDisconnectPacket implements Packet {
-    private String name;
     private Group group;
+    private String name;
     private int port;
 
     @Override
     public void write(NetworkBuf buf) {
-        buf.writeString(name).writeString(group.getName()).writeInt(port);
+        buf.writeString(group.getName()).writeString(name).writeInt(port);
     }
 
     @Override
