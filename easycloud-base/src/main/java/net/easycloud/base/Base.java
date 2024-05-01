@@ -61,7 +61,7 @@ public final class Base extends CloudDriver {
                 &r ------------------__/ |------------------------------
                 &r                  |___/
                 
-                  &r| EasyCloud - Powered by &b@AscanAPI &7and &b@Vynl
+                 &r| EasyCloud - Powered by &b@AscanAPI &7and &b@Vynl
                 """, LogType.EMPTY);
 
         this.nettyProvider = new BaseServer();

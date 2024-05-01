@@ -6,6 +6,7 @@ import de.flxwdev.ascan.inventory.item.ItemBuilder;
 import dev.dbassett.skullcreator.SkullCreator;
 import net.easycloud.api.CloudDriver;
 import net.easycloud.api.service.IService;
+import net.easycloud.spigot.inventory.group.GroupListInventory;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -14,18 +15,18 @@ public final class ControlPanelInventory extends MultiInventory<IService> {
     public ControlPanelInventory(Player player) {
         super(player, "§cEasyCloud", 5, false, CloudDriver.getInstance().getServiceProvider().getServices());
 
-        setPlaceHolder(2, 1);
+        setPlaceHolder(2, 0);
         setPlaceHolder(2, 8);
-        setPlaceHolder(3, 1);
+        setPlaceHolder(3, 0);
         setPlaceHolder(3, 8);
-        setPlaceHolder(4, 1);
+        setPlaceHolder(4, 0);
         setPlaceHolder(4, 8);
 
         setPlaceHolder(1);
         setPlaceHolder(5);
 
         setClickableItem(5,4, new ClickableItem(ItemBuilder.of(Material.HOPPER).withName("§8» §7Group"), () -> {
-
+            new GroupListInventory(player);
         }));
 
         open(player);
