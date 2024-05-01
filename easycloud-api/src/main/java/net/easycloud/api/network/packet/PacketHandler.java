@@ -15,7 +15,7 @@ public final class PacketHandler {
     private final Map<Class<? extends Packet>, List<PacketListener>> subscribe;
 
     public PacketHandler() {
-        this.packets = List.of(HandshakeAuthenticationPacket.class, ServiceConnectPacket.class, ServiceDisconnectPacket.class, ServiceRequestStartPacket.class, ServiceRequestStopPacket.class);
+        this.packets = List.of(HandshakeAuthenticationPacket.class, PermissionUpdatePacket.class, ServiceConnectPacket.class, ServiceDisconnectPacket.class, ServiceRequestStartPacket.class, ServiceRequestStopPacket.class);
         this.subscribe = new HashMap<>();
     }
 

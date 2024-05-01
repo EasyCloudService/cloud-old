@@ -16,9 +16,9 @@ public final class Group {
     @PrimaryKey
     private final String name;
 
-    private final int maxMemory;
-    private final int minOnline;
-    private final int maxOnline;
+    private int maxMemory;
+    private int minOnline;
+    private int maxOnline;
     private final int maxPlayers;
 
     private String material;

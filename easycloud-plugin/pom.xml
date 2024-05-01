@@ -23,8 +23,8 @@
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
         <repository>
-            <id>skullcreator-repo</id>
-            <url>https://github.com/deanveloper/SkullCreator/raw/mvn-repo/</url>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
         </repository>
         <repository>
             <id>sonatype-oss-snapshots1</id>
@@ -37,12 +37,6 @@
             <groupId>net.kyori</groupId>
             <artifactId>adventure-api</artifactId>
             <version>4.14.0</version>
-        </dependency>
-        <dependency>
-            <groupId>dev.dbassett</groupId>
-            <artifactId>skullcreator</artifactId>
-            <version>3.0.1</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.velocitypowered</groupId>
@@ -67,6 +61,11 @@
             <artifactId>guava</artifactId>
             <version>32.1.1-jre</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.FlxwDNS</groupId>
+            <artifactId>AscanAPI</artifactId>
+            <version>e24841ceae</version>
         </dependency>
     </dependencies>
 

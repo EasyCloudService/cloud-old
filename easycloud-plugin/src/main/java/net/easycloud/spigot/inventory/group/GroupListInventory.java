@@ -1,18 +1,21 @@
-package net.easycloud.spigot.inventory;
+package net.easycloud.spigot.inventory.group;
 
 import de.flxwdev.ascan.inventory.MultiInventory;
 import de.flxwdev.ascan.inventory.item.ClickableItem;
 import de.flxwdev.ascan.inventory.item.ItemBuilder;
 import dev.dbassett.skullcreator.SkullCreator;
 import net.easycloud.api.CloudDriver;
+import net.easycloud.api.group.Group;
 import net.easycloud.api.service.IService;
+import net.easycloud.spigot.inventory.ControlPanelInventory;
+import net.easycloud.spigot.inventory.ServiceManageInventory;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-public final class ControlPanelInventory extends MultiInventory<IService> {
+public final class GroupListInventory extends MultiInventory<Group> {
 
-    public ControlPanelInventory(Player player) {
-        super(player, "§cEasyCloud", 5, false, CloudDriver.getInstance().getServiceProvider().getServices());
+    public GroupListInventory(Player player) {
+        super(player, "§cEasyCloud", 5, false, CloudDriver.getInstance().getGroupProvider().getRepository().query().database().findAll());
 
         setPlaceHolder(2, 1);
         setPlaceHolder(2, 8);
@@ -24,15 +27,13 @@ public final class ControlPanelInventory extends MultiInventory<IService> {
         setPlaceHolder(1);
         setPlaceHolder(5);
 
-        setClickableItem(5,4, new ClickableItem(ItemBuilder.of(Material.HOPPER).withName("§8» §7Group"), () -> {
-
-        }));
+        setBackPage(ControlPanelInventory.class);
     }
 
     @Override
-    public ClickableItem constructItem(IService service) {
-        return new ClickableItem(ItemBuilder.of(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjZlZTAzYmE4NTBlYmJhMjE3MjFjYjMzN2Y3ZWRlYWI5YjBmYTYxNWE4NjJjNjg3MGNjOWM0ZDA1ZDRkMzJmYSJ9fX0=")).withName("§8» §e" + service.getId()), () -> {
-            new ServiceManageInventory(getPlayer(), service);
+    public ClickableItem constructItem(Group group) {
+        return new ClickableItem(ItemBuilder.of(SkullCreator.itemFromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjZlZTAzYmE4NTBlYmJhMjE3MjFjYjMzN2Y3ZWRlYWI5YjBmYTYxNWE4NjJjNjg3MGNjOWM0ZDA1ZDRkMzJmYSJ9fX0=")).withName("§8» §e" + group.getName()), () -> {
+            new GroupManageInventory(getPlayer(), group);
         });
     }
 

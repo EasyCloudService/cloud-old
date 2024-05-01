@@ -64,7 +64,7 @@ public final class Base extends CloudDriver {
         running = false;
         ((SimpleLogger) logger).getConsole().shutdownReading();
 
-        this.nettyProvider.close();
+        new Thread(() -> this.nettyProvider.close()).start();
         this.serviceProvider.getServices().forEach(it -> ((Service) it).stop());
         try {
             FileUtils.forceDelete(new File("tmp"));

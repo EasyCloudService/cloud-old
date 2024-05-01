@@ -6,7 +6,9 @@ import lombok.Getter;
 import net.bytemc.evelon.repository.Filter;
 import net.bytemc.evelon.repository.annotations.PrimaryKey;
 import net.easycloud.api.CloudDriver;
+import net.easycloud.api.network.packet.defaults.PermissionUpdatePacket;
 
+import java.sql.Wrapper;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -42,6 +44,7 @@ public final class PermissionUser {
 
     private void update() {
         CloudDriver.getInstance().getPermissionProvider().getRepository().query().filter(Filter.match("uuid", uuid)).database().update(this);
+        CloudDriver.getInstance().getNettyProvider().sendPacket(new PermissionUpdatePacket(uuid));
     }
 
     public List<String> getPermissions() {
