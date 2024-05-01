@@ -10,7 +10,7 @@ public final class MotdModule {
     private final MotdConfig config;
 
     public MotdModule() {
-        this.config = VelocityPlugin.getInstance().getModuleHandler().getConfig().getMotd();
+        this.config = VelocityPlugin.getInstance().getModuleHandler().getMotdConfig();
     }
 
     @Subscribe

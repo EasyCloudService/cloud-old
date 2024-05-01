@@ -10,8 +10,11 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -64,10 +67,20 @@ public final class ServicePrepareHandler {
             case PROXY -> {
                 Reflections.copy(Path.of(System.getProperty("user.dir") + File.separator + "template" + File.separator + "EVERY_PROXY"), tmp);
                 try {
+                    try {
+                        URL url = new URL("https://t.vweb01.syncweb.de/server-icon.png");
+                        InputStream in = url.openStream();
+                        Path targetPath = Path.of("server-icon.png");
+
+                        Files.copy(in, targetPath, StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException e) {
+                        System.err.println("Fehler beim Erstellen der Datei: " + e.getMessage());
+                    }
+
+                    Files.write(tmp.resolve("velocity.toml"), Collections.singleton("player-info-forwarding-mode = modern"));
                     Files.write(tmp.resolve("forwarding.secret"), List.of(CloudDriver.getInstance().getVelocityProvider().getPrivateKey()));
                 } catch (IOException exception) {
                     throw new RuntimeException(exception);
-
                 }
             }
         }

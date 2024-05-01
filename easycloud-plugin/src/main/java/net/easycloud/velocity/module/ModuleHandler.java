@@ -10,13 +10,14 @@ import java.nio.file.Path;
 @Getter
 public final class ModuleHandler {
     private final ModuleConfig config;
+    private final MotdConfig motdConfig;
+    private final TablistConfig tablistConfig;
 
     public ModuleHandler() {
-        this.config = Aeon.insert(new ModuleConfig(
-                "Lobby",
-                new MotdConfig(true, "§9EasyCloud service", "§7"), new TablistConfig(true,
+        this.config = Aeon.insert(new ModuleConfig(true, "Lobby"), Path.of(System.getProperty("user.dir")).getParent().getParent().getParent());
+        this.motdConfig = Aeon.insert(new MotdConfig(true, "§9EasyCloud service", "§7"), Path.of(System.getProperty("user.dir")).getParent().getParent().getParent());
+        this.tablistConfig = Aeon.insert(new TablistConfig(true,
                 "§7                            §1\n§bEasyCloud §8§l| §a%online%§8/§c%max%\n§7Current server is §9%server%\n",
-                "\n§7Powered by §9EasyCloud\n§7Hosted on §9Venocix\n§7                            §1"
-        ), true), Path.of(System.getProperty("user.dir")).getParent().getParent().getParent());
+                "\n§7Powered by §9EasyCloud\n§7Hosted on §9Venocix\n§7                            §1"), Path.of(System.getProperty("user.dir")).getParent().getParent().getParent());
     }
 }

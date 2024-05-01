@@ -10,7 +10,7 @@ public final class TablistModule {
     private final TablistConfig config;
 
     public TablistModule() {
-        this.config = VelocityPlugin.getInstance().getModuleHandler().getConfig().getTablist();
+        this.config = VelocityPlugin.getInstance().getModuleHandler().getTablistConfig();
 
         VelocityPlugin.getInstance().getServer().getScheduler().buildTask(VelocityPlugin.getInstance(), () -> {
             VelocityPlugin.getInstance().getServer().getAllPlayers().forEach(player -> {
