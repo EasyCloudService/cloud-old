@@ -70,14 +70,13 @@ public final class ServicePrepareHandler {
                     try {
                         URL url = new URL("https://t.vweb01.syncweb.de/server-icon.png");
                         InputStream in = url.openStream();
-                        Path targetPath = Path.of("server-icon.png");
+                        Path targetPath = tmp.resolve("server-icon.png");
 
-                        Files.copy(in, targetPath, StandardCopyOption.REPLACE_EXISTING);
+                        Files.copy(in, targetPath);
                     } catch (IOException e) {
-                        System.err.println("Fehler beim Erstellen der Datei: " + e.getMessage());
                     }
 
-                    Files.write(tmp.resolve("velocity.toml"), Collections.singleton("player-info-forwarding-mode = modern"));
+                    Files.write(tmp.resolve("velocity.toml"), Collections.singleton("player-info-forwarding-mode = \"modern\""));
                     Files.write(tmp.resolve("forwarding.secret"), List.of(CloudDriver.getInstance().getVelocityProvider().getPrivateKey()));
                 } catch (IOException exception) {
                     throw new RuntimeException(exception);
