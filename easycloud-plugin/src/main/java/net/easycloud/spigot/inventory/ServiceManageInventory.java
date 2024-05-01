@@ -46,6 +46,6 @@ public final class ServiceManageInventory extends SingleInventory {
             player.sendMessage("§bCloud §8» §7Try to connect you to §c" + service.getId() + "§7...");
         }));
 
-        setBackPage(ServiceManageInventory.class);
+        setBackPage(ControlPanelInventory.class);
     }
 }
