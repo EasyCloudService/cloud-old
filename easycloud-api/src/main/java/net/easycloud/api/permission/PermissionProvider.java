@@ -1,6 +1,6 @@
 package net.easycloud.api.permission;
 
-import de.flxwdns.oraculusdb.repository.Repository;
+import net.bytemc.evelon.repository.Repository;
 
 import java.util.List;
 import java.util.UUID;

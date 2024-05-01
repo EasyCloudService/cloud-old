@@ -1,9 +1,10 @@
 package net.easycloud.api.network.packet.defaults;
 
-import de.flxwdns.oraculusdb.repository.Repository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.bytemc.evelon.repository.Filter;
+import net.bytemc.evelon.repository.Repository;
 import net.easycloud.api.group.Group;
 import net.easycloud.api.network.NetworkBuf;
 import net.easycloud.api.network.packet.Packet;
@@ -23,12 +24,10 @@ public final class ServiceDisconnectPacket implements Packet {
 
     @Override
     public void handle(NetworkBuf buf) {
-        var repo = new Repository<>(Group.class);
-        this.group = repo.filter()
-                .value("name", buf.readString())
-                .complete()
-                .findFirst()
-                .orElseThrow();
+        var repo = Repository.create(Group.class);
+        this.group = repo.query().filter(Filter.match("name", buf.readString()))
+                .database()
+                .findFirst();
         this.name = buf.readString();
         this.port = buf.readInt();
     }

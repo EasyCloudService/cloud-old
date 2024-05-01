@@ -1,7 +1,8 @@
 package net.easycloud.base.group;
 
-import de.flxwdns.oraculusdb.repository.Repository;
 import lombok.Getter;
+import net.bytemc.evelon.repository.Filter;
+import net.bytemc.evelon.repository.Repository;
 import net.easycloud.api.group.Group;
 import net.easycloud.api.group.GroupProvider;
 import net.easycloud.api.group.misc.GroupType;
@@ -19,15 +20,15 @@ public final class SimpleGroupHandler implements GroupProvider {
     private final Repository<Group> repository;
 
     public SimpleGroupHandler() {
-        this.repository = new Repository<>(Group.class);
+        this.repository = Repository.create(Group.class);
 
-        if(!repository.findAll().isEmpty()) {
+        if(!repository.query().database().findAll().isEmpty()) {
             Base.getInstance().getLogger().log("Following groups were loaded:");
         }
-        repository.findAll().forEach(it -> {
+        repository.query().database().findAll().forEach(it -> {
             Base.getInstance().getLogger().log(" §7- §b" + it.getName());
         });
-        if(!repository.findAll().isEmpty()) {
+        if(!repository.query().database().findAll().isEmpty()) {
             System.out.flush();
             System.out.println("\r ");
         }
@@ -45,10 +46,9 @@ public final class SimpleGroupHandler implements GroupProvider {
 
     @Override
     public Group getOrThrow(String name) {
-        return repository.filter()
-                .value("name", name)
-                .complete()
-                .findFirst().orElseThrow(null);
+        return repository.query().filter(Filter.match("name", name))
+                .database()
+                .findFirst();
     }
 
     @Override
@@ -70,7 +70,7 @@ public final class SimpleGroupHandler implements GroupProvider {
             }
         }
 
-        repository.insert(group);
+        repository.query().create(group);
 
         Base.getInstance().getLogger().log("Group " + group.getName() + " was successfully created!");
     }

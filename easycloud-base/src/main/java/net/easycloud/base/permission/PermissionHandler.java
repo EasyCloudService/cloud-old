@@ -1,7 +1,8 @@
 package net.easycloud.base.permission;
 
-import de.flxwdns.oraculusdb.repository.Repository;
 import lombok.Getter;
+import net.bytemc.evelon.repository.Filter;
+import net.bytemc.evelon.repository.Repository;
 import net.easycloud.api.permission.PermissionProvider;
 import net.easycloud.api.permission.PermissionUser;
 
@@ -13,16 +14,16 @@ public final class PermissionHandler implements PermissionProvider {
     private final Repository<PermissionUser> repository;
 
     public PermissionHandler() {
-        this.repository = new Repository<>(PermissionUser.class);
+        this.repository = Repository.create(PermissionUser.class);
     }
 
     @Override
     public List<PermissionUser> getUsers() {
-        return repository.findAll();
+        return repository.query().database().findAll();
     }
 
     @Override
     public PermissionUser getUser(UUID uuid) {
-        return repository.filter().value("uuid", uuid).complete().findFirst().orElse(null);
+        return repository.query().filter(Filter.match("uuid", uuid)).database().findFirst();
     }
 }

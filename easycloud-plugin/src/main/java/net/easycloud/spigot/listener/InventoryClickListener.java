@@ -72,7 +72,7 @@ public final class InventoryClickListener implements Listener {
                     new ServicesInventory(player);
                     return;
                 }
-                CloudDriver.getInstance().getGroupProvider().getRepository().findAll().stream().filter(it -> it.getName().equalsIgnoreCase(name.replace("§8» §c", ""))).findFirst().ifPresent(group -> {
+                CloudDriver.getInstance().getGroupProvider().getRepository().query().database().findAll().stream().filter(it -> it.getName().equalsIgnoreCase(name.replace("§8» §c", ""))).findFirst().ifPresent(group -> {
                     if (event.isLeftClick() && !event.isShiftClick()) {
                         CloudDriver.getInstance().getServiceProvider().start(group, 1);
                         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 2f);

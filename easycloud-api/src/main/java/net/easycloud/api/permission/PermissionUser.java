@@ -1,9 +1,10 @@
 package net.easycloud.api.permission;
 
-import de.flxwdns.oraculusdb.misc.PrimaryKey;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import net.bytemc.evelon.repository.Filter;
+import net.bytemc.evelon.repository.annotations.PrimaryKey;
 import net.easycloud.api.CloudDriver;
 
 import java.util.Arrays;
@@ -40,7 +41,7 @@ public final class PermissionUser {
     }
 
     private void update() {
-        CloudDriver.getInstance().getPermissionProvider().getRepository().edit(this);
+        CloudDriver.getInstance().getPermissionProvider().getRepository().query().filter(Filter.match("uuid", uuid)).database().update(this);
     }
 
     public List<String> getPermissions() {

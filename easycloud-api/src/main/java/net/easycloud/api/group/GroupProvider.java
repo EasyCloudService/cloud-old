@@ -1,6 +1,6 @@
 package net.easycloud.api.group;
 
-import de.flxwdns.oraculusdb.repository.Repository;
+import net.bytemc.evelon.repository.Repository;
 
 public interface GroupProvider {
     Repository<Group> getRepository();

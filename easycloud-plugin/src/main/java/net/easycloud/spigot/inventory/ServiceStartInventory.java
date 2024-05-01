@@ -23,7 +23,7 @@ public final class ServiceStartInventory {
         List.of(9, 17, 18, 26, 27, 35, 36, 44, 45, 53).forEach(it -> inventory.setItem(it, new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).name("§7 ").toStack()));
 
 
-        for (Group group : CloudDriver.getInstance().getGroupProvider().getRepository().findAll()) {
+        for (Group group : CloudDriver.getInstance().getGroupProvider().getRepository().query().database().findAll()) {
             var count = (int) CloudDriver.getInstance().getServiceProvider().getServices().stream().filter(it -> it.getGroup().getName().equals(group.getName())).count();
             inventory.addItem(new ItemBuilder(SkullCreator.itemFromBase64(SpigotHeads.valueOf(String.valueOf(group.getName().charAt(0)).toUpperCase()).getUrl())).name("§8» §c" + group.getName()).amount((count == 0 ? 1 : count)).toStack());
         }

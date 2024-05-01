@@ -1,8 +1,9 @@
 package net.easycloud.base;
 
-import de.flxwdns.oraculusdb.sql.DatabaseCredentials;
-import de.flxwdns.oraculusdb.sql.query.ConnectionQueryHelper;
 import lombok.Getter;
+import net.bytemc.evelon.DatabaseProtocol;
+import net.bytemc.evelon.Evelon;
+import net.bytemc.evelon.cradinates.DatabaseCradinates;
 import net.easycloud.base.command.CommandHandler;
 import net.easycloud.base.console.runner.ConsoleRunner;
 import net.easycloud.base.logger.SimpleLogger;
@@ -38,8 +39,8 @@ public final class Base extends CloudDriver {
 
         this.running = true;
         this.logger = new SimpleLogger();
-        this.configuration = Aeon.insert(new DefaultConfiguration(new DatabaseCredentials("127.0.0.1", 3306, "cloud", "root", "test123")), Path.of(System.getProperty("user.dir")));
-        ConnectionQueryHelper.init(configuration.database());
+        this.configuration = Aeon.insert(new DefaultConfiguration(new DatabaseCradinates(DatabaseProtocol.MARIADB, "127.0.0.1", "test123", "root", "cloud", 3306)), Path.of(System.getProperty("user.dir")));
+        Evelon.setCradinates(configuration.database());
 
         this.nettyProvider = new BaseServer();
         this.commandHandler = new CommandHandler();

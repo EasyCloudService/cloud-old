@@ -124,7 +124,7 @@ public final class VelocityPlugin {
     @Subscribe
     public void onLogin(LoginEvent event) {
         if(CloudDriver.getInstance().getPermissionProvider().getUser(event.getPlayer().getUniqueId()) == null) {
-            CloudDriver.getInstance().getPermissionProvider().getRepository().insert(new PermissionUser(event.getPlayer().getUniqueId(), ""));
+            CloudDriver.getInstance().getPermissionProvider().getRepository().query().create(new PermissionUser(event.getPlayer().getUniqueId(), ""));
         }
         var permissions = CloudDriver.getInstance().getPermissionProvider().getUser(event.getPlayer().getUniqueId()).getPermissions();
         if(!permissions.contains("*") && !permissions.contains("cloud.maintenance")) {

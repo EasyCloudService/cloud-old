@@ -1,8 +1,9 @@
 package net.easycloud.api.conf;
 
-import de.flxwdns.oraculusdb.sql.DatabaseCredentials;
+import net.bytemc.evelon.cradinates.DatabaseCradinates;
+import net.http.aeon.annotations.Comment;
 import net.http.aeon.annotations.Options;
 
 @Options(name = "config")
-public record DefaultConfiguration(DatabaseCredentials database) {
+public record DefaultConfiguration(@Comment(comment = "MARIADB, MYSQL, H2, POSTGRESQL, MARIADB") DatabaseCradinates database) {
 }

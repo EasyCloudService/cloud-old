@@ -1,5 +1,6 @@
 package net.easycloud.base.command.defaults;
 
+import net.bytemc.evelon.repository.Filter;
 import net.easycloud.api.console.LogType;
 import net.easycloud.api.group.Group;
 import net.easycloud.api.group.misc.GroupType;
@@ -17,12 +18,12 @@ public final class GroupCommand extends CloudCommand {
 
         if (args.length >= 2) {
             if (args[1].equalsIgnoreCase("list")) {
-                if (Base.getInstance().getGroupProvider().getRepository().findAll().isEmpty()) {
+                if (Base.getInstance().getGroupProvider().getRepository().query().database().findAll().isEmpty()) {
                     logger.log("There is currently no group!");
                     return;
                 }
 
-                Base.getInstance().getGroupProvider().getRepository().findAll().forEach(group -> {
+                Base.getInstance().getGroupProvider().getRepository().query().database().findAll().forEach(group -> {
                     logger.log(group.getName() + " " + argument(group.getMaxMemory() + "mb") + " §7| §f0 Online");
                 });
                 return;
@@ -42,10 +43,9 @@ public final class GroupCommand extends CloudCommand {
             if (args[1].equalsIgnoreCase("create")) {
                 if (args.length == 6) {
                     try {
-                        Base.getInstance().getGroupProvider().getRepository().filter()
-                                .value("name", args[2])
-                                .complete()
-                                .findFirst()
+                        Base.getInstance().getGroupProvider().getRepository().query().filter(Filter.match("name", args[2]))
+                                .database()
+                                .findAll().stream().findFirst()
                                 .ifPresentOrElse(group -> {
                                     logger.log("Group " + args[2] + " already exists!", LogType.WARNING);
                                 }, () -> {
