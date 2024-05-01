@@ -12,8 +12,8 @@
     <artifactId>easycloud-loader</artifactId>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -25,21 +25,15 @@
                 <directory>${basedir}/src/main/resources/</directory>
             </resource>
             <resource>
-                <directory>${basedir}/../pure-wrapper/target</directory>
+                <directory>${basedir}/../easycloud-wrapper/target</directory>
                 <includes>
-                    <include>pure-wrapper.jar</include>
+                    <include>easycloud-wrapper.jar</include>
                 </includes>
             </resource>
             <resource>
-                <directory>${basedir}/../pure-base/target</directory>
+                <directory>${basedir}/../easycloud-base/target</directory>
                 <includes>
-                    <include>pure-base.jar</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>${basedir}/../pure-plugin/target</directory>
-                <includes>
-                    <include>Cloud-API.jar</include>
+                    <include>easycloud-base.jar</include>
                 </includes>
             </resource>
             <resource>

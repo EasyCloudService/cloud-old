@@ -33,7 +33,7 @@ public final class ServicePrepareHandler {
                 Reflections.copy(Path.of(System.getProperty("user.dir") + File.separator + "template" + File.separator + "EVERY_SERVER"), tmp);
                 try {
                     Files.write(tmp.resolve("eula.txt"), Collections.singleton("eula=true"));
-                    Files.write(tmp.resolve("server.properties"), List.of("max-players=50", "online-mode=false"));
+                    Files.write(tmp.resolve("server.properties"), List.of("max-players=50", "online-mode=false", ""));
 
                     Map<String, Object> data = new LinkedHashMap<>();
                     Map<String, Object> proxies = new LinkedHashMap<>();

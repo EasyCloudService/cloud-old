@@ -1,1 +1,1 @@
-java -jar pure-loader-1.0-SNAPSHOT.jar
+java -jar easycloud-loader-1.0-SNAPSHOT.jar
