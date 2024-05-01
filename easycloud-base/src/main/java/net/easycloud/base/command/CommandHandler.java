@@ -29,6 +29,11 @@ public final class CommandHandler {
     }
 
     public void runCommand(String command, String[] args) {
+        if(Base.getInstance().getSetupHandler().isOnSetup()) {
+            Base.getInstance().getSetupHandler().input(command);
+            return;
+        }
+
         commands.stream().filter(it -> {
             if (it.getName().equalsIgnoreCase(command)) {
                 return true;

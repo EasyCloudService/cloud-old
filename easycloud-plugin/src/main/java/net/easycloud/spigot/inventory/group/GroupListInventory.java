@@ -28,6 +28,8 @@ public final class GroupListInventory extends MultiInventory<Group> {
         setPlaceHolder(5);
 
         setBackPage(ControlPanelInventory.class);
+
+        open(player);
     }
 
     @Override

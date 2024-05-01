@@ -11,6 +11,7 @@ import net.easycloud.base.permission.PermissionHandler;
 import net.easycloud.base.server.BaseServer;
 import net.easycloud.base.service.Service;
 import net.easycloud.base.service.SimpleServiceHandler;
+import net.easycloud.base.setup.SetupHandler;
 import net.http.aeon.Aeon;
 import net.easycloud.api.CloudDriver;
 import net.easycloud.api.conf.DefaultConfiguration;
@@ -32,15 +33,36 @@ public final class Base extends CloudDriver {
     private final Logger logger;
     private final DefaultConfiguration configuration;
 
+    private final SetupHandler setupHandler;
     private final CommandHandler commandHandler;
 
     public Base() {
         instance = this;
 
+        this.setupHandler = new SetupHandler();
+        if(!Path.of(System.getProperty("user.dir")).resolve("config.ae").toFile().exists()) {
+            setupHandler.start();
+        }
+
         this.running = true;
         this.logger = new SimpleLogger();
         this.configuration = Aeon.insert(new DefaultConfiguration(new DatabaseCradinates(DatabaseProtocol.MARIADB, "127.0.0.1", "test123", "root", "cloud", 3306)), Path.of(System.getProperty("user.dir")));
         Evelon.setCradinates(configuration.database());
+
+        logger.log("""
+                
+                
+                &r  ______                 &b    _____ _                _
+                &r |  ____|                &b  / ____| |               | |
+                &r | |__   __ _ ___ _   _  &b | |    | | ___  _   _  __| |
+                &r |  __| / _` / __| | | | &b | |    | |/ _ \\| | | |/ _` |
+                &r | |___| (_| \\__ \\ |_| |  &b| |____| | (_) | |_| | (_| |
+                &r |______\\__,_|___/\\__, |  &b \\_____|_|\\___/ \\__,_|\\__,_|
+                &r ------------------__/ |------------------------------
+                &r                  |___/
+                
+                  &r| EasyCloud - Powered by &b@AscanAPI &7and &b@Vynl
+                """, LogType.EMPTY);
 
         this.nettyProvider = new BaseServer();
         this.commandHandler = new CommandHandler();
@@ -52,7 +74,15 @@ public final class Base extends CloudDriver {
         new ConsoleRunner();
         Runtime.getRuntime().addShutdownHook(new Thread(this::onShutdown));
 
-        logger.log("§7Cloud was §asuccessfully §7started.", LogType.SUCCESS);
+        new Thread(() -> {
+            try {
+                Thread.sleep(500);
+                logger.log("§7Cloud was §asuccessfully §7started.", LogType.SUCCESS);
+                logger.log("", LogType.EMPTY);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }).start();
     }
 
     public static Base getInstance() {

@@ -29,8 +29,7 @@ public final class SimpleGroupHandler implements GroupProvider {
             Base.getInstance().getLogger().log(" §7- §b" + it.getName());
         });
         if(!repository.query().database().findAll().isEmpty()) {
-            System.out.flush();
-            System.out.println("\r ");
+            Base.getInstance().getLogger().log("");
         }
 
         var files = List.of(Path.of(

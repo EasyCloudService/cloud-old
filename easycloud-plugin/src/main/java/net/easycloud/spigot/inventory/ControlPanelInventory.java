@@ -27,6 +27,8 @@ public final class ControlPanelInventory extends MultiInventory<IService> {
         setClickableItem(5,4, new ClickableItem(ItemBuilder.of(Material.HOPPER).withName("§8» §7Group"), () -> {
 
         }));
+
+        open(player);
     }
 
     @Override
