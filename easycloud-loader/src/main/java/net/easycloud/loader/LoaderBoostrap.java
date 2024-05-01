@@ -32,7 +32,7 @@ public final class LoaderBoostrap {
             };
             Thread.currentThread().setContextClassLoader(classLoader);
 
-            classLoader.loadClass("net.EasyCloud.base.BaseBootstrap").getMethod("main", String[].class).invoke(null, (Object) args);
+            classLoader.loadClass("net.easycloud.base.BaseBootstrap").getMethod("main", String[].class).invoke(null, (Object) args);
         } catch (IOException | ClassNotFoundException | IllegalAccessException | InvocationTargetException |
                  NoSuchMethodException exception) {
             throw new RuntimeException(exception);
