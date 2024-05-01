@@ -1,0 +1,11 @@
+name: EasyCloud
+description: Its just an API
+api-version: "1.16"
+author: [FlxwDNS, 1Chickxn, Swerion]
+main: net.easycloud.spigot.SpigotPlugin
+version: 1
+
+commands:
+  control-panel:
+    aliases: cp
+    description: List all services.
