@@ -4,8 +4,6 @@ import net.easycloud.api.console.LogType;
 import net.easycloud.base.Base;
 import net.easycloud.base.logger.SimpleLogger;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +18,7 @@ public final class ConsoleSetup {
     private static Consumer<Map<String, String>> consumer;
 
     private static void nextLine() {
-        //((SimpleLogger) Base.getInstance().getLogger()).getConsole().clearConsole();
+        ((SimpleLogger) Base.getInstance().getLogger()).getConsole().clearConsole();
 
         if(list.isEmpty()) {
             consumer.accept(cache);
@@ -30,7 +28,7 @@ public final class ConsoleSetup {
             return;
         }
         var item = list.getFirst();
-        Base.getInstance().getLogger().log("&f[&eQUESTION&f] &7" + item.question(), LogType.EMPTY);
+        Base.getInstance().getLogger().log("&7" + item.question(), LogType.INFO);
         if(item.possible() != null) {
             var stringbuilder = new StringBuilder();
             item.possible().forEach(it -> {
@@ -38,7 +36,7 @@ public final class ConsoleSetup {
                 stringbuilder.append("&e").append(it);
             });
 
-            Base.getInstance().getLogger().log("&f[&eOPTIONS&f] &f[" + stringbuilder + "&f]", LogType.EMPTY);
+            Base.getInstance().getLogger().log("&f[" + stringbuilder + "&f]", LogType.INFO);
         }
     }
 

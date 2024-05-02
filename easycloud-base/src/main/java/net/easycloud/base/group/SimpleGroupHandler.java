@@ -7,7 +7,7 @@ import net.easycloud.api.group.Group;
 import net.easycloud.api.group.GroupProvider;
 import net.easycloud.api.group.misc.GroupType;
 import net.easycloud.api.group.misc.GroupVersion;
-import net.easycloud.api.misc.FileHelper;
+import net.easycloud.api.misc.DownloadHelper;
 import net.easycloud.api.misc.Reflections;
 import net.easycloud.base.Base;
 import net.easycloud.base.setup.ConsoleSetup;
@@ -97,7 +97,7 @@ public final class SimpleGroupHandler implements GroupProvider {
         Reflections.createPath(directory);
         Reflections.createPath(directory.resolve("plugins"));
 
-        FileHelper.downloadFromUrl(group.getVersion().getUrl(), "Server.jar", directory);
+        DownloadHelper.downloadFromUrl(group.getVersion().getUrl(), "Server.jar", directory);
         if(group.getType().equals(GroupType.SERVER)) {
             var processBuilder = new ProcessBuilder("java", "-Dpaperclip.patchonly=true", "-jar", "Server.jar");
             processBuilder.directory(directory.toFile());

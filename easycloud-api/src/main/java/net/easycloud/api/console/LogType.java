@@ -7,10 +7,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum LogType {
     EMPTY(""),
-    INFO("§bINFO"),
-    SUCCESS("§aSUCCESS"),
-    WARNING("§eWARNING"),
-    ERROR("§cERROR");
+    INFO("&b&lINFO"),
+    SUCCESS("&a&lSUCCESS"),
+    WARNING("&e&lWARNING"),
+    ERROR("&c&lERROR");
 
     private final String prefix;
 }

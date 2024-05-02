@@ -61,9 +61,9 @@ public final class SimpleLogger implements Logger {
 
     @Override
     public String format(String text, LogType logType) {
-        var message = "§r" + text + "§r";
+        var message = "&r" + text + "&r";
         if (logType != LogType.EMPTY) {
-            message = "§7" + logType.getPrefix() + " §f[§7" + dateFormat.format(Calendar.getInstance().getTime()) + "§f]" + " §r" + message + "§r";
+            message = "&7[" + dateFormat.format(Calendar.getInstance().getTime()) + "] " + logType.getPrefix() + "&f: &r" + message + "&r";
         }
         return LoggerAnsiFactory.toColorCode(message);
     }

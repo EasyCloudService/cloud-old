@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
-public final class FileHelper {
+public final class DownloadHelper {
 
     public static void downloadFromUrl(String urlString, String name, Path path) {
         System.out.println("Download §e" + urlString + "§f...");
