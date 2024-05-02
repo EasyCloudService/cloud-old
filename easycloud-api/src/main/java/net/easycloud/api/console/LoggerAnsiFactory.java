@@ -9,7 +9,7 @@ public enum LoggerAnsiFactory {
     BLACK('0', Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.BLACK).bold().toString()),
     RED('c', Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.RED).bold().toString()),
     YELLOW('e', Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.YELLOW).bold().toString()),
-    BLUE('9', Ansi.ansi().a(Ansi.Attribute.RESET).fgRgb(5, 90, 247).bold().toString()),
+    BLUE('9', Ansi.ansi().a(Ansi.Attribute.RESET).fgRgb(5, 150, 247).bold().toString()),
     GREEN('a', Ansi.ansi().a(Ansi.Attribute.RESET).fgRgb(5, 247, 94).bold().toString()),
     PURPLE('5', Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.MAGENTA).boldOff().toString()),
     ORANGE('6', Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.YELLOW).boldOff().toString()),
