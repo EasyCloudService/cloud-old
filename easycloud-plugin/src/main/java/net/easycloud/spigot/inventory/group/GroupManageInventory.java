@@ -29,7 +29,7 @@ public final class GroupManageInventory extends SingleInventory {
             player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
         }));
 
-        setClickableItem(2, 3, new ClickableItem(ItemBuilder.of(Material.CHEST).withName("§8» §eMemory§8: §b" + group.getMaxMemory()).withLore(List.of(
+        setClickableItem(2, 3, new ClickableItem(ItemBuilder.of(Material.CHEST).withName("§8» §7Memory§8: §7" + group.getMaxMemory()).withLore(List.of(
                 "§7Left click §8- §c- 512 Memory",
                 "§7Right click §8- §a+ 512 Memory"
         )), () -> {
@@ -48,7 +48,7 @@ public final class GroupManageInventory extends SingleInventory {
             new GroupManageInventory(player, group);
         }));
 
-        setClickableItem(2, 5, new ClickableItem(ItemBuilder.of(Material.STRUCTURE_VOID).withName("§8» §aAlways online§8: §b" + group.getMinOnline()).withLore(List.of(
+        setClickableItem(2, 5, new ClickableItem(ItemBuilder.of(Material.STRUCTURE_VOID).withName("§8» §7Always online§8: §7" + group.getMinOnline()).withLore(List.of(
                 "§7Left click §8- §c- 1 count",
                 "§7Right click §8- §a+ 1 count"
         )), () -> {
@@ -67,7 +67,7 @@ public final class GroupManageInventory extends SingleInventory {
             new GroupManageInventory(player, group);
         }));
 
-        setClickableItem(2, 7, new ClickableItem(ItemBuilder.of(Material.BARRIER).withName("§8» §aMaximal online§8: §b" + group.getMaxOnline()).withLore(List.of(
+        setClickableItem(2, 7, new ClickableItem(ItemBuilder.of(Material.BARRIER).withName("§8» §7Maximal online§8: §7" + group.getMaxOnline()).withLore(List.of(
                 "§7Left click §8- §c- 1 count",
                 "§7Right click §8- §a+ 1 count"
         )), () -> {

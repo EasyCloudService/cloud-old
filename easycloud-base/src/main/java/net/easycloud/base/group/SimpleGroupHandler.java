@@ -10,6 +10,7 @@ import net.easycloud.api.group.misc.GroupVersion;
 import net.easycloud.api.misc.DownloadHelper;
 import net.easycloud.api.misc.Reflections;
 import net.easycloud.base.Base;
+import net.easycloud.base.service.SimpleServiceHandler;
 import net.easycloud.base.setup.ConsoleSetup;
 import net.easycloud.base.setup.SetupBuilder;
 
@@ -106,6 +107,8 @@ public final class SimpleGroupHandler implements GroupProvider {
         }
 
         repository.query().create(group);
+
+        ((SimpleServiceHandler) Base.getInstance().getServiceProvider()).update();
 
         Base.getInstance().getLogger().log("Group " + group.getName() + " was successfully created!");
     }

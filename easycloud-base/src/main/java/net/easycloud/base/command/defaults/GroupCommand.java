@@ -17,6 +17,10 @@ public final class GroupCommand extends CloudCommand {
         var logger = Base.getInstance().getLogger();
 
         if (args.length >= 2) {
+            if (args[1].equalsIgnoreCase("setup")) {
+                //TODO
+                return;
+            }
             if (args[1].equalsIgnoreCase("list")) {
                 if (Base.getInstance().getGroupProvider().getRepository().query().database().findAll().isEmpty()) {
                     logger.log("There is currently no group!");
@@ -60,6 +64,7 @@ public final class GroupCommand extends CloudCommand {
             }
         }
         logger.log("");
+        logger.log("group setup");
         logger.log("group create " + argument("name") + " " + argument("memory") + " " + argument("type") + " " + argument("version"));
         logger.log("group delete " + argument("name"));
         logger.log("group versions");
