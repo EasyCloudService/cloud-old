@@ -1,6 +1,7 @@
 package net.easycloud.base.console;
 
 import lombok.Getter;
+import lombok.SneakyThrows;
 import net.easycloud.api.console.Logger;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
@@ -77,8 +78,10 @@ public final class SimpleConsole {
         }
     }
 
+    @SneakyThrows
     public void shutdownReading() {
         this.consoleReadingThread.interrupt();
+        this.terminal.close();
     }
 
     public void addInput(Consumer<String> input, List<String> tabCompletions) {

@@ -116,11 +116,11 @@ public final class Base extends CloudDriver {
         new Thread(() -> this.nettyProvider.close()).start();
         this.serviceProvider.getServices().forEach(it -> ((Service) it).stop());
         try {
-            Thread.sleep(1000);
             FileHelper.removeDirectory(Path.of("tmp"));
+            Thread.sleep(1000);
+            System.exit(0);
         } catch (InterruptedException exception) {
-            throw new RuntimeException(exception);
+            //throw new RuntimeException(exception);
         }
-        System.exit(0);
     }
 }
