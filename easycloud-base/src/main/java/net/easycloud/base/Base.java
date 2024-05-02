@@ -4,6 +4,7 @@ import lombok.Getter;
 import net.bytemc.evelon.DatabaseProtocol;
 import net.bytemc.evelon.Evelon;
 import net.bytemc.evelon.cradinates.DatabaseCradinates;
+import net.easycloud.api.conf.FileHelper;
 import net.easycloud.base.command.CommandHandler;
 import net.easycloud.base.console.runner.ConsoleRunner;
 import net.easycloud.base.logger.SimpleLogger;
@@ -12,7 +13,6 @@ import net.easycloud.base.server.BaseServer;
 import net.easycloud.base.service.Service;
 import net.easycloud.base.service.SimpleServiceHandler;
 import net.easycloud.base.setup.SetupHandler;
-import net.http.aeon.Aeon;
 import net.easycloud.api.CloudDriver;
 import net.easycloud.api.conf.DefaultConfiguration;
 import net.easycloud.api.console.LogType;
@@ -39,6 +39,7 @@ public final class Base extends CloudDriver {
     public Base() {
         instance = this;
 
+        this.groupProvider = new SimpleGroupHandler();
         this.setupHandler = new SetupHandler();
 
         this.running = true;
@@ -56,8 +57,7 @@ public final class Base extends CloudDriver {
                 }
             }
         }
-
-        this.configuration = Aeon.insert(new DefaultConfiguration(new DatabaseCradinates(DatabaseProtocol.MARIADB, "127.0.0.1", "test123", "root", "cloud", 3306)), Path.of(System.getProperty("user.dir")));
+        this.configuration = FileHelper.read(Path.of(System.getProperty("user.dir")), DefaultConfiguration.class);
         Evelon.setCradinates(configuration.database());
 
         logger.log("""
@@ -77,7 +77,6 @@ public final class Base extends CloudDriver {
 
         this.nettyProvider = new BaseServer();
         this.commandHandler = new CommandHandler();
-        this.groupProvider = new SimpleGroupHandler();
         this.serviceProvider = new SimpleServiceHandler();
         this.velocityProvider = new VelocityProvider();
         this.permissionProvider = new PermissionHandler();
