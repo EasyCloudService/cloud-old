@@ -39,7 +39,6 @@ public final class Base extends CloudDriver {
     public Base() {
         instance = this;
 
-        this.groupProvider = new SimpleGroupHandler();
         this.setupHandler = new SetupHandler();
 
         this.running = true;
@@ -75,6 +74,7 @@ public final class Base extends CloudDriver {
                  &r| EasyCloud - Powered by &b@AscanAPI &7and &b@Vynl
                 """, LogType.EMPTY);
 
+        this.groupProvider = new SimpleGroupHandler();
         this.nettyProvider = new BaseServer();
         this.commandHandler = new CommandHandler();
         this.serviceProvider = new SimpleServiceHandler();

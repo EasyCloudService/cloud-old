@@ -56,16 +56,6 @@ public final class SetupHandler {
                 SetupBuilder.<String>get()
                         .key("database.password")
                         .question("&7What is you database password?")
-                        .build(),
-                SetupBuilder.<Boolean>get()
-                        .key("service.create.proxy")
-                        .question("&7Dou you want to create a proxy?")
-                        .possibleResults(List.of(true, false))
-                        .build(),
-                SetupBuilder.<Boolean>get()
-                        .key("service.create.lobby")
-                        .question("&7Dou you want to create a lobby? (1.20.4)")
-                        .possibleResults(List.of(true, false))
                         .build()
         ), values -> {
             FileHelper.writeIfNotExists(Path.of(System.getProperty("user.dir")), new DefaultConfiguration(new DatabaseCradinates(
@@ -76,13 +66,6 @@ public final class SetupHandler {
                     values.get("database.name"),
                     Integer.valueOf(values.get("database.port"))
             )));
-
-            if(Boolean.parseBoolean(values.get("service.create.proxy"))) {
-                Base.getInstance().getGroupProvider().create(new Group("Proxy", 512, 1, 1, 50, "ANVIL", GroupType.PROXY, GroupVersion.VELOCITY_LATEST));
-            }
-            if(Boolean.parseBoolean(values.get("service.create.proxy"))) {
-                Base.getInstance().getGroupProvider().create(new Group("Lobby", 1024, 1, 1, 50, "ANVIL", GroupType.SERVER, GroupVersion.PAPER_1_20_4));
-            }
             onSetup = false;
         });
     }
