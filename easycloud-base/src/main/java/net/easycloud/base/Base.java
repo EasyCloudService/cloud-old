@@ -40,12 +40,16 @@ public final class Base extends CloudDriver {
         instance = this;
 
         this.setupHandler = new SetupHandler();
-        if(!Path.of(System.getProperty("user.dir")).resolve("config.ae").toFile().exists()) {
-            setupHandler.start();
-        }
 
         this.running = true;
         this.logger = new SimpleLogger();
+        if(!Path.of(System.getProperty("user.dir")).resolve("config.ae").toFile().exists()) {
+            setupHandler.start();
+            while (true) {
+                if(!this.setupHandler.isOnSetup()) break;
+            }
+        }
+
         this.configuration = Aeon.insert(new DefaultConfiguration(new DatabaseCradinates(DatabaseProtocol.MARIADB, "127.0.0.1", "test123", "root", "cloud", 3306)), Path.of(System.getProperty("user.dir")));
         Evelon.setCradinates(configuration.database());
 
