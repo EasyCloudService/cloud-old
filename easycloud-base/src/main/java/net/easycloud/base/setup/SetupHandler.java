@@ -3,11 +3,17 @@ package net.easycloud.base.setup;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.bytemc.evelon.DatabaseProtocol;
+import net.bytemc.evelon.cradinates.DatabaseCradinates;
+import net.easycloud.api.conf.DefaultConfiguration;
 import net.easycloud.api.console.LogType;
+import net.easycloud.api.group.Group;
+import net.easycloud.api.group.misc.GroupType;
+import net.easycloud.api.group.misc.GroupVersion;
 import net.easycloud.base.Base;
+import net.http.aeon.Aeon;
 
+import java.nio.file.Path;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -51,38 +57,34 @@ public final class SetupHandler {
                 SetupBuilder.<String>get()
                         .key("database.password")
                         .question("&7What is you database password?")
+                        .build(),
+                SetupBuilder.<Boolean>get()
+                        .key("service.create.proxy")
+                        .question("&7Dou you want to create a proxy?")
+                        .possibleResults(List.of(true, false))
+                        .build(),
+                SetupBuilder.<Boolean>get()
+                        .key("service.create.lobby")
+                        .question("&7Dou you want to create a lobby? (1.20.4)")
+                        .possibleResults(List.of(true, false))
                         .build()
         ), values -> {
+            Aeon.insert(new DefaultConfiguration(new DatabaseCradinates(
+                    (DatabaseProtocol) values.get("database.type"),
+                    (String) values.get("database.host"),
+                    (String) values.get("database.password"),
+                    (String) values.get("database.user"),
+                    (String) values.get("database.name"),
+                    (Integer) values.get("database.port")
+            )), Path.of(System.getProperty("user.dir")));
+
+            if((Boolean) values.get("service.create.proxy")) {
+                Base.getInstance().getGroupProvider().create(new Group("Proxy", 512, 1, 1, 50, "ANVIL", GroupType.PROXY, GroupVersion.VELOCITY_LATEST));
+            }
+            if((Boolean) values.get("service.create.lobby")) {
+                Base.getInstance().getGroupProvider().create(new Group("Lobby", 1024, 1, 1, 50, "ANVIL", GroupType.SERVER, GroupVersion.PAPER_1_20_4));
+            }
             onSetup = false;
         });
-
-/*
-        Base.getInstance().getLogger().log("&7Setup was &estarted.", LogType.INFO);
-
-        Base.getInstance().getLogger().log("&7Datbase types: &bMARIADB&7, &bMYSQL&7, &bPOSTGRESQL", LogType.INFO);
-        var answer1 = queueQuestion("&7What is you database type?").toUpperCase();
-        if(Arrays.stream(DatabaseProtocol.values()).noneMatch(it -> it.name().equals(answer1))) {
-            Base.getInstance().getLogger().log("&cInvalid answer.", LogType.ERROR);
-            System.exit(0);
-        }
-        var protocol = DatabaseProtocol.valueOf(answer1);
-        var host = queueQuestion("&7What is you database host?");
-        int port = 0;
-        try {
-            port = Integer.parseInt(queueQuestion("&7What is you database port?"));
-        } catch (NumberFormatException e) {
-            Base.getInstance().getLogger().log("&cInvalid answer.", LogType.ERROR);
-            System.exit(0);
-        }
-
-        var user = queueQuestion("&7What is you database user?");
-        var password = queueQuestion("&7What is you database password?");
-        var database = queueQuestion("&7What is you database name?");*/
-    }
-
-    public String queueQuestion(String question) {
-        Base.getInstance().getLogger().log("&f[&bQUESTION&f] &7" + question, LogType.EMPTY);
-        this.answered = false;
-        return input;
     }
 }

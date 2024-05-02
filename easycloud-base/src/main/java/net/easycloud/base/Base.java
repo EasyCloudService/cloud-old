@@ -46,7 +46,14 @@ public final class Base extends CloudDriver {
         if(!Path.of(System.getProperty("user.dir")).resolve("config.ae").toFile().exists()) {
             setupHandler.start();
             while (true) {
-                if(!this.setupHandler.isOnSetup()) break;
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                if(!this.setupHandler.isOnSetup()) {
+                    break;
+                }
             }
         }
 
