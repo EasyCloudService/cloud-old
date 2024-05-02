@@ -57,7 +57,7 @@ public final class Base extends CloudDriver {
         Evelon.setCradinates(configuration.database());
 
         ((SimpleLogger) logger).getConsole().clearConsole();
-        logger.log("""
+        logger.format("""
                 
                   &7____ ____ ____ _   _ &9____ _    ____ _  _ ___ 
                   &7|___ |__| [__   \\_/  &9|    |    |  | |  | |  \\ 
