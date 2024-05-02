@@ -2,11 +2,11 @@ package net.easycloud.velocity.module.motd;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.http.aeon.annotations.Options;
+import net.easycloud.api.conf.FileName;
 
 @Getter
 @AllArgsConstructor
-@Options(name = "easycloud-motd")
+@FileName(name = "easycloud-motd")
 public final class MotdConfig {
     private final boolean enable;
 
