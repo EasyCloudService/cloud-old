@@ -24,6 +24,7 @@ public class GithubDownloader {
         }
         try {
             downloadRelease(download, path.resolve("easycloud-temp.jar"));
+            FileHelper.write(path, new GithubConfig(version));
             return true;
         } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
@@ -32,7 +33,7 @@ public class GithubDownloader {
     }
 
     @SneakyThrows
-    private static String getLatest() {
+    public static String getLatest() {
         String urlString = "https://api.github.com/repos/EasyCloudService/cloud/releases/latest";
         URL url = new URL(urlString);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();

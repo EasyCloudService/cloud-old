@@ -13,6 +13,7 @@
         <module>easycloud-api</module>
         <module>easycloud-base</module>
         <module>easycloud-plugin</module>
+        <module>easycloud-updater</module>
         <module>easycloud-wrapper</module>
         <module>easycloud-loader</module>
     </modules>

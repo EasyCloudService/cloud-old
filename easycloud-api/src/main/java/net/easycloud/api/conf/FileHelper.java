@@ -21,9 +21,15 @@ public final class FileHelper {
     }
 
     public static void writeIfNotExists(Path path, Object object) {
+        if(!path.resolve(getName(object.getClass()) + ".json").toFile().exists()) {
+            write(path, object);
+        }
+    }
+
+    public static void write(Path path, Object object) {
         var file = path.resolve(getName(object.getClass()) + ".json");
         if(file.toFile().exists()) {
-            return;
+            file.toFile().delete();
         }
 
         try (FileWriter writer = new FileWriter(file.toFile().getPath())) {

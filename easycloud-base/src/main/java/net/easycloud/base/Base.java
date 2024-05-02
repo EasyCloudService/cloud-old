@@ -78,9 +78,9 @@ public final class Base extends CloudDriver {
                   &7____ ____ ____ _   _ &9____ _    ____ _  _ ___ 
                   &7|___ |__| [__   \\_/  &9|    |    |  | |  | |  \\ 
                   &7|___ |  | ___]   |   &9|___ |___ |__| |__| |__/
-                  &7[&fRELEASE-0&7] Powered by &b@AscanAPI &7and &b@Vynl
+                  &7[&f%RELEASE%&7] Powered by &b@FlxwDNS&7, &b@1Chickxn &7and &b@Swerion
                   
-                """, LogType.EMPTY);
+                """.replace("%RELEASE%", GithubDownloader.getLatest().split(";")[0]), LogType.EMPTY);
 
         this.groupProvider = new SimpleGroupHandler();
         this.nettyProvider = new BaseServer();

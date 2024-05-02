@@ -42,6 +42,12 @@
                     <include>Cloud-API.jar</include>
                 </includes>
             </resource>
+            <resource>
+                <directory>${basedir}/../easycloud-updater/target</directory>
+                <includes>
+                    <include>easycloud-updater.jar</include>
+                </includes>
+            </resource>
         </resources>
 
         <plugins>
