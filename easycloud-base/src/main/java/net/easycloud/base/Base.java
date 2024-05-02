@@ -10,6 +10,7 @@ import net.easycloud.base.command.CommandHandler;
 import net.easycloud.base.console.runner.ConsoleRunner;
 import net.easycloud.base.logger.SimpleLogger;
 import net.easycloud.base.permission.PermissionHandler;
+import net.easycloud.base.rest.RestAPI;
 import net.easycloud.base.server.BaseServer;
 import net.easycloud.base.service.Service;
 import net.easycloud.base.service.SimpleServiceHandler;
@@ -88,7 +89,8 @@ public final class Base extends CloudDriver {
         this.serviceProvider = new SimpleServiceHandler();
         this.velocityProvider = new VelocityProvider();
         this.permissionProvider = new PermissionHandler();
-
+        new RestAPI();
+        logger.log("§7RestAPI is listening on following port: 4567");
         logger.log("§7Cloud was connected to all services.");
 
         new ConsoleRunner();
@@ -100,15 +102,6 @@ public final class Base extends CloudDriver {
                 throw new RuntimeException(e);
             }
         }));
-
-        /*new Thread(() -> {
-            try {
-                Thread.sleep(500);
-                logger.log("§7Cloud was §asuccessfully §7started.", LogType.INFO);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }).start();*/
     }
 
     public static Base getInstance() {
