@@ -6,8 +6,8 @@ import net.bytemc.evelon.Evelon;
 import net.bytemc.evelon.cradinates.DatabaseCradinates;
 import net.bytemc.evelon.repository.Filter;
 import net.bytemc.evelon.repository.Repository;
-import net.http.aeon.Aeon;
 import net.easycloud.api.conf.DefaultConfiguration;
+import net.easycloud.api.conf.FileHelper;
 import net.easycloud.api.group.Group;
 import net.easycloud.wrapper.classloader.ApplicationExternalObjectLoader;
 import net.easycloud.wrapper.service.Service;
@@ -28,7 +28,9 @@ public class WrapperBootstrap {
     }
 
     public static void main(String[] args) {
-        var configuration = Aeon.insert(new DefaultConfiguration(new DatabaseCradinates(DatabaseProtocol.H2, "127.0.0.1", "test123", "root", "cloud", 3306)), Path.of(System.getProperty("user.dir")).resolve("../../../"));
+
+
+        var configuration = FileHelper.read(Path.of(System.getProperty("user.dir")).resolve("../../../"), DefaultConfiguration.class);
         Evelon.setCradinates(configuration.database());
 
 
