@@ -20,12 +20,7 @@ import net.easycloud.api.console.Logger;
 import net.easycloud.api.velocity.VelocityProvider;
 import net.easycloud.base.group.SimpleGroupHandler;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Comparator;
-import java.util.stream.Stream;
 
 @Getter
 public final class Base extends CloudDriver {
@@ -97,7 +92,6 @@ public final class Base extends CloudDriver {
             try {
                 Thread.sleep(500);
                 logger.log("§7Cloud was §asuccessfully §7started.", LogType.SUCCESS);
-                logger.log("", LogType.EMPTY);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }

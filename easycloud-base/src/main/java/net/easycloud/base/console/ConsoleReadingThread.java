@@ -19,7 +19,7 @@ public class ConsoleReadingThread extends Thread {
 
         this.console = console;
         this.lineReader = console.getLineReader();
-        this.consolePrompt = logger.format("&eeasy&f@&bCloud &7» &r", LogType.EMPTY);
+        this.consolePrompt = logger.format("&feasy&7@&bCloud &7» &r", LogType.EMPTY);
     }
 
     @Override
