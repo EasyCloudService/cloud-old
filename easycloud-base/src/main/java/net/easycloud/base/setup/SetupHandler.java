@@ -5,12 +5,11 @@ import lombok.Getter;
 import net.bytemc.evelon.DatabaseProtocol;
 import net.bytemc.evelon.cradinates.DatabaseCradinates;
 import net.easycloud.api.conf.DefaultConfiguration;
-import net.easycloud.api.console.LogType;
+import net.easycloud.api.conf.FileHelper;
 import net.easycloud.api.group.Group;
 import net.easycloud.api.group.misc.GroupType;
 import net.easycloud.api.group.misc.GroupVersion;
 import net.easycloud.base.Base;
-import net.http.aeon.Aeon;
 
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -69,14 +68,14 @@ public final class SetupHandler {
                         .possibleResults(List.of(true, false))
                         .build()
         ), values -> {
-            Aeon.insert(new DefaultConfiguration(new DatabaseCradinates(
+            FileHelper.writeIfNotExists(Path.of(System.getProperty("user.dir")), new DefaultConfiguration(new DatabaseCradinates(
                     DatabaseProtocol.valueOf(values.get("database.type")),
                     values.get("database.host"),
                     values.get("database.password"),
                     values.get("database.user"),
                     values.get("database.name"),
                     Integer.valueOf(values.get("database.port"))
-            )), Path.of(System.getProperty("user.dir")));
+            )));
 
             if(Boolean.parseBoolean(values.get("service.create.proxy"))) {
                 Base.getInstance().getGroupProvider().create(new Group("Proxy", 512, 1, 1, 50, "ANVIL", GroupType.PROXY, GroupVersion.VELOCITY_LATEST));
