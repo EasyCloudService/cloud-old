@@ -5,6 +5,7 @@ import net.bytemc.evelon.DatabaseProtocol;
 import net.bytemc.evelon.Evelon;
 import net.bytemc.evelon.cradinates.DatabaseCradinates;
 import net.easycloud.api.conf.FileHelper;
+import net.easycloud.api.github.GithubDownloader;
 import net.easycloud.base.command.CommandHandler;
 import net.easycloud.base.console.runner.ConsoleRunner;
 import net.easycloud.base.logger.SimpleLogger;
@@ -40,11 +41,25 @@ public final class Base extends CloudDriver {
 
         this.running = true;
         this.logger = new SimpleLogger();
+        try {
+            logger.log("Searching for an update...");
+            var result = GithubDownloader.updateIfNeeded(CloudPath.STORAGE);
+            if(result) {
+                logger.log("An update was found. restarting...");
+            } else {
+                logger.log("No update was found...");
+            }
+            Thread.sleep(2000);
+            if(result) System.exit(0);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         if(!Path.of(System.getProperty("user.dir")).resolve("config.json").toFile().exists()) {
             setupHandler.start();
             while (true) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
@@ -53,12 +68,13 @@ public final class Base extends CloudDriver {
                 }
             }
         }
+
         this.configuration = FileHelper.read(Path.of(System.getProperty("user.dir")), DefaultConfiguration.class);
         Evelon.setCradinates(configuration.database());
 
-        ((SimpleLogger) logger).getConsole().clearConsole();
-        logger.format("""
-                
+        ((SimpleLogger) this.logger).getConsole().clearConsole();
+        logger.log("""
+                \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
                   &7____ ____ ____ _   _ &9____ _    ____ _  _ ___ 
                   &7|___ |__| [__   \\_/  &9|    |    |  | |  | |  \\ 
                   &7|___ |  | ___]   |   &9|___ |___ |__| |__| |__/

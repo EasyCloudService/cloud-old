@@ -19,10 +19,10 @@ public final class ModuleHandler {
 
         // Create if not exists
         FileHelper.writeIfNotExists(path, new ModuleConfig(true, "Lobby"));
-        FileHelper.writeIfNotExists(path, new MotdConfig(true, "§9EasyCloud service", "§7"));
+        FileHelper.writeIfNotExists(path, new MotdConfig(true, "§8▶▷ §bEasyCloud §8» §7simplicity meets §b§operformance", "§8➥ §7download on §8(§beasycloudservice.de§8) §8(§blatest§8)"));
         FileHelper.writeIfNotExists(path, new TablistConfig(true,
-                "§7                            §1\n§feasy§7@§bCloud §8§l| §a%online%§8/§c%max%\n§7Current server is §9%server%\n",
-                "\n§7Powered by §9EasyCloud\n§7Hosted on §9SyncServ\n§7                            §1"));
+                "\n§8▶▷ §bEasyCloud §8» §7simplicity meets §b§operformance \n  §8◁ §bOnline §8» §7%online%§8/§7%max% §8| §bServer §8» §7%server% §8▷ \n",
+                "\n §8▶▷ §bDownload §8» §7easycloudservice.de \n §8▶▷ §bGithub §8» §7github.com/easycloudservice \n"));
 
         this.config = FileHelper.read(path, ModuleConfig.class);
         this.motdConfig = FileHelper.read(path, MotdConfig.class);

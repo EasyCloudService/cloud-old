@@ -1,7 +1,9 @@
 package net.easycloud.loader;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Files;
@@ -15,6 +17,23 @@ public final class LoaderBoostrap {
         try {
             Path storage = Path.of(".cache");
             Path basePath = Path.of(".cache/base.jar");
+
+
+            if(!(args.length >= 1 && args[0].equals("--ignore-update"))) {
+                if(storage.resolve("easycloud-temp.jar").toFile().exists()) {
+                    Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+                        public void run() {
+                            try {
+                                Files.copy(storage.resolve("easycloud-temp.jar"), Path.of(new File(LoaderBoostrap.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getPath()), StandardCopyOption.REPLACE_EXISTING);
+                                //storage.resolve("easycloud-temp.jar").toFile().delete();
+                            } catch (IOException | URISyntaxException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }, "Shutdown-thread"));
+                    System.exit(0);
+                }
+            }
 
             if(!Files.exists(storage)) {
                 Files.createDirectory(storage);
@@ -33,8 +52,8 @@ public final class LoaderBoostrap {
             Thread.currentThread().setContextClassLoader(classLoader);
 
             classLoader.loadClass("net.easycloud.base.BaseBootstrap").getMethod("main", String[].class).invoke(null, (Object) args);
-        } catch (IOException | ClassNotFoundException | IllegalAccessException | InvocationTargetException |
-                 NoSuchMethodException exception) {
+        } catch (IOException | ClassNotFoundException | InvocationTargetException |
+                 IllegalAccessException | NoSuchMethodException exception) {
             throw new RuntimeException(exception);
         }
     }
