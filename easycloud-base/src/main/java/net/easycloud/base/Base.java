@@ -19,10 +19,9 @@ import net.easycloud.api.console.LogType;
 import net.easycloud.api.console.Logger;
 import net.easycloud.api.velocity.VelocityProvider;
 import net.easycloud.base.group.SimpleGroupHandler;
-import org.apache.commons.io.FileUtils;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 @Getter
@@ -43,7 +42,7 @@ public final class Base extends CloudDriver {
 
         this.running = true;
         this.logger = new SimpleLogger();
-        if(!Path.of(System.getProperty("user.dir")).resolve("config.ae").toFile().exists()) {
+        if(!Path.of(System.getProperty("user.dir")).resolve("config.json").toFile().exists()) {
             setupHandler.start();
             while (true) {
                 try {
@@ -107,7 +106,7 @@ public final class Base extends CloudDriver {
         new Thread(() -> this.nettyProvider.close()).start();
         this.serviceProvider.getServices().forEach(it -> ((Service) it).stop());
         try {
-            FileUtils.forceDelete(new File("tmp"));
+            Files.deleteIfExists(Path.of("tmp"));
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }

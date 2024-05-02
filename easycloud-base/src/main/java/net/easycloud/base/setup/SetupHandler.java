@@ -14,6 +14,7 @@ import net.easycloud.base.Base;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 @Getter
 public final class SetupHandler {
@@ -64,8 +65,8 @@ public final class SetupHandler {
                     values.get("database.password"),
                     values.get("database.user"),
                     values.get("database.name"),
-                    Integer.valueOf(values.get("database.port"))
-            )));
+                    Integer.parseInt(values.get("database.port"))
+            ), "easyCloudService-" + new Random().nextInt(100000000, 999999999)));
             onSetup = false;
         });
     }

@@ -6,9 +6,9 @@ import net.easycloud.api.group.Group;
 import net.easycloud.api.service.IService;
 import net.easycloud.base.Base;
 import net.easycloud.base.CloudPath;
-import org.apache.commons.io.FileUtils;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +73,7 @@ public class Service implements IService {
         synchronized (this) {
             try {
                 var path = Path.of(System.getProperty("user.dir") + File.separator + "tmp" + File.separator + group.getType() + File.separator + id);
-                FileUtils.deleteDirectory(path.toFile());
+                Files.deleteIfExists(path);
             } catch (IOException ignored) {
             }
         }
