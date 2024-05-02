@@ -24,10 +24,12 @@ public final class TablistModule {
         if(server == null) {
             return "§cError";
         }
+        //TODO
         return text
                 .replace("%online%", String.valueOf(VelocityPlugin.getInstance().getServer().getPlayerCount()))
                 .replace("%max%", String.valueOf(VelocityPlugin.getInstance().getServer().getConfiguration().getShowMaxPlayers()))
                 .replace("%server%", server.getServerInfo().getName())
+                .replace("%proxy%", "Proxy-1")
                 .replace("\\n", "\n");
     }
 }
