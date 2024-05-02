@@ -11,7 +11,7 @@ public final class BaseServer extends NettyServer {
     public BaseServer() {
         super("127.0.0.1", 8897);
 
-        Base.getInstance().getLogger().log("Netty-Server will be started...", LogType.NETTY);
+        Base.getInstance().getLogger().log("Netty-Server will be started...");
 
         getPacketHandler().subscribe(HandshakeAuthenticationPacket.class, (channel, packet) -> {
             Base.getInstance().getServiceProvider().getServices().forEach(service -> {
@@ -19,6 +19,6 @@ public final class BaseServer extends NettyServer {
             });
         });
 
-        Base.getInstance().getLogger().log("Netty-Server was startet on following port: 8897", LogType.NETTY);
+        Base.getInstance().getLogger().log("Netty-Server was startet on following port: 8897");
     }
 }

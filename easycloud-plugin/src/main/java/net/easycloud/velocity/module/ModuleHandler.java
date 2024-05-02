@@ -21,8 +21,8 @@ public final class ModuleHandler {
         FileHelper.writeIfNotExists(path, new ModuleConfig(true, "Lobby"));
         FileHelper.writeIfNotExists(path, new MotdConfig(true, "§9EasyCloud service", "§7"));
         FileHelper.writeIfNotExists(path, new TablistConfig(true,
-                "§7                            §1\n§bEasyCloud §8§l| §a%online%§8/§c%max%\n§7Current server is §9%server%\n",
-                "\n§7Powered by §9EasyCloud\n§7Hosted on §9Venocix\n§7                            §1"));
+                "§7                            §1\n§feasy§7@§bCloud §8§l| §a%online%§8/§c%max%\n§7Current server is §9%server%\n",
+                "\n§7Powered by §9EasyCloud\n§7Hosted on §9SyncServ\n§7                            §1"));
 
         this.config = FileHelper.read(path, ModuleConfig.class);
         this.motdConfig = FileHelper.read(path, MotdConfig.class);

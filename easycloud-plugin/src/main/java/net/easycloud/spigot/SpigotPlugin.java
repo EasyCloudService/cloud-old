@@ -1,7 +1,5 @@
 package net.easycloud.spigot;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import de.flxwdev.ascan.AscanAPI;
 import de.flxwdev.ascan.inventory.misc.InventoryConfig;
 import lombok.Getter;
@@ -10,6 +8,7 @@ import net.easycloud.api.network.packet.defaults.PermissionUpdatePacket;
 import net.easycloud.spigot.commands.ControlPanelCommand;
 import net.easycloud.spigot.listener.AsyncPlayerPreLoginListener;
 import net.easycloud.spigot.listener.PlayerLoginListener;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionAttachment;
@@ -57,24 +56,23 @@ public final class SpigotPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerLoginListener(), this);
 
         CloudDriver.getInstance().getNettyProvider().getPacketHandler().subscribe(PermissionUpdatePacket.class, (channel, packet) -> {
+            System.out.println("UPDATE PLAYER");
             var player = Bukkit.getPlayer(packet.getUuid());
             if(!player.isOnline()) {
+                System.out.println("UPDATE PLAYER OFFLINE");
                 return;
             }
+            System.out.println("UPDATE PLAYER UPDATE");
             updatePlayer(player);
         });
     }
 
     @Override
     public void onDisable() {
-        CloudDriver.getInstance().getServiceProvider().stop(CloudDriver.getInstance().getServiceProvider().getCurrentService().getId());
-
         Bukkit.getOnlinePlayers().forEach(it -> {
-            ByteArrayDataOutput out = ByteStreams.newDataOutput();
-            out.writeUTF("Connect");
-            out.writeUTF("Lobby-1");
-            it.sendPluginMessage(SpigotPlugin.getInstance(), "BungeeCord", out.toByteArray());
+            it.kick(Component.text("§cService is offline§8!"));
         });
+        CloudDriver.getInstance().getServiceProvider().stop(CloudDriver.getInstance().getServiceProvider().getCurrentService().getId());
     }
 
     public void updatePlayer(Player player) {

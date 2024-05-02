@@ -56,19 +56,14 @@ public final class Base extends CloudDriver {
         this.configuration = FileHelper.read(Path.of(System.getProperty("user.dir")), DefaultConfiguration.class);
         Evelon.setCradinates(configuration.database());
 
+        ((SimpleLogger) logger).getConsole().clearConsole();
         logger.log("""
                 
-                
-                &r  ______                 &b    _____ _                _
-                &r |  ____|                &b  / ____| |               | |
-                &r | |__   __ _ ___ _   _  &b | |    | | ___  _   _  __| |
-                &r |  __| / _` / __| | | | &b | |    | |/ _ \\| | | |/ _` |
-                &r | |___| (_| \\__ \\ |_| |  &b| |____| | (_) | |_| | (_| |
-                &r |______\\__,_|___/\\__, |  &b \\_____|_|\\___/ \\__,_|\\__,_|
-                &r ------------------__/ |------------------------------
-                &r                  |___/
-                
-                 &r| EasyCloud - Powered by &b@AscanAPI &7and &b@Vynl
+                  &7____ ____ ____ _   _ &9____ _    ____ _  _ ___ 
+                  &7|___ |__| [__   \\_/  &9|    |    |  | |  | |  \\ 
+                  &7|___ |  | ___]   |   &9|___ |___ |__| |__| |__/
+                  &7[&fRELEASE-0&7] Powered by &b@AscanAPI &7and &b@Vynl
+                  
                 """, LogType.EMPTY);
 
         this.groupProvider = new SimpleGroupHandler();
@@ -77,6 +72,8 @@ public final class Base extends CloudDriver {
         this.serviceProvider = new SimpleServiceHandler();
         this.velocityProvider = new VelocityProvider();
         this.permissionProvider = new PermissionHandler();
+
+        logger.log("§7Cloud was connected to all services.");
 
         new ConsoleRunner();
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
@@ -88,14 +85,14 @@ public final class Base extends CloudDriver {
             }
         }));
 
-        new Thread(() -> {
+        /*new Thread(() -> {
             try {
                 Thread.sleep(500);
-                logger.log("§7Cloud was §asuccessfully §7started.", LogType.SUCCESS);
+                logger.log("§7Cloud was §asuccessfully §7started.", LogType.INFO);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }).start();
+        }).start();*/
     }
 
     public static Base getInstance() {

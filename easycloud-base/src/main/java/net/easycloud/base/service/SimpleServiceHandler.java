@@ -44,7 +44,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
     public void start(Group group, int count) {
         new Thread(() -> {
             String id = group.getName() + "-" + (services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count() + 1);
-            Base.getInstance().getLogger().log("§7Told §bInternalWrapper §7to start §e" + id + "§7...", LogType.SYSTEM);
+            Base.getInstance().getLogger().log("§7Told §bInternalWrapper §7to start §b" + id + "§7...", LogType.WRAPPER);
 
             if (group.getMaxOnline() < (services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count() + 1)) {
                 Base.getInstance().getLogger().log("§cCant §7start §e" + group.getName() + " §7maximum number is reached.", LogType.WARNING);

@@ -8,10 +8,9 @@ import lombok.Getter;
 public enum LogType {
     EMPTY(""),
     INFO("&9&lINFO"),
-    SYSTEM("&b&lSYSTEM"),
+    WRAPPER("&b&lWRAPPER"),
     SUCCESS("&a&lSUCCESS"),
     WARNING("&e&lWARNING"),
-    NETTY("&c&lNETTY"),
     ERROR("&c&lERROR");
 
     private final String prefix;
