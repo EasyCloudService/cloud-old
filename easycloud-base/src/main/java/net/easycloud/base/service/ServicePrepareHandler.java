@@ -1,11 +1,10 @@
 package net.easycloud.base.service;
 
+import com.google.gson.Gson;
 import net.easycloud.api.CloudDriver;
 import net.easycloud.api.group.Group;
 import net.easycloud.api.misc.Reflections;
 import net.easycloud.base.Base;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -14,7 +13,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -52,10 +50,14 @@ public final class ServicePrepareHandler {
                         Files.createDirectories(tmp.resolve("config"));
                         FileWriter writer = new FileWriter(tmp.resolve("config").resolve("paper-global.yml").toString());
 
-                        DumperOptions options = new DumperOptions();
+                        /*DumperOptions options = new DumperOptions();
                         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
                         Yaml yaml = new Yaml(options);
-                        yaml.dump(data, writer);
+                        yaml.dump(data, writer);*/
+
+                        Gson gson = new Gson();
+                        writer.write(gson.toJson(data));
+                        writer.close();
                     } catch (IOException e) {
                         System.err.println("Fehler beim Erstellen der Datei: " + e.getMessage());
                     }

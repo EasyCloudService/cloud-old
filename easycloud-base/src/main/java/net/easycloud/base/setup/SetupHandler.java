@@ -70,18 +70,18 @@ public final class SetupHandler {
                         .build()
         ), values -> {
             Aeon.insert(new DefaultConfiguration(new DatabaseCradinates(
-                    (DatabaseProtocol) values.get("database.type"),
-                    (String) values.get("database.host"),
-                    (String) values.get("database.password"),
-                    (String) values.get("database.user"),
-                    (String) values.get("database.name"),
-                    (Integer) values.get("database.port")
+                    DatabaseProtocol.valueOf(values.get("database.type")),
+                    values.get("database.host"),
+                    values.get("database.password"),
+                    values.get("database.user"),
+                    values.get("database.name"),
+                    Integer.valueOf(values.get("database.port"))
             )), Path.of(System.getProperty("user.dir")));
 
-            if((Boolean) values.get("service.create.proxy")) {
+            if(Boolean.parseBoolean(values.get("service.create.proxy"))) {
                 Base.getInstance().getGroupProvider().create(new Group("Proxy", 512, 1, 1, 50, "ANVIL", GroupType.PROXY, GroupVersion.VELOCITY_LATEST));
             }
-            if((Boolean) values.get("service.create.lobby")) {
+            if(Boolean.parseBoolean(values.get("service.create.proxy"))) {
                 Base.getInstance().getGroupProvider().create(new Group("Lobby", 1024, 1, 1, 50, "ANVIL", GroupType.SERVER, GroupVersion.PAPER_1_20_4));
             }
             onSetup = false;

@@ -37,6 +37,7 @@
             <groupId>net.kyori</groupId>
             <artifactId>adventure-api</artifactId>
             <version>4.14.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.velocitypowered</groupId>
@@ -60,7 +61,7 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>32.1.1-jre</version>
-            <scope>compile</scope>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.github.FlxwDNS</groupId>

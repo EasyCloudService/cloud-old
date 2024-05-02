@@ -36,7 +36,7 @@ public class WrapperBootstrap {
         var service = new Service(repo.query().filter(Filter.match("name", args[0])).database().findFirst(), args[1], Integer.parseInt(args[2]));
 
         try {
-            Files.copy(Path.of(System.getProperty("user.dir")).getParent().getParent().getParent().resolve("storage").resolve("plugin.jar"), service.getDirectory().resolve("plugins").resolve("Cloud-API.jar"), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Path.of(System.getProperty("user.dir")).getParent().getParent().getParent().resolve(".cache").resolve("plugin.jar"), service.getDirectory().resolve("plugins").resolve("Cloud-API.jar"), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }

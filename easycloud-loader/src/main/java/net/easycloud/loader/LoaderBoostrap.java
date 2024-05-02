@@ -13,16 +13,16 @@ public final class LoaderBoostrap {
 
     public static void main(String[] args) {
         try {
-            Path storage = Path.of("storage");
-            Path basePath = Path.of("storage/base.jar");
+            Path storage = Path.of(".cache");
+            Path basePath = Path.of(".cache/base.jar");
 
             if(!Files.exists(storage)) {
                 Files.createDirectory(storage);
             }
 
             Files.copy(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResourceAsStream("easycloud-base.jar")), basePath, StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResourceAsStream("easycloud-wrapper.jar")), Path.of("storage/wrapper.jar"), StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResourceAsStream("Cloud-API.jar")), Path.of("storage/plugin.jar"), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResourceAsStream("easycloud-wrapper.jar")), storage.resolve("wrapper.jar"), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResourceAsStream("Cloud-API.jar")), storage.resolve("plugin.jar"), StandardCopyOption.REPLACE_EXISTING);
 
             final var classLoader = new URLClassLoader(new URL[]{basePath.toUri().toURL()}, ClassLoader.getSystemClassLoader()) {
                 @Override

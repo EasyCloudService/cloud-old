@@ -13,11 +13,11 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 public final class ConsoleSetup {
-    private static final Map<String, Object> cache = new HashMap<>();
+    private static final Map<String, String> cache = new HashMap<>();
 
     public static boolean SETUP_ENABLED = false;
     private static List<SetupBuilder<?>> list;
-    private static Consumer<Map<String, Object>> consumer;
+    private static Consumer<Map<String, String>> consumer;
 
     private static void nextLine() {
         //((SimpleLogger) Base.getInstance().getLogger()).getConsole().clearConsole();
@@ -56,7 +56,7 @@ public final class ConsoleSetup {
         nextLine();
     }
 
-    public static void subscribe(List<SetupBuilder<?>> setupBuilder, Consumer<Map<String, Object>> onFinish) {
+    public static void subscribe(List<SetupBuilder<?>> setupBuilder, Consumer<Map<String, String>> onFinish) {
         SETUP_ENABLED = true;
         list = new ArrayList<>(setupBuilder);
         consumer = onFinish;

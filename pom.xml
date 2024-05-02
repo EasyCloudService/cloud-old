@@ -38,11 +38,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>net.bytemc</groupId>
-            <artifactId>evelon</artifactId>
-            <version>1.5.5-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.32</version>
@@ -53,16 +48,7 @@
             <artifactId>maven-dependency-plugin</artifactId>
             <version>3.6.1</version>
             <type>maven-plugin</type>
-        </dependency>
-        <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-            <version>4.1.95.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.HttpMarco</groupId>
-            <artifactId>Aeon</artifactId>
-            <version>12272d97b2</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
