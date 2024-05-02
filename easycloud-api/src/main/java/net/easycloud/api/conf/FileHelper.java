@@ -2,12 +2,12 @@ package net.easycloud.api.conf;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import lombok.SneakyThrows;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.nio.file.*;
+import java.util.Comparator;
+import java.util.stream.Stream;
 
 public final class FileHelper {
     public static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -40,5 +40,15 @@ public final class FileHelper {
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    @SneakyThrows
+    public static void removeDirectory(Path path) {
+        try (Stream<Path> pathStream = Files.walk(path)) {
+            pathStream.sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+        }
+        //Files.deleteIfExists(path);
     }
 }

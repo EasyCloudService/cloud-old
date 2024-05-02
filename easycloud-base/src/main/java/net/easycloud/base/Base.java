@@ -20,9 +20,12 @@ import net.easycloud.api.console.Logger;
 import net.easycloud.api.velocity.VelocityProvider;
 import net.easycloud.base.group.SimpleGroupHandler;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Comparator;
+import java.util.stream.Stream;
 
 @Getter
 public final class Base extends CloudDriver {
@@ -81,7 +84,14 @@ public final class Base extends CloudDriver {
         this.permissionProvider = new PermissionHandler();
 
         new ConsoleRunner();
-        Runtime.getRuntime().addShutdownHook(new Thread(this::onShutdown));
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            onShutdown();
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }));
 
         new Thread(() -> {
             try {
@@ -106,8 +116,9 @@ public final class Base extends CloudDriver {
         new Thread(() -> this.nettyProvider.close()).start();
         this.serviceProvider.getServices().forEach(it -> ((Service) it).stop());
         try {
-            Files.deleteIfExists(Path.of("tmp"));
-        } catch (IOException exception) {
+            Thread.sleep(1000);
+            FileHelper.removeDirectory(Path.of("tmp"));
+        } catch (InterruptedException exception) {
             throw new RuntimeException(exception);
         }
         System.exit(0);
