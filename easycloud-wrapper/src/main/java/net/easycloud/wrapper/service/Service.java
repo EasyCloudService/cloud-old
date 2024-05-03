@@ -9,6 +9,7 @@ import java.nio.file.Path;
 
 @Getter
 @AllArgsConstructor
+@SuppressWarnings("ClassCanBeRecord")
 public final class Service implements IService {
     private final Group group;
     private final String id;

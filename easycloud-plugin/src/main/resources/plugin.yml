@@ -1,7 +1,7 @@
 name: EasyCloud
 description: Its just an API
 api-version: "1.16"
-author: [FlxwDNS, 1Chickxn, Swerion]
+author: EasyCloudService
 main: net.easycloud.spigot.SpigotPlugin
 version: 1
 

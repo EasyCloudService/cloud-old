@@ -4,7 +4,7 @@ import net.easycloud.base.command.CloudCommand;
 import net.easycloud.base.command.Command;
 import net.easycloud.base.Base;
 
-@Command(name = "stop", description = "", aliases = {"shutdown"})
+@Command(name = "stop", aliases = {"shutdown"})
 public final class StopCommand extends CloudCommand {
 
     @Override

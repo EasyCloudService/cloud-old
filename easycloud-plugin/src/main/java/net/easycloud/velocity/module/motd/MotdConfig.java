@@ -7,6 +7,7 @@ import net.easycloud.api.conf.FileName;
 @Getter
 @AllArgsConstructor
 @FileName(name = "easycloud-motd")
+@SuppressWarnings("ClassCanBeRecord")
 public final class MotdConfig {
     private final boolean enable;
 

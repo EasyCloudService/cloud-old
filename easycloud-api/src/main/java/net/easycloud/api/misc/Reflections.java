@@ -6,22 +6,19 @@ import java.nio.file.attribute.BasicFileAttributes;
 
 public final class Reflections {
 
-    public static Boolean createPath(Path path) {
+    public static void createPath(Path path) {
         if (!Files.exists(path)) {
             try {
                 Files.createDirectories(path);
-                return true;
             } catch (IOException exception) {
                 throw new RuntimeException(exception);
             }
-        } else {
-            return false;
         }
     }
 
     public static void copy(Path fromPath, Path toPath) {
         try {
-            Files.walkFileTree(fromPath, new SimpleFileVisitor<Path>() {
+            Files.walkFileTree(fromPath, new SimpleFileVisitor<>() {
                 @Override
                 public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
                     Path targetDir = toPath.resolve(fromPath.relativize(dir));
@@ -36,7 +33,7 @@ public final class Reflections {
                 }
 
                 @Override
-                public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+                public FileVisitResult visitFileFailed(Path file, IOException exc) {
                     System.err.println("Fehler beim Kopieren der Datei: " + file + " - " + exc.getMessage());
                     return FileVisitResult.CONTINUE;
                 }

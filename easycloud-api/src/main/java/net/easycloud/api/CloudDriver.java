@@ -8,6 +8,7 @@ import net.easycloud.api.permission.PermissionProvider;
 import net.easycloud.api.velocity.VelocityProvider;
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("ALL")
 public abstract class CloudDriver implements Driver {
     private static CloudDriver instance;
 

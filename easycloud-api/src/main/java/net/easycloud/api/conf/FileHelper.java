@@ -9,6 +9,7 @@ import java.nio.file.*;
 import java.util.Comparator;
 import java.util.stream.Stream;
 
+@SuppressWarnings("ALL")
 public final class FileHelper {
     public static Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 

@@ -3,7 +3,6 @@ package net.easycloud.base.console;
 import net.easycloud.api.console.LogType;
 import net.easycloud.api.console.Logger;
 import net.easycloud.base.Base;
-import net.easycloud.base.logger.SimpleLogger;
 import net.easycloud.base.service.Service;
 import net.easycloud.base.setup.ConsoleSetup;
 import org.jline.reader.LineReader;

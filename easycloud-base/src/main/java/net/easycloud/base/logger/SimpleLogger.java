@@ -6,23 +6,12 @@ import net.easycloud.api.console.LogType;
 import net.easycloud.api.console.Logger;
 import net.easycloud.api.console.LoggerAnsiFactory;
 import net.easycloud.base.console.SimpleConsole;
-import org.jline.builtins.Completers;
-import org.jline.console.impl.Builtins;
-import org.jline.reader.Completer;
-import org.jline.reader.LineReader;
-import org.jline.reader.LineReaderBuilder;
-import org.jline.reader.impl.completer.ArgumentCompleter;
-import org.jline.reader.impl.completer.NullCompleter;
-import org.jline.reader.impl.completer.StringsCompleter;
-import org.jline.reader.impl.completer.SystemCompleter;
 import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.List;
 
 @Getter
 public final class SimpleLogger implements Logger {

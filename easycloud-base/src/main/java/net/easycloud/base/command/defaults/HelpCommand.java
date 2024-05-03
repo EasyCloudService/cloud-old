@@ -4,7 +4,7 @@ import net.easycloud.base.command.CloudCommand;
 import net.easycloud.base.command.Command;
 import net.easycloud.base.Base;
 
-@Command(name = "help", description = "", aliases = {"commands"})
+@Command(name = "help", aliases = {"commands"})
 public final class HelpCommand extends CloudCommand {
 
     @Override

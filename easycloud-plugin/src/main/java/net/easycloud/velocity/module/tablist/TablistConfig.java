@@ -7,6 +7,7 @@ import net.easycloud.api.conf.FileName;
 @Getter
 @AllArgsConstructor
 @FileName(name = "easycloud-tablist")
+@SuppressWarnings("ClassCanBeRecord")
 public final class TablistConfig {
     private final boolean enable;
 

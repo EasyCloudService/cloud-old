@@ -75,7 +75,7 @@ public final class ServicePrepareHandler {
                         Path targetPath = tmp.resolve("server-icon.png");
 
                         Files.copy(in, targetPath);
-                    } catch (IOException e) {
+                    } catch (IOException ignored) {
                     }
 
                     Files.write(tmp.resolve("velocity.toml"), Collections.singleton("player-info-forwarding-mode = \"modern\""));

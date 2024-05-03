@@ -1,9 +1,7 @@
 package net.easycloud.base;
 
 import lombok.Getter;
-import net.bytemc.evelon.DatabaseProtocol;
 import net.bytemc.evelon.Evelon;
-import net.bytemc.evelon.cradinates.DatabaseCradinates;
 import net.easycloud.api.conf.FileHelper;
 import net.easycloud.api.github.GithubConfig;
 import net.easycloud.api.github.GithubDownloader;
@@ -25,8 +23,8 @@ import net.easycloud.base.group.SimpleGroupHandler;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.logging.Level;
 
+@SuppressWarnings("ALL")
 @Getter
 public final class Base extends CloudDriver {
     private static Base instance;
@@ -114,13 +112,13 @@ public final class Base extends CloudDriver {
         }
         ((SimpleLogger) this.logger).getConsole().clearConsole();
         logger.log("""
-                \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
-                  &7____ ____ ____ _   _ &9____ _    ____ _  _ ___ 
-                  &7|___ |__| [__   \\_/  &9|    |    |  | |  | |  \\ 
+                %LINE_BREAK%
+                  &7____ ____ ____ _   _ &9____ _    ____ _  _ ___
+                  &7|___ |__| [__   \\_/  &9|    |    |  | |  | |  \\
                   &7|___ |  | ___]   |   &9|___ |___ |__| |__| |__/
                   &7[&f%RELEASE%&7] Powered by &b@FlxwDNS&7, &b@1Chickxn &7and &b@Swerion
-                  
-                """.replace("%RELEASE%", version), LogType.EMPTY);
+                
+                """.replace("%RELEASE%", version).replace("%LINE_BREAK%", "\n".repeat(100)), LogType.EMPTY);
     }
 
     public static Base getInstance() {

@@ -17,6 +17,7 @@ public final class UUIDFetcher {
         throw new UnsupportedOperationException();
     }
 
+    @SuppressWarnings("DataFlowIssue")
     public static UUID getUUID(String name) {
         String output = callURL(UUID_URL + name);
         Matcher m = UUID_PATTERN.matcher(output);

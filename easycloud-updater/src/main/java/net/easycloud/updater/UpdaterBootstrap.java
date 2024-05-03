@@ -12,8 +12,9 @@ public final class UpdaterBootstrap {
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             try {
-                Files.copy(Path.of("easycloud-temp.jar"), Path.of("../" + args[0]), StandardCopyOption.REPLACE_EXISTING);
-                Path.of("easycloud-temp.jar").toFile().delete();
+                var jar = Path.of("easycloud-temp.jar");
+                Files.copy(jar, Path.of("../" + args[0]), StandardCopyOption.REPLACE_EXISTING);
+                jar.toFile().delete();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

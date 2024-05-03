@@ -7,7 +7,7 @@ import net.easycloud.base.logger.SimpleLogger;
 import net.easycloud.base.service.Service;
 import net.easycloud.base.Base;
 
-@Command(name = "screen", description = "", aliases = {"scr", "console"})
+@Command(name = "screen", aliases = {"scr", "console"})
 public final class ScreenCommand extends CloudCommand {
 
     @Override

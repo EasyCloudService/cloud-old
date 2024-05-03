@@ -1,6 +1,5 @@
 package net.easycloud.base.server;
 
-import net.easycloud.api.console.LogType;
 import net.easycloud.api.network.packet.defaults.HandshakeAuthenticationPacket;
 import net.easycloud.api.network.packet.defaults.ServiceConnectPacket;
 import net.easycloud.api.network.server.NettyServer;

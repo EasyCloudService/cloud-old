@@ -6,7 +6,7 @@ import net.easycloud.base.command.CloudCommand;
 import net.easycloud.base.command.Command;
 import net.easycloud.base.Base;
 
-@Command(name = "service", description = "", aliases = {"ser", "services"})
+@Command(name = "service", aliases = {"ser", "services"})
 public final class ServiceCommand extends CloudCommand {
 
     @Override

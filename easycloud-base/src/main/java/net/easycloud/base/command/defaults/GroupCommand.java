@@ -8,9 +8,8 @@ import net.easycloud.api.group.misc.GroupVersion;
 import net.easycloud.base.command.CloudCommand;
 import net.easycloud.base.command.Command;
 import net.easycloud.base.Base;
-import net.easycloud.base.logger.SimpleLogger;
 
-@Command(name = "group", description = "", aliases = {"groups"})
+@Command(name = "group", aliases = {"groups"})
 public final class GroupCommand extends CloudCommand {
 
     @Override
