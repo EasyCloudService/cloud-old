@@ -6,12 +6,23 @@ import net.easycloud.api.console.LogType;
 import net.easycloud.api.console.Logger;
 import net.easycloud.api.console.LoggerAnsiFactory;
 import net.easycloud.base.console.SimpleConsole;
+import org.jline.builtins.Completers;
+import org.jline.console.impl.Builtins;
+import org.jline.reader.Completer;
+import org.jline.reader.LineReader;
+import org.jline.reader.LineReaderBuilder;
+import org.jline.reader.impl.completer.ArgumentCompleter;
+import org.jline.reader.impl.completer.NullCompleter;
+import org.jline.reader.impl.completer.StringsCompleter;
+import org.jline.reader.impl.completer.SystemCompleter;
 import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 @Getter
 public final class SimpleLogger implements Logger {
@@ -29,6 +40,26 @@ public final class SimpleLogger implements Logger {
 
         System.setOut(new PrintStream(new LoggerOutputStream(this, LogType.INFO), true));
         System.setErr(new PrintStream(new LoggerOutputStream(this, LogType.ERROR), true));
+
+
+
+       /* Builtins builtins = new Builtins(console., configPath, widgetCreator);
+        SystemCompleter systemCompleter = builtins.compileCompletor(); // builtins commands completers
+        systemCompleter.add("test", new StringsCompleter("cmd1"));                  // option descriptions
+        systemCompleter.compile();                                     // prepare it for LineReader
+        LineReader reader = LineReaderBuilder.builder()
+                .terminal(console.getTerminal()).parser(console.getLineReader().getParser())
+                .completer(systemCompleter)
+                .build();
+        builtins.setLineReader(reader);// to complite set builtins lineReader
+*/
+
+
+
+        //var completer = new ArgumentCompleter(
+          //      new StringsCompleter("bar", "baz"),
+            //    new StringsCompleter("foo"),
+              //  new StringsCompleter("ree"));
     }
 
     @Override

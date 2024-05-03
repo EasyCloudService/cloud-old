@@ -40,7 +40,7 @@ public final class SimpleConsole {
                 .option(LineReader.Option.DISABLE_EVENT_EXPANSION, true)
                 .option(LineReader.Option.AUTO_REMOVE_SLASH, false)
                 .option(LineReader.Option.INSERT_TAB, false)
-                //.completer(new ConsoleCompleter(this))
+                //.completer(null)
                 .build();
 
         this.cache = new ArrayList<>();
