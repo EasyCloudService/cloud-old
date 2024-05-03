@@ -5,6 +5,7 @@ import net.bytemc.evelon.DatabaseProtocol;
 import net.bytemc.evelon.Evelon;
 import net.bytemc.evelon.cradinates.DatabaseCradinates;
 import net.easycloud.api.conf.FileHelper;
+import net.easycloud.api.github.GithubConfig;
 import net.easycloud.api.github.GithubDownloader;
 import net.easycloud.base.command.CommandHandler;
 import net.easycloud.base.console.runner.ConsoleRunner;
@@ -106,6 +107,10 @@ public final class Base extends CloudDriver {
     }
 
     public void printScreen() {
+        var version = "-";
+        if(CloudPath.STORAGE.resolve("github.json").toFile().exists()) {
+            version = FileHelper.read(CloudPath.STORAGE, GithubConfig.class).getVersion();
+        }
         ((SimpleLogger) this.logger).getConsole().clearConsole();
         logger.log("""
                 \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
@@ -114,7 +119,7 @@ public final class Base extends CloudDriver {
                   &7|___ |  | ___]   |   &9|___ |___ |__| |__| |__/
                   &7[&f%RELEASE%&7] Powered by &b@FlxwDNS&7, &b@1Chickxn &7and &b@Swerion
                   
-                """.replace("%RELEASE%", GithubDownloader.getLatest().split(";")[0]), LogType.EMPTY);
+                """.replace("%RELEASE%", version), LogType.EMPTY);
     }
 
     public static Base getInstance() {
