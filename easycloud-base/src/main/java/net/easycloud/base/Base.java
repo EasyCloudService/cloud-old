@@ -84,10 +84,10 @@ public final class Base extends CloudDriver {
 
         printScreen();
 
+        this.serviceProvider = new SimpleServiceHandler();
         this.groupProvider = new SimpleGroupHandler();
         this.nettyProvider = new BaseServer();
         this.commandHandler = new CommandHandler();
-        this.serviceProvider = new SimpleServiceHandler();
         this.velocityProvider = new VelocityProvider();
         this.permissionProvider = new PermissionHandler();
         new RestAPI();

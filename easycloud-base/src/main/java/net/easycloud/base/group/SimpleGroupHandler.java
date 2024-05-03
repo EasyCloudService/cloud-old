@@ -108,14 +108,7 @@ public final class SimpleGroupHandler implements GroupProvider {
 
         repository.query().create(group);
 
-        new Thread(() -> {
-            try {
-                Thread.sleep(1000);
-                ((SimpleServiceHandler) Base.getInstance().getServiceProvider()).update();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
+        ((SimpleServiceHandler) Base.getInstance().getServiceProvider()).update();
         Base.getInstance().getLogger().log("Group " + group.getName() + " was successfully created!");
     }
 }

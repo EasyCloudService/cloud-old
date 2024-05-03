@@ -48,8 +48,6 @@ public abstract class CloudDriver implements Driver {
     @NotNull
     @Override
     public ServiceProvider getServiceProvider() {
-
-
         return serviceProvider;
     }
 

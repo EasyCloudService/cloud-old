@@ -6,15 +6,13 @@ import static spark.Spark.get;
 
 public final class RestAPI {
     public RestAPI() {
-        get("/valid", (req, res) -> {
-            return checkIfValid(req.params(":key"));
-        });
+        get("/valid", (req, res) -> checkIfValid(req.queryParams("adminKey")));
         get("/users/size", (req, res) -> {
-            if(!checkIfValid(req.params(":key"))) return "ERROR";
+            if(!checkIfValid(req.queryParams("adminKey"))) return "ERROR";
             return Base.getInstance().getPermissionProvider().getUsers().size();
         });
         get("/groups/size", (req, res) -> {
-            if(!checkIfValid(req.params(":key"))) return "ERROR";
+            if(!checkIfValid(req.queryParams("adminKey"))) return "ERROR";
             return Base.getInstance().getGroupProvider().getRepository().query().database().findAll().size();
         });
     }
