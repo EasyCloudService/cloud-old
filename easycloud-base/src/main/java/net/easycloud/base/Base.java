@@ -22,6 +22,7 @@ import net.easycloud.api.console.Logger;
 import net.easycloud.api.velocity.VelocityProvider;
 import net.easycloud.base.group.SimpleGroupHandler;
 
+import java.io.IOException;
 import java.nio.file.Path;
 
 @Getter
@@ -35,7 +36,7 @@ public final class Base extends CloudDriver {
     private final SetupHandler setupHandler;
     private final CommandHandler commandHandler;
 
-    public Base() {
+    public Base(String jarName, boolean ignoreUpdate) {
         instance = this;
 
         this.setupHandler = new SetupHandler();
@@ -43,20 +44,28 @@ public final class Base extends CloudDriver {
         this.running = true;
         this.logger = new SimpleLogger();
         try {
+            var result = false;
             logger.log("Searching for an update...");
-            var result = GithubDownloader.updateIfNeeded(CloudPath.STORAGE);
-            if(result) {
-                logger.log("An update was found. restarting...");
+            if (ignoreUpdate) {
+                logger.log("Ignore updates.");
             } else {
-                logger.log("No update was found...");
+                result = GithubDownloader.updateIfNeeded(CloudPath.STORAGE);
+                if (result) {
+                    logger.log("An update was found. restarting...");
+                    System.out.println(jarName);
+                    Thread.sleep(1000);
+                    new ProcessBuilder("java", "-jar", "updater.jar", jarName).directory(CloudPath.STORAGE.toFile()).start();
+                    System.exit(0);
+                } else {
+                    logger.log("No update was found...");
+                }
             }
-            Thread.sleep(2000);
-            if(result) System.exit(0);
-        } catch (InterruptedException e) {
+            Thread.sleep(1000);
+        } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }
 
-        if(!Path.of(System.getProperty("user.dir")).resolve("config.json").toFile().exists()) {
+        if (!Path.of(System.getProperty("user.dir")).resolve("config.json").toFile().exists()) {
             setupHandler.start();
             while (true) {
                 try {
@@ -64,7 +73,7 @@ public final class Base extends CloudDriver {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-                if(!this.setupHandler.isOnSetup()) {
+                if (!this.setupHandler.isOnSetup()) {
                     break;
                 }
             }
