@@ -73,15 +73,7 @@ public final class Base extends CloudDriver {
         this.configuration = FileHelper.read(Path.of(System.getProperty("user.dir")), DefaultConfiguration.class);
         Evelon.setCradinates(configuration.database());
 
-        ((SimpleLogger) this.logger).getConsole().clearConsole();
-        logger.log("""
-                \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
-                  &7____ ____ ____ _   _ &9____ _    ____ _  _ ___ 
-                  &7|___ |__| [__   \\_/  &9|    |    |  | |  | |  \\ 
-                  &7|___ |  | ___]   |   &9|___ |___ |__| |__| |__/
-                  &7[&f%RELEASE%&7] Powered by &b@FlxwDNS&7, &b@1Chickxn &7and &b@Swerion
-                  
-                """.replace("%RELEASE%", GithubDownloader.getLatest().split(";")[0]), LogType.EMPTY);
+        printScreen();
 
         this.groupProvider = new SimpleGroupHandler();
         this.nettyProvider = new BaseServer();
@@ -102,6 +94,18 @@ public final class Base extends CloudDriver {
                 throw new RuntimeException(e);
             }
         }));
+    }
+
+    public void printScreen() {
+        ((SimpleLogger) this.logger).getConsole().clearConsole();
+        logger.log("""
+                \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+                  &7____ ____ ____ _   _ &9____ _    ____ _  _ ___ 
+                  &7|___ |__| [__   \\_/  &9|    |    |  | |  | |  \\ 
+                  &7|___ |  | ___]   |   &9|___ |___ |__| |__| |__/
+                  &7[&f%RELEASE%&7] Powered by &b@FlxwDNS&7, &b@1Chickxn &7and &b@Swerion
+                  
+                """.replace("%RELEASE%", GithubDownloader.getLatest().split(";")[0]), LogType.EMPTY);
     }
 
     public static Base getInstance() {

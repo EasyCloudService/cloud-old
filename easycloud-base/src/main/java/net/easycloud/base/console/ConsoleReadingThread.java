@@ -39,8 +39,9 @@ public class ConsoleReadingThread extends Thread {
                     Base.getInstance().getServiceProvider().getServices().stream().filter(it -> ((Service) it).isConsole()).forEach(service -> {
                         if (line.equalsIgnoreCase("leave")) {
                             ((Service) service).setConsole(false);
-                            ((SimpleLogger) Base.getInstance().getLogger()).getConsole().clearConsole();
-                            ((SimpleLogger) Base.getInstance().getLogger()).getConsole().getCache().forEach(it -> Base.getInstance().getLogger().log(it));
+                            Base.getInstance().printScreen();
+                            //((SimpleLogger) Base.getInstance().getLogger()).getConsole().clearConsole();
+                            //((SimpleLogger) Base.getInstance().getLogger()).getConsole().getCache().forEach(it -> Base.getInstance().getLogger().log(it));
 
                             return;
                         }

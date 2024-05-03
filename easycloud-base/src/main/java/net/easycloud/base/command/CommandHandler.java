@@ -15,6 +15,7 @@ public final class CommandHandler {
 
     public CommandHandler() {
         commands = new ArrayList<>();
+        commands.add(new ClearCommand());
         commands.add(new GroupCommand());
         commands.add(new HelpCommand());
         commands.add(new ScreenCommand());
