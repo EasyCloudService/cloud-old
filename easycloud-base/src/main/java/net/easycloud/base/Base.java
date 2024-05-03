@@ -128,13 +128,18 @@ public final class Base extends CloudDriver {
     @Override
     public void onShutdown() {
         running = false;
-        ((SimpleLogger) logger).getConsole().shutdownReading();
-
+        printScreen();
         new Thread(() -> this.nettyProvider.close()).start();
         this.serviceProvider.getServices().forEach(it -> ((Service) it).stop());
         try {
+            logger.log("&7Try to delete &9tmp &7directory.");
             FileHelper.removeDirectory(Path.of("tmp"));
+            logger.log("&9tmp &7directory was deleted.");
+            logger.log("&9Console &7will be shutdown...");
             Thread.sleep(1000);
+            logger.log("&9Console &7was closed.");
+            ((SimpleLogger) logger).getConsole().shutdownReading();
+            logger.log("&7Good bye, see you soon!");
             System.exit(0);
         } catch (InterruptedException exception) {
             //throw new RuntimeException(exception);
