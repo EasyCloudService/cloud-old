@@ -52,7 +52,7 @@ public final class Base extends CloudDriver {
                 result = GithubDownloader.updateIfNeeded(CloudPath.STORAGE);
                 if (result) {
                     logger.log("An update was found. restarting...");
-                    System.out.println(jarName);
+                    logger.log("&cPlease wait 5 seconds before starting again!");
                     Thread.sleep(1000);
                     new ProcessBuilder("java", "-jar", "updater.jar", jarName).directory(CloudPath.STORAGE.toFile()).start();
                     System.exit(0);
