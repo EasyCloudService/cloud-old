@@ -138,8 +138,8 @@ public final class Base extends CloudDriver {
             logger.log("&9Console &7will be shutdown...");
             Thread.sleep(1000);
             logger.log("&9Console &7was closed.");
-            ((SimpleLogger) logger).getConsole().shutdownReading();
             logger.log("&7Good bye, see you soon!");
+            ((SimpleLogger) logger).getConsole().shutdownReading();
             System.exit(0);
         } catch (InterruptedException exception) {
             //throw new RuntimeException(exception);
