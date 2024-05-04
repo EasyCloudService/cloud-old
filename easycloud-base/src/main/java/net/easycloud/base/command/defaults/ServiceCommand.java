@@ -2,6 +2,7 @@ package net.easycloud.base.command.defaults;
 
 import net.bytemc.evelon.repository.Filter;
 import net.easycloud.api.console.LogType;
+import net.easycloud.api.service.IService;
 import net.easycloud.base.command.CloudCommand;
 import net.easycloud.base.command.Command;
 import net.easycloud.base.Base;
@@ -43,10 +44,17 @@ public final class ServiceCommand extends CloudCommand {
                     return;
                 }
             }
+            if (args[1].equalsIgnoreCase("list")) {
+                for (IService service : Base.getInstance().getServiceProvider().getServices()) {
+                    logger.log("&9" + service.getId() + " &7| &aOnline");
+                }
+                return;
+            }
         }
         logger.log("");
         logger.log("service start " + argument("group") + " " + argument("amount"));
         logger.log("service shutdown|stop " + argument("name"));
+        logger.log("service list");
         logger.log("");
     }
 

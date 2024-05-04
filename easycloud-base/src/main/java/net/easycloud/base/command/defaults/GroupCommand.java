@@ -46,7 +46,7 @@ public final class GroupCommand extends CloudCommand {
                 return;
             }
             if (args[1].equalsIgnoreCase("create")) {
-                if (args.length == 6) {
+                if (args.length == 7) {
                     try {
                         Base.getInstance().getGroupProvider().getRepository().query().filter(Filter.match("name", args[2]))
                                 .database()
@@ -54,10 +54,9 @@ public final class GroupCommand extends CloudCommand {
                                 .ifPresentOrElse(group -> {
                                     logger.log("Group " + args[2] + " already exists!", LogType.WARNING);
                                 }, () -> {
-                                    Base.getInstance().getGroupProvider().create(new Group(args[2], Integer.parseInt(args[3]), 1, -1, 50, "ANVIL", GroupType.valueOf(args[4].toUpperCase()), GroupVersion.valueOf(args[5].toUpperCase())));
-                                    ((SimpleServiceHandler) Base.getInstance().getServiceProvider()).update();
+                                    Base.getInstance().getGroupProvider().create(new Group(args[2], Integer.parseInt(args[3]), 1, -1, 50, Boolean.parseBoolean(args[6]), "ANVIL", GroupType.valueOf(args[4].toUpperCase()), GroupVersion.valueOf(args[5].toUpperCase())));
                                 });
-
+                        ((SimpleServiceHandler) Base.getInstance().getServiceProvider()).update();
                     } catch (Exception exception) {
                         logger.log("Please provide valid values!", LogType.ERROR);
                     }
@@ -67,7 +66,7 @@ public final class GroupCommand extends CloudCommand {
         }
         logger.log("");
         logger.log("group setup");
-        logger.log("group create " + argument("name") + " " + argument("memory") + " " + argument("type") + " " + argument("version"));
+        logger.log("group create " + argument("name") + " " + argument("memory") + " " + argument("type") + " " + argument("version") + " " + argument("isStatic"));
         logger.log("group delete " + argument("name"));
         logger.log("group versions");
         logger.log("group list");

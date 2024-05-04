@@ -21,6 +21,7 @@ public final class Group {
     private int maxOnline;
     private final int maxPlayers;
 
+    private boolean staticService;
     private String material;
     private final GroupType type;
     private final GroupVersion version;

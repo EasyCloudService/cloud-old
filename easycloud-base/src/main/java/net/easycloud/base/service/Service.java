@@ -69,17 +69,19 @@ public class Service implements IService {
             this.process.toHandle().destroyForcibly();
         }
 
-        // Is static
-        //if (group.isStatic()) return;
-        //synchronized (this) {
+        if (!group.isStaticService()) {
             var path = Path.of(System.getProperty("user.dir") + File.separator + "tmp" + File.separator + group.getType().getFolder() + File.separator + id);
             FileHelper.removeDirectory(path);
-        //}
-        System.out.println(id + " was successfully §cstopped!");
+        }
+        System.out.println(id + " was successfully §cstopped&7!");
     }
 
     @Override
     public Path getDirectory() {
-        return CloudPath.TEMP.resolve((group.getType().equals(GroupType.LOBBY) ? GroupType.SERVER.toString() : group.getType().toString())).resolve(id);
+        var path = CloudPath.TEMP;
+        if(group.isStaticService()) {
+            path = CloudPath.STATIC;
+        }
+        return path.resolve((group.getType().equals(GroupType.LOBBY) ? GroupType.SERVER.toString() : group.getType().toString())).resolve(id);
     }
 }

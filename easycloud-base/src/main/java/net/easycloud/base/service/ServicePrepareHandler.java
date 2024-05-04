@@ -21,7 +21,7 @@ public final class ServicePrepareHandler {
 
     public void createFiles(Group group, String id) {
         Path files = Path.of(System.getProperty("user.dir") + File.separator + "template" + File.separator + group.getType().getFolder() + File.separator + group.getName());
-        Path tmp = Path.of(System.getProperty("user.dir") + File.separator + "tmp" + File.separator + group.getType().getFolder() + File.separator + id);
+        Path tmp = Path.of(System.getProperty("user.dir") + File.separator + (group.isStaticService() ? "static" : "tmp") + File.separator + group.getType().getFolder() + File.separator + id);
 
         Reflections.createPath(tmp);
         Reflections.copy(files, tmp);

@@ -30,7 +30,6 @@ public final class SpigotPlugin extends JavaPlugin {
         this.permissions = new HashMap<UUID, PermissionAttachment>();
         Bukkit.getConsoleSender().sendMessage("§b@TheEasyCloud");
 
-        Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         Bukkit.getConsoleSender().sendMessage("§bPlugin §7was §9successfully §7connected to the §9Wrapper§7!");
 
         getServer().getPluginManager().registerEvents(new AsyncPlayerPreLoginListener(), this);

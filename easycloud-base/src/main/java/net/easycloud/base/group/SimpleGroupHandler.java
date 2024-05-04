@@ -42,10 +42,10 @@ public final class SimpleGroupHandler implements GroupProvider {
                             .build()
             ), values -> {
                 if(Boolean.parseBoolean(values.get("service.create.proxy"))) {
-                    create(new Group("Proxy", 512, 1, 1, 50, "ANVIL", GroupType.PROXY, GroupVersion.VELOCITY_LATEST));
+                    create(new Group("Proxy", 512, 1, 1, 50, false, "ANVIL", GroupType.PROXY, GroupVersion.VELOCITY_LATEST));
                 }
                 if(Boolean.parseBoolean(values.get("service.create.lobby"))) {
-                    create(new Group("Lobby", 1024, 1, -1, 50, "ANVIL", GroupType.LOBBY, GroupVersion.PAPER_1_20_4));
+                    create(new Group("Lobby", 1024, 1, -1, 50, false, "ANVIL", GroupType.LOBBY, GroupVersion.PAPER_1_20_4));
                 }
                 setup[0] = false;
             });

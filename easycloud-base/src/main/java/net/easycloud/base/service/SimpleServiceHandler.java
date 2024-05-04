@@ -70,8 +70,8 @@ public final class SimpleServiceHandler implements ServiceProvider {
     @Override
     public void stop(String id) {
         for (IService service : services.stream().filter(it -> it.getId().equalsIgnoreCase(id)).toList()) {
-            ((Service) service).stop();
             services.remove(service);
+            ((Service) service).stop();
 
             Base.getInstance().getNettyProvider().sendPacket(new ServiceDisconnectPacket(service.getGroup(), id, service.getPort()));
         }
@@ -88,7 +88,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
             for (Group group : Base.getInstance().getGroupProvider().getRepository().query().database().findAll()) {
                 var online = services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count();
 
-                if(group.getMaxOnline() > online || group.getMaxOnline() == 1) {
+                if(group.getMaxOnline() > online || group.getMaxOnline() == -1) {
                     if (group.getMinOnline() > services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count()) {
                         start(group, group.getMinOnline());
                     }
