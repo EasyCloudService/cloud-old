@@ -3,6 +3,7 @@ package net.easycloud.base.service;
 import com.google.gson.Gson;
 import net.easycloud.api.CloudDriver;
 import net.easycloud.api.group.Group;
+import net.easycloud.api.group.misc.GroupType;
 import net.easycloud.api.misc.Reflections;
 import net.easycloud.base.Base;
 
@@ -19,8 +20,13 @@ import java.util.*;
 public final class ServicePrepareHandler {
 
     public void createFiles(Group group, String id) {
-        Path files = Path.of(System.getProperty("user.dir") + File.separator + "template" + File.separator + group.getType() + File.separator + group.getName());
-        Path tmp = Path.of(System.getProperty("user.dir") + File.separator + "tmp" + File.separator + group.getType() + File.separator + id);
+        var fileGroup = group.getType();
+        if(fileGroup.equals(GroupType.LOBBY)) {
+            fileGroup = GroupType.SERVER;
+        }
+
+        Path files = Path.of(System.getProperty("user.dir") + File.separator + "template" + File.separator + fileGroup + File.separator + group.getName());
+        Path tmp = Path.of(System.getProperty("user.dir") + File.separator + "tmp" + File.separator + fileGroup + File.separator + id);
 
         Reflections.createPath(tmp);
         Reflections.copy(files, tmp);
