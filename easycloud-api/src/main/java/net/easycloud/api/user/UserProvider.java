@@ -10,6 +10,7 @@ public interface UserProvider {
     List<CloudUser> getUsers();
     List<CloudUser> getOnlineUsers();
 
+    void removeUser(UUID uuid);
     CloudUser createUserIfNotExists(UUID uuid);
     CloudUser getUser(UUID uuid);
     CloudUser getOfflineUser(UUID uuid);

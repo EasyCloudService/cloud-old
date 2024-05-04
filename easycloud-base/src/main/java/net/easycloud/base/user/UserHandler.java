@@ -43,9 +43,16 @@ public final class UserHandler implements UserProvider {
     }
 
     @Override
+    public void removeUser(UUID uuid) {
+        this.onlineUsers.remove(uuid);
+    }
+
+    @Override
     public CloudUser createUserIfNotExists(UUID uuid) {
-        if(repository.query().filter(Filter.match("uniqueId", uuid)).database().exists()) {
-            return repository.query().filter(Filter.match("uniqueId", uuid)).database().findFirst();
+        if(!repository.query().filter(Filter.match("uniqueId", uuid)).database().exists()) {
+            var user = new CloudUser(uuid, "");
+            repository.query().create(user);
+            return user;
         }
         return null;
     }

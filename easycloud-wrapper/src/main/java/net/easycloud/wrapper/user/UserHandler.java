@@ -3,9 +3,6 @@ package net.easycloud.wrapper.user;
 import lombok.Getter;
 import net.bytemc.evelon.repository.Filter;
 import net.bytemc.evelon.repository.Repository;
-import net.easycloud.api.CloudDriver;
-import net.easycloud.api.network.packet.defaults.PlayerConnectPacket;
-import net.easycloud.api.network.packet.defaults.PlayerDisconnectPacket;
 import net.easycloud.api.user.UserProvider;
 import net.easycloud.api.user.CloudUser;
 
@@ -14,14 +11,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@Getter
 public final class UserHandler implements UserProvider {
+    @Getter
     private final Repository<CloudUser> repository;
-    private final Map<UUID, CloudUser> onlineCache;
+    private final Map<UUID, CloudUser> onlineUsers;
 
     public UserHandler() {
         this.repository = Repository.create(CloudUser.class);
-        this.onlineCache = new HashMap<>();
+        this.onlineUsers = new HashMap<>();
     }
 
     @Override
@@ -31,28 +28,33 @@ public final class UserHandler implements UserProvider {
 
     @Override
     public List<CloudUser> getOnlineUsers() {
-        return this.onlineCache.values().stream().toList();
+        return this.onlineUsers.values().stream().toList();
+    }
+
+    @Override
+    public void removeUser(UUID uuid) {
+        this.onlineUsers.remove(uuid);
     }
 
     @Override
     public CloudUser createUserIfNotExists(UUID uuid) {
-        if(repository.query().filter(Filter.match("uniqueId", uuid)).database().exists()) {
-            return repository.query().filter(Filter.match("uniqueId", uuid)).database().findFirst();
+        if(!repository.query().filter(Filter.match("uniqueId", uuid)).database().exists()) {
+            var user = new CloudUser(uuid, "");
+            repository.query().create(user);
+            return user;
         }
         return null;
     }
 
     @Override
     public CloudUser getUser(UUID uuid) {
-        onlineCache.forEach((uuid1, cloudUser) -> System.out.println(uuid1));
-        System.out.println(onlineCache.size() + " " + uuid);
-        if(!onlineCache.containsKey(uuid)) {
+        if(!onlineUsers.containsKey(uuid)) {
             var user = getOfflineUser(uuid);
             if(user != null) {
-                onlineCache.put(uuid, user);
+                onlineUsers.put(uuid, user);
             }
         }
-        return onlineCache.get(uuid);
+        return onlineUsers.get(uuid);
     }
 
     @Override
