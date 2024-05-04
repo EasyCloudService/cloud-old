@@ -91,7 +91,7 @@ public final class SimpleGroupHandler implements GroupProvider {
     public void create(Group group) {
         Base.getInstance().getLogger().log("Group " + group.getName() + " will be created...");
 
-        Path directory = Path.of(System.getProperty("user.dir") + File.separator +  "template" + File.separator + group.getType() + File.separator + group.getName());
+        Path directory = Path.of(System.getProperty("user.dir") + File.separator +  "template" + File.separator + group.getType().getFolder() + File.separator + group.getName());
         Reflections.createPath(directory);
         Reflections.createPath(directory.resolve("plugins"));
 

@@ -72,7 +72,7 @@ public class Service implements IService {
         // Is static
         //if (group.isStatic()) return;
         //synchronized (this) {
-            var path = Path.of(System.getProperty("user.dir") + File.separator + "tmp" + File.separator + group.getType() + File.separator + id);
+            var path = Path.of(System.getProperty("user.dir") + File.separator + "tmp" + File.separator + group.getType().getFolder() + File.separator + id);
             FileHelper.removeDirectory(path);
         //}
         System.out.println(id + " was successfully §cstopped!");

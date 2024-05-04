@@ -20,13 +20,8 @@ import java.util.*;
 public final class ServicePrepareHandler {
 
     public void createFiles(Group group, String id) {
-        var fileGroup = group.getType();
-        if(fileGroup.equals(GroupType.LOBBY)) {
-            fileGroup = GroupType.SERVER;
-        }
-
-        Path files = Path.of(System.getProperty("user.dir") + File.separator + "template" + File.separator + fileGroup + File.separator + group.getName());
-        Path tmp = Path.of(System.getProperty("user.dir") + File.separator + "tmp" + File.separator + fileGroup + File.separator + id);
+        Path files = Path.of(System.getProperty("user.dir") + File.separator + "template" + File.separator + group.getType().getFolder() + File.separator + group.getName());
+        Path tmp = Path.of(System.getProperty("user.dir") + File.separator + "tmp" + File.separator + group.getType().getFolder() + File.separator + id);
 
         Reflections.createPath(tmp);
         Reflections.copy(files, tmp);
@@ -34,7 +29,7 @@ public final class ServicePrepareHandler {
         Reflections.copy(Path.of(System.getProperty("user.dir") + File.separator + "template" + File.separator + "EVERY"), tmp);
 
         switch (group.getType()) {
-            case SERVER -> {
+            case SERVER, LOBBY -> {
                 Reflections.copy(Path.of(System.getProperty("user.dir") + File.separator + "template" + File.separator + "EVERY_SERVER"), tmp);
                 try {
                     Files.write(tmp.resolve("eula.txt"), Collections.singleton("eula=true"));
