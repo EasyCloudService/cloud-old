@@ -23,7 +23,6 @@ import net.easycloud.velocity.command.CloudCommand;
 import net.easycloud.velocity.command.HubCommand;
 import net.easycloud.velocity.command.PermissionCommand;
 import net.easycloud.velocity.module.ModuleHandler;
-import net.easycloud.velocity.module.motd.MotdModule;
 import net.easycloud.velocity.module.tablist.TablistModule;
 
 import java.net.InetSocketAddress;
@@ -102,7 +101,6 @@ public final class VelocityPlugin {
     @Subscribe
     public void onInitialize(ProxyInitializeEvent event) {
         // Module
-        server.getEventManager().register(this, new MotdModule());
         server.getEventManager().register(this, new TablistModule());
 
         CommandManager commandManager = server.getCommandManager();

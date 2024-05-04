@@ -105,11 +105,15 @@ public final class Base extends CloudDriver {
         }));
     }
 
-    public void printScreen() {
+    public String getVersion() {
         var version = "-";
         if(CloudPath.STORAGE.resolve("github.json").toFile().exists()) {
             version = FileHelper.read(CloudPath.STORAGE, GithubConfig.class).getVersion();
         }
+        return version;
+    }
+
+    public void printScreen() {
         ((SimpleLogger) this.logger).getConsole().clearConsole();
         logger.log("""
                 %LINE_BREAK%
@@ -118,7 +122,7 @@ public final class Base extends CloudDriver {
                   &7|___ |  | ___]   |   &9|___ |___ |__| |__| |__/
                   &7[&f%RELEASE%&7] Powered by &b@FlxwDNS&7, &b@1Chickxn &7and &b@Swerion
                 
-                """.replace("%RELEASE%", version).replace("%LINE_BREAK%", "\n".repeat(100)), LogType.EMPTY);
+                """.replace("%RELEASE%", getVersion()).replace("%LINE_BREAK%", "\n".repeat(100)), LogType.EMPTY);
     }
 
     public static Base getInstance() {

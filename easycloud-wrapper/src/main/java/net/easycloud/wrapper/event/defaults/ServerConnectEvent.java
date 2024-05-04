@@ -9,5 +9,4 @@ import net.easycloud.api.group.Group;
 @AllArgsConstructor
 public final class ServerConnectEvent implements Event {
     private final Group group;
-
 }

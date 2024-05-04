@@ -13,10 +13,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.StandardCopyOption;
+import java.util.*;
 
 public final class ServicePrepareHandler {
 
@@ -34,7 +32,7 @@ public final class ServicePrepareHandler {
                 Reflections.copy(Path.of(System.getProperty("user.dir") + File.separator + "template" + File.separator + "EVERY_SERVER"), tmp);
                 try {
                     Files.write(tmp.resolve("eula.txt"), Collections.singleton("eula=true"));
-                    Files.write(tmp.resolve("server.properties"), List.of("max-players=50", "online-mode=false", ""));
+                    Files.write(tmp.resolve("server.properties"), List.of("max-players=50", "online-mode=false", "allow-nether=false"));
 
                     Map<String, Object> data = new LinkedHashMap<>();
                     Map<String, Object> proxies = new LinkedHashMap<>();
@@ -49,11 +47,6 @@ public final class ServicePrepareHandler {
                     try {
                         Files.createDirectories(tmp.resolve("config"));
                         FileWriter writer = new FileWriter(tmp.resolve("config").resolve("paper-global.yml").toString());
-
-                        /*DumperOptions options = new DumperOptions();
-                        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-                        Yaml yaml = new Yaml(options);
-                        yaml.dump(data, writer);*/
 
                         Gson gson = new Gson();
                         writer.write(gson.toJson(data));
@@ -78,7 +71,9 @@ public final class ServicePrepareHandler {
                     } catch (IOException ignored) {
                     }
 
-                    Files.write(tmp.resolve("velocity.toml"), Collections.singleton("player-info-forwarding-mode = \"modern\""));
+                    if(!tmp.resolve("velocity.toml").toFile().exists()) {
+                        Files.copy(Objects.requireNonNull(Base.class.getClassLoader().getResourceAsStream("default-velocity.toml")), tmp.resolve("velocity.toml"), StandardCopyOption.REPLACE_EXISTING);
+                    }
                     Files.write(tmp.resolve("forwarding.secret"), List.of(CloudDriver.getInstance().getVelocityProvider().getPrivateKey()));
                 } catch (IOException exception) {
                     throw new RuntimeException(exception);
