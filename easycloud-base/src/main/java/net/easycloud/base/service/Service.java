@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.easycloud.api.conf.FileHelper;
 import net.easycloud.api.group.Group;
+import net.easycloud.api.group.misc.GroupType;
 import net.easycloud.api.service.IService;
 import net.easycloud.base.Base;
 import net.easycloud.base.CloudPath;
@@ -79,6 +80,6 @@ public class Service implements IService {
 
     @Override
     public Path getDirectory() {
-        return CloudPath.TEMP.resolve(group.getType().toString()).resolve(id);
+        return CloudPath.TEMP.resolve((group.getType().equals(GroupType.LOBBY) ? GroupType.SERVER.toString() : group.getType().toString())).resolve(id);
     }
 }
