@@ -32,7 +32,7 @@ public final class SetupHandler {
                 SetupBuilder.<String>get()
                         .key("database.type")
                         .question("&7What is you database type?")
-                        .possibleResults(Arrays.stream(DatabaseProtocol.values()).map(Enum::name).toList())
+                        .possibleResults(Arrays.stream(DatabaseProtocol.values()).filter(it -> !it.equals(DatabaseProtocol.H2)).map(Enum::name).toList())
                         .build(),
                 SetupBuilder.<String>get()
                         .key("database.host")

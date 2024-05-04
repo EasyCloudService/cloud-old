@@ -46,8 +46,8 @@ public final class SimpleServiceHandler implements ServiceProvider {
             String id = group.getName() + "-" + (services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count() + 1);
             Base.getInstance().getLogger().log("§7Told §bInternalWrapper §7to start §b" + id + "§7...", LogType.WRAPPER);
 
-            if (group.getMaxOnline() < (services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count() + 1)) {
-                Base.getInstance().getLogger().log("§cCant §7start §e" + group.getName() + " §7maximum number is reached.", LogType.WARNING);
+            if (group.getMaxOnline() < (services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count() + 1) && group.getMaxOnline() != -1) {
+                Base.getInstance().getLogger().log("§cCant §7start " + group.getName() + " service-group. Cause: maximum number is reached.", LogType.WARNING);
                 return;
             }
 
@@ -88,7 +88,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
             for (Group group : Base.getInstance().getGroupProvider().getRepository().query().database().findAll()) {
                 var online = services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count();
 
-                if(group.getMaxOnline() > online) {
+                if(group.getMaxOnline() > online || group.getMaxOnline() == 1) {
                     if (group.getMinOnline() > services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count()) {
                         start(group, group.getMinOnline());
                     }

@@ -9,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 public enum GroupType {
     SERVER(List.of("--nogui", "--online-mode=false")),
+    LOBBY(List.of("--nogui", "--online-mode=false")),
     PROXY(List.of());
 
     private final List<String> arguments;

@@ -54,7 +54,7 @@ public final class GroupCommand extends CloudCommand {
                                 .ifPresentOrElse(group -> {
                                     logger.log("Group " + args[2] + " already exists!", LogType.WARNING);
                                 }, () -> {
-                                    Base.getInstance().getGroupProvider().create(new Group(args[2], Integer.parseInt(args[3]), 1, 10, 50, "ANVIL", GroupType.valueOf(args[4].toUpperCase()), GroupVersion.valueOf(args[5].toUpperCase())));
+                                    Base.getInstance().getGroupProvider().create(new Group(args[2], Integer.parseInt(args[3]), 1, -1, 50, "ANVIL", GroupType.valueOf(args[4].toUpperCase()), GroupVersion.valueOf(args[5].toUpperCase())));
                                     ((SimpleServiceHandler) Base.getInstance().getServiceProvider()).update();
                                 });
 

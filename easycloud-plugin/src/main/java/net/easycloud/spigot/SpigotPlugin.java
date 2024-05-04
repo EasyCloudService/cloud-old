@@ -1,11 +1,8 @@
 package net.easycloud.spigot;
 
-import de.flxwdev.ascan.AscanAPI;
-import de.flxwdev.ascan.inventory.misc.InventoryConfig;
 import lombok.Getter;
 import net.easycloud.api.CloudDriver;
 import net.easycloud.api.network.packet.defaults.PermissionUpdatePacket;
-import net.easycloud.spigot.commands.ControlPanelCommand;
 import net.easycloud.spigot.listener.AsyncPlayerPreLoginListener;
 import net.easycloud.spigot.listener.PlayerLoginListener;
 import net.kyori.adventure.text.Component;
@@ -31,15 +28,11 @@ public final class SpigotPlugin extends JavaPlugin {
         instance = this;
 
         this.permissions = new HashMap<UUID, PermissionAttachment>();
-
-        AscanAPI.init(this, new InventoryConfig());
         Bukkit.getConsoleSender().sendMessage("§b@TheEasyCloud");
-
 
         Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         Bukkit.getConsoleSender().sendMessage("§bPlugin §7was §9successfully §7connected to the §9Wrapper§7!");
 
-        getCommand("control-panel").setExecutor(new ControlPanelCommand());
         getServer().getPluginManager().registerEvents(new AsyncPlayerPreLoginListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerLoginListener(), this);
 

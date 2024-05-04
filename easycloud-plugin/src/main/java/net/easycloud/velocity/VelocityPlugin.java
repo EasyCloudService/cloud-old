@@ -22,8 +22,6 @@ import net.easycloud.api.service.IService;
 import net.easycloud.velocity.command.CloudCommand;
 import net.easycloud.velocity.command.HubCommand;
 import net.easycloud.velocity.command.PermissionCommand;
-import net.easycloud.velocity.module.ModuleHandler;
-import net.easycloud.velocity.module.tablist.TablistModule;
 
 import java.net.InetSocketAddress;
 import java.util.logging.Logger;
@@ -35,15 +33,12 @@ public final class VelocityPlugin {
     @Getter
     private static VelocityPlugin instance;
 
-    private final ModuleHandler moduleHandler;
     private final ProxyServer server;
     private final Logger logger;
 
     @Inject
     public VelocityPlugin(ProxyServer server, Logger logger) {
         instance = this;
-
-        this.moduleHandler = new ModuleHandler();
 
         // Unregister default
         server.getAllServers().forEach(it -> {
@@ -53,21 +48,8 @@ public final class VelocityPlugin {
         this.server = server;
         this.logger = logger;
 
-        server.getConsoleCommandSource().sendMessage(Component.text("""
-                                
-                                
-                §r███████╗ █████╗ ███████╗██╗   ██╗ ██████╗██╗      ██████╗ ██╗   ██╗██████╗§r
-                §r██╔════╝██╔══██╗██╔════╝╚██╗ ██╔╝██╔════╝██║     ██╔═══██╗██║   ██║██╔══██╗§r
-                §r█████╗  ███████║███████╗ ╚████╔╝ ██║     ██║     ██║   ██║██║   ██║██║  ██║§r
-                §r██╔══╝  ██╔══██║╚════██║  ╚██╔╝  ██║     ██║     ██║   ██║██║   ██║██║  ██║§r
-                §r███████╗██║  ██║███████║   ██║   ╚██████╗███████╗╚██████╔╝╚██████╔╝██████╔╝§r
-                §r╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝§r
-                      
-                §b@TheEasyCloud
-                         
-                """));
-
-        server.getConsoleCommandSource().sendMessage(Component.text("§bPlugin §7was §bsuccessfully §7connected to the §bBase§7!"));
+        server.getConsoleCommandSource().sendMessage(Component.text("§b@TheEasyCloud"));
+        server.getConsoleCommandSource().sendMessage(Component.text("§bPlugin §7was §9successfully §7connected to the §9Wrapper§7!"));
 
         System.out.println();
         if(!CloudDriver.getInstance().getServiceProvider().getServices().stream().filter(it -> !it.getGroup().getType().equals(GroupType.PROXY)).toList().isEmpty()) {
@@ -100,9 +82,6 @@ public final class VelocityPlugin {
 
     @Subscribe
     public void onInitialize(ProxyInitializeEvent event) {
-        // Module
-        server.getEventManager().register(this, new TablistModule());
-
         CommandManager commandManager = server.getCommandManager();
 
         commandManager.register(commandManager.metaBuilder("cs").aliases("cloudsystem", "pc", "EasyCloud").plugin(this).build(), new CloudCommand());
@@ -112,24 +91,12 @@ public final class VelocityPlugin {
 
     @Subscribe
     public void onKickedFromServer(KickedFromServerEvent event) {
-        server.getAllServers().stream().filter(it -> it.getServerInfo().getName().startsWith(moduleHandler.getConfig().getLobbyGroupName())).findFirst().ifPresentOrElse(it -> {
+        // LOBBY GROUP
+        server.getAllServers().stream().filter(it -> CloudDriver.getInstance().getGroupProvider().getOrThrow(it.getServerInfo().getName().split("-")[0].replace("-", "")).getType().equals(GroupType.LOBBY)).findFirst().ifPresentOrElse(it -> {
             event.setResult(KickedFromServerEvent.RedirectPlayer.create(it));
         }, () -> {
             event.getPlayer().disconnect(Component.text("§cNo fallback server!"));
         });
-    }
-
-    @Subscribe
-    public void onLogin(LoginEvent event) {
-        if(CloudDriver.getInstance().getPermissionProvider().getUser(event.getPlayer().getUniqueId()) == null) {
-            CloudDriver.getInstance().getPermissionProvider().getRepository().query().create(new PermissionUser(event.getPlayer().getUniqueId(), ""));
-        }
-        var permissions = CloudDriver.getInstance().getPermissionProvider().getUser(event.getPlayer().getUniqueId()).getPermissions();
-        if(!permissions.contains("*") && !permissions.contains("cloud.maintenance")) {
-            if(this.moduleHandler.getConfig().getMaintenance()) {
-                event.setResult(LoginEvent.ComponentResult.denied(Component.text("§cMaintenance is enabled§8!")));
-            }
-        }
     }
 
     @Subscribe
@@ -139,7 +106,8 @@ public final class VelocityPlugin {
 
     @Subscribe
     public void onPlayerChooseInitialServer(PlayerChooseInitialServerEvent event) {
-        server.getAllServers().stream().filter(it -> it.getServerInfo().getName().startsWith(moduleHandler.getConfig().getLobbyGroupName())).findFirst().ifPresentOrElse(event::setInitialServer, () -> {
+        // LOBBY GROUP
+        server.getAllServers().stream().filter(it -> CloudDriver.getInstance().getGroupProvider().getOrThrow(it.getServerInfo().getName().split("-")[0].replace("-", "")).getType().equals(GroupType.LOBBY)).findFirst().ifPresentOrElse(event::setInitialServer, () -> {
             event.getPlayer().disconnect(Component.text("§cNo fallback server!"));
         });
     }
