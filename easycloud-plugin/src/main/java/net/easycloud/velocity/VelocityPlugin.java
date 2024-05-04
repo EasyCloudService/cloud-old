@@ -3,7 +3,7 @@ package net.easycloud.velocity;
 import com.google.inject.Inject;
 import com.velocitypowered.api.command.CommandManager;
 import com.velocitypowered.api.event.Subscribe;
-import com.velocitypowered.api.event.connection.LoginEvent;
+import com.velocitypowered.api.event.connection.DisconnectEvent;
 import com.velocitypowered.api.event.player.KickedFromServerEvent;
 import com.velocitypowered.api.event.player.PlayerChooseInitialServerEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
@@ -12,12 +12,14 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import lombok.Getter;
+import net.easycloud.api.network.packet.defaults.PlayerConnectPacket;
+import net.easycloud.api.network.packet.defaults.PlayerDisconnectPacket;
+import net.easycloud.wrapper.Wrapper;
 import net.kyori.adventure.text.Component;
 import net.easycloud.api.CloudDriver;
 import net.easycloud.api.group.misc.GroupType;
 import net.easycloud.api.network.packet.defaults.ServiceConnectPacket;
 import net.easycloud.api.network.packet.defaults.ServiceDisconnectPacket;
-import net.easycloud.api.permission.PermissionUser;
 import net.easycloud.api.service.IService;
 import net.easycloud.velocity.command.CloudCommand;
 import net.easycloud.velocity.command.HubCommand;
@@ -91,7 +93,6 @@ public final class VelocityPlugin {
 
     @Subscribe
     public void onKickedFromServer(KickedFromServerEvent event) {
-        // LOBBY GROUP
         server.getAllServers().stream().filter(it -> CloudDriver.getInstance().getGroupProvider().getOrThrow(it.getServerInfo().getName().split("-")[0].replace("-", "")).getType().equals(GroupType.LOBBY)).findFirst().ifPresentOrElse(it -> {
             event.setResult(KickedFromServerEvent.RedirectPlayer.create(it));
         }, () -> {
@@ -105,8 +106,14 @@ public final class VelocityPlugin {
     }
 
     @Subscribe
+    public void onPlayerDisconnect(DisconnectEvent event) {
+        CloudDriver.getInstance().getUserProvider().createUserIfNotExists(event.getPlayer().getUniqueId());
+        CloudDriver.getInstance().getNettyProvider().sendPacket(new PlayerDisconnectPacket(event.getPlayer().getUniqueId()));
+    }
+
+    @Subscribe
     public void onPlayerChooseInitialServer(PlayerChooseInitialServerEvent event) {
-        // LOBBY GROUP
+        CloudDriver.getInstance().getNettyProvider().sendPacket(new PlayerConnectPacket(event.getPlayer().getUniqueId()));
         server.getAllServers().stream().filter(it -> CloudDriver.getInstance().getGroupProvider().getOrThrow(it.getServerInfo().getName().split("-")[0].replace("-", "")).getType().equals(GroupType.LOBBY)).findFirst().ifPresentOrElse(event::setInitialServer, () -> {
             event.getPlayer().disconnect(Component.text("§cNo fallback server!"));
         });

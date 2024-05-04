@@ -13,8 +13,8 @@ public final class CloudCommand implements SimpleCommand {
         CommandSource source = invocation.source();
         String[] args = invocation.arguments();
         if(source instanceof Player player) {
-            if(CloudDriver.getInstance().getPermissionProvider().getUser(player.getUniqueId()) != null) {
-                if(CloudDriver.getInstance().getPermissionProvider().getUser(player.getUniqueId()).getPermissions().stream().noneMatch(it -> it.equals("*") || it.equals("cloud.control") || it.equals("cloud.*"))) {
+            if(CloudDriver.getInstance().getUserProvider().getUser(player.getUniqueId()) != null) {
+                if(CloudDriver.getInstance().getUserProvider().getUser(player.getUniqueId()).getPermissions().stream().noneMatch(it -> it.equals("*") || it.equals("cloud.control") || it.equals("cloud.*"))) {
                     source.sendMessage(Component.text("§bEasyCloud §8» §cYou don't have permission for that§8!"));
                     return;
                 }

@@ -61,11 +61,11 @@ public final class SpigotPlugin extends JavaPlugin {
             getPermissions().get(player.getUniqueId()).unsetPermission(permission);
         });
 
-        if(CloudDriver.getInstance().getPermissionProvider().getUser(player.getUniqueId()).getPermissions().stream().anyMatch(it -> it.equals("*"))) {
+        if(CloudDriver.getInstance().getUserProvider().getUser(player.getUniqueId()).getPermissions().stream().anyMatch(it -> it.equals("*"))) {
             player.setOp(true);
         } else {
             player.setOp(false);
-            CloudDriver.getInstance().getPermissionProvider().getUser(player.getUniqueId()).getPermissions().forEach(permission -> getPermissions().get(player.getUniqueId()).setPermission(permission, true));
+            CloudDriver.getInstance().getUserProvider().getUser(player.getUniqueId()).getPermissions().forEach(permission -> getPermissions().get(player.getUniqueId()).setPermission(permission, true));
         }
     }
 }

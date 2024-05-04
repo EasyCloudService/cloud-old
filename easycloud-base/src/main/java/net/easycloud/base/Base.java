@@ -8,7 +8,7 @@ import net.easycloud.api.github.GithubDownloader;
 import net.easycloud.base.command.CommandHandler;
 import net.easycloud.base.console.runner.ConsoleRunner;
 import net.easycloud.base.logger.SimpleLogger;
-import net.easycloud.base.permission.PermissionHandler;
+import net.easycloud.base.user.UserHandler;
 import net.easycloud.base.rest.RestAPI;
 import net.easycloud.base.server.BaseServer;
 import net.easycloud.base.service.Service;
@@ -89,7 +89,7 @@ public final class Base extends CloudDriver {
         this.serviceProvider = new SimpleServiceHandler();
         this.commandHandler = new CommandHandler();
         this.velocityProvider = new VelocityProvider();
-        this.permissionProvider = new PermissionHandler();
+        this.userProvider = new UserHandler();
         new RestAPI();
         logger.log("§7RestAPI is listening on following port: 4567");
         logger.log("§7Cloud was connected to all services.");

@@ -9,7 +9,7 @@ public final class RestAPI {
         get("/valid", (req, res) -> checkIfValid(req.queryParams("adminKey")));
         get("/users/size", (req, res) -> {
             if(!checkIfValid(req.queryParams("adminKey"))) return "ERROR";
-            return Base.getInstance().getPermissionProvider().getUsers().size();
+            return Base.getInstance().getUserProvider().getUsers().size();
         });
         get("/groups/size", (req, res) -> {
             if(!checkIfValid(req.queryParams("adminKey"))) return "ERROR";

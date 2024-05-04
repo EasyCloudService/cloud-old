@@ -1,4 +1,4 @@
-package net.easycloud.api.permission;
+package net.easycloud.api.user;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -14,9 +14,9 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public final class PermissionUser {
+public final class CloudUser {
     @PrimaryKey
-    private final UUID uuid;
+    private final UUID uniqueId;
 
     @Getter(AccessLevel.NONE)
     private String permissions;
@@ -42,8 +42,8 @@ public final class PermissionUser {
     }
 
     private void update() {
-        CloudDriver.getInstance().getPermissionProvider().getRepository().query().filter(Filter.match("uuid", uuid)).database().update(this);
-        CloudDriver.getInstance().getNettyProvider().sendPacket(new PermissionUpdatePacket(uuid));
+        CloudDriver.getInstance().getUserProvider().getRepository().query().filter(Filter.match("uuid", uniqueId)).database().update(this);
+        CloudDriver.getInstance().getNettyProvider().sendPacket(new PermissionUpdatePacket(uniqueId));
     }
 
     public List<String> getPermissions() {

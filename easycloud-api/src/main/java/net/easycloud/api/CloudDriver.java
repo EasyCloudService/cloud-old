@@ -4,7 +4,7 @@ import net.easycloud.api.event.EventHandler;
 import net.easycloud.api.group.GroupProvider;
 import net.easycloud.api.network.NettyProvider;
 import net.easycloud.api.service.ServiceProvider;
-import net.easycloud.api.permission.PermissionProvider;
+import net.easycloud.api.user.UserProvider;
 import net.easycloud.api.velocity.VelocityProvider;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +17,7 @@ public abstract class CloudDriver implements Driver {
     protected NettyProvider nettyProvider;
     protected ServiceProvider serviceProvider;
     protected VelocityProvider velocityProvider;
-    protected PermissionProvider permissionProvider;
+    protected UserProvider userProvider;
 
     protected CloudDriver() {
         instance = this;
@@ -59,7 +59,7 @@ public abstract class CloudDriver implements Driver {
 
     @NotNull
     @Override
-    public PermissionProvider getPermissionProvider() {
-        return permissionProvider;
+    public UserProvider getUserProvider() {
+        return userProvider;
     }
 }

@@ -5,7 +5,7 @@ import net.easycloud.api.CloudDriver;
 import net.easycloud.wrapper.client.WrapperClient;
 import net.easycloud.wrapper.event.SimpleEventHandler;
 import net.easycloud.wrapper.group.SimpleGroupHandler;
-import net.easycloud.wrapper.permission.PermissionHandler;
+import net.easycloud.wrapper.user.UserHandler;
 import net.easycloud.wrapper.service.ServiceHandler;
 
 @SuppressWarnings("ALL")
@@ -23,7 +23,7 @@ public final class Wrapper extends CloudDriver {
         this.eventHandler = new SimpleEventHandler();
         this.serviceProvider = new ServiceHandler();
         this.groupProvider = new SimpleGroupHandler();
-        this.permissionProvider = new PermissionHandler();
+        this.userProvider = new UserHandler();
 
         Runtime.getRuntime().addShutdownHook(new Thread(this::onShutdown));
     }
