@@ -8,6 +8,7 @@ import net.easycloud.api.group.misc.GroupVersion;
 import net.easycloud.base.command.CloudCommand;
 import net.easycloud.base.command.Command;
 import net.easycloud.base.Base;
+import net.easycloud.base.service.SimpleServiceHandler;
 
 @Command(name = "group", aliases = {"groups"})
 public final class GroupCommand extends CloudCommand {
@@ -53,7 +54,8 @@ public final class GroupCommand extends CloudCommand {
                                 .ifPresentOrElse(group -> {
                                     logger.log("Group " + args[2] + " already exists!", LogType.WARNING);
                                 }, () -> {
-                                    Base.getInstance().getGroupProvider().create(new Group(args[2], Integer.parseInt(args[3]), 1, 1, 50, "ANVIL", GroupType.valueOf(args[4].toUpperCase()), GroupVersion.valueOf(args[5].toUpperCase())));
+                                    Base.getInstance().getGroupProvider().create(new Group(args[2], Integer.parseInt(args[3]), 1, 10, 50, "ANVIL", GroupType.valueOf(args[4].toUpperCase()), GroupVersion.valueOf(args[5].toUpperCase())));
+                                    ((SimpleServiceHandler) Base.getInstance().getServiceProvider()).update();
                                 });
 
                     } catch (Exception exception) {

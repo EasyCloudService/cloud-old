@@ -108,7 +108,6 @@ public final class SimpleGroupHandler implements GroupProvider {
 
         repository.query().create(group);
 
-        ((SimpleServiceHandler) Base.getInstance().getServiceProvider()).update();
         Base.getInstance().getLogger().log("Group " + group.getName() + " was successfully created!");
     }
 }
