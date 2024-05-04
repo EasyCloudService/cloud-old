@@ -46,7 +46,7 @@ public final class ServiceCommand extends CloudCommand {
             }
             if (args[1].equalsIgnoreCase("list")) {
                 for (IService service : Base.getInstance().getServiceProvider().getServices()) {
-                    logger.log("&9" + service.getId() + " &7| &aOnline");
+                    logger.log("&7[&rOnline&7] &7[&f" + service.getGroup().getType() + "&7] &9" + service.getId());
                 }
                 return;
             }
