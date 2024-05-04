@@ -93,6 +93,9 @@ public final class VelocityPlugin {
 
     @Subscribe
     public void onKickedFromServer(KickedFromServerEvent event) {
+        CloudDriver.getInstance().getUserProvider().removeUser(event.getPlayer().getUniqueId());
+        CloudDriver.getInstance().getNettyProvider().sendPacket(new PlayerDisconnectPacket(event.getPlayer().getUniqueId()));
+
         server.getAllServers().stream().filter(it -> CloudDriver.getInstance().getGroupProvider().getOrThrow(it.getServerInfo().getName().split("-")[0].replace("-", "")).getType().equals(GroupType.LOBBY)).findFirst().ifPresentOrElse(it -> {
             event.setResult(KickedFromServerEvent.RedirectPlayer.create(it));
         }, () -> {
@@ -107,12 +110,13 @@ public final class VelocityPlugin {
 
     @Subscribe
     public void onPlayerDisconnect(DisconnectEvent event) {
-        CloudDriver.getInstance().getUserProvider().createUserIfNotExists(event.getPlayer().getUniqueId());
+        CloudDriver.getInstance().getUserProvider().removeUser(event.getPlayer().getUniqueId());
         CloudDriver.getInstance().getNettyProvider().sendPacket(new PlayerDisconnectPacket(event.getPlayer().getUniqueId()));
     }
 
     @Subscribe
     public void onPlayerChooseInitialServer(PlayerChooseInitialServerEvent event) {
+        CloudDriver.getInstance().getUserProvider().createUserIfNotExists(event.getPlayer().getUniqueId());
         CloudDriver.getInstance().getNettyProvider().sendPacket(new PlayerConnectPacket(event.getPlayer().getUniqueId()));
         server.getAllServers().stream().filter(it -> CloudDriver.getInstance().getGroupProvider().getOrThrow(it.getServerInfo().getName().split("-")[0].replace("-", "")).getType().equals(GroupType.LOBBY)).findFirst().ifPresentOrElse(event::setInitialServer, () -> {
             event.getPlayer().disconnect(Component.text("§cNo fallback server!"));
