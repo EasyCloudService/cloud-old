@@ -4,11 +4,14 @@
 
 Download: https://github.com/EasyCloudService/cloud/releases
 
+## How do I setup the cloud?
+Soon
+
 ## FAQ
 
 #### Are they modules?
 We do not have modules as you know them. However, we do provide plugins that anyone can easily install. This ensures that we don't waste any unnecessary performance.
 https://github.com/EasyCloudService/cloud/releases/tag/module
 
-#### How do I setup the cloud?
-Soon
+#### Can I disable the auto updater?
+Sure. Just add in the `start file` follwing argument: `--ignore-update` to the end. 
