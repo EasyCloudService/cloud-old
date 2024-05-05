@@ -2,10 +2,15 @@ package net.easycloud.base.console;
 
 import net.easycloud.api.console.LogType;
 import net.easycloud.api.console.Logger;
+import net.easycloud.api.console.StaticConsoleInput;
 import net.easycloud.base.Base;
+import net.easycloud.base.logger.SimpleLogger;
 import net.easycloud.base.service.Service;
 import net.easycloud.base.setup.ConsoleSetup;
 import org.jline.reader.LineReader;
+
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ConsoleReadingThread extends Thread {
     private final String consolePrompt;
@@ -32,15 +37,16 @@ public class ConsoleReadingThread extends Thread {
                 //if (input != null) {
                 //input.input().accept(line);
                 //} else {
+
                 if(ConsoleSetup.SETUP_ENABLED) {
                     ConsoleSetup.pushLine(line);
                 } else if (Base.getInstance().getServiceProvider().getServices().stream().anyMatch(it -> ((Service) it).isConsole())) {
                     Base.getInstance().getServiceProvider().getServices().stream().filter(it -> ((Service) it).isConsole()).forEach(service -> {
                         if (line.equalsIgnoreCase("leave")) {
                             ((Service) service).setConsole(false);
-                            Base.getInstance().printScreen();
-                            //((SimpleLogger) Base.getInstance().getLogger()).getConsole().clearConsole();
-                            //((SimpleLogger) Base.getInstance().getLogger()).getConsole().getCache().forEach(it -> Base.getInstance().getLogger().log(it));
+                            ((SimpleLogger) Base.getInstance().getLogger()).getConsole().clearConsole();
+                            ((SimpleLogger) Base.getInstance().getLogger()).getConsole().getCache().forEach(it -> Base.getInstance().getLogger().log(it.getInput(), it.getLogType()));
+                            ((SimpleLogger) Base.getInstance().getLogger()).getConsole().setInService(false);
 
                             return;
                         }

@@ -5,7 +5,10 @@ import lombok.Getter;
 import net.easycloud.api.console.LogType;
 import net.easycloud.api.console.Logger;
 import net.easycloud.api.console.LoggerAnsiFactory;
+import net.easycloud.api.console.StaticConsoleInput;
+import net.easycloud.base.Base;
 import net.easycloud.base.console.SimpleConsole;
+import net.easycloud.base.service.Service;
 import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
@@ -64,7 +67,9 @@ public final class SimpleLogger implements Logger {
         terminal.writer().println(coloredMessage);
         terminal.flush();
         console.redraw();
-        //console.getCache().add(text);
+        if(!console.isInService()) {
+            console.getCache().add(new StaticConsoleInput(System.currentTimeMillis(), text, logType));
+        }
     }
 
     @Override

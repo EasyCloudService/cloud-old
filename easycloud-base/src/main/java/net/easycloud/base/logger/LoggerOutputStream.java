@@ -20,7 +20,9 @@ public final class LoggerOutputStream extends ByteArrayOutputStream {
         final var input = this.toString(StandardCharsets.UTF_8);
         this.reset();
         if (input != null && !input.isEmpty()) {
-            this.logger.log(input.split("\n"), this.logType);
+            if(!input.startsWith("Received packet") && !input.startsWith("Connection established with") && !input.startsWith("Connection closed with")) {
+                this.logger.log(input.split("\n"), this.logType);
+            }
         }
     }
 }

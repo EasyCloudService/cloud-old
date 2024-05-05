@@ -18,10 +18,12 @@ public final class ScreenCommand extends CloudCommand {
             Base.getInstance().getServiceProvider().getServices().stream().filter(service -> service.getId().equalsIgnoreCase(args[1])).findFirst().ifPresentOrElse(service -> {
                 var baseService = (Service) service;
                 ((SimpleLogger) Base.getInstance().getLogger()).getConsole().clearConsole();
+                ((SimpleLogger) Base.getInstance().getLogger()).getConsole().setInService(true);
                 baseService.getConsoleCache().forEach(line -> Base.getInstance().getLogger().log("§7[§r" + service.getId() + "§7] §r" + line));
                 Base.getInstance().getLogger().log("");
                 Base.getInstance().getLogger().log("§7[§r" + service.getId() + "§7] §rWrite §eleave §rto leave the screen!");
                 baseService.setConsole(true);
+
             }, () -> {
                 logger.log("Please provide a valid service!", LogType.ERROR);
             });

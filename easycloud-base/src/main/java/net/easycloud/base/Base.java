@@ -91,14 +91,15 @@ public final class Base extends CloudDriver {
         this.configuration = FileHelper.read(Path.of(System.getProperty("user.dir")), DefaultConfiguration.class);
         Evelon.setCradinates(configuration.database());
 
+        ((SimpleLogger) Base.getInstance().getLogger()).getConsole().setInService(false);
+
         printScreen();
 
         this.groupProvider = new SimpleGroupHandler();
 
         Base.getInstance().getLogger().log("Netty-Server will be started...");
-        this.nettyServer = new NettyServerBuilder().withPort(8897).onActive(transmit -> {
-            Base.getInstance().getLogger().log("Netty-Server was startet on following port: 8897");
-        }).build();
+        this.nettyServer = new NettyServerBuilder().withPort(8897).build();
+        Base.getInstance().getLogger().log("Netty-Server was startet on following port: 8897");
         this.nettyServer.listen(HandshakeAuthenticationPacket.class, (transmit, packet) -> {
             if(!packet.getKey().equals(secret.value())) {
                 var service = this.serviceProvider.getServices().stream().filter(it -> it.getId().equals(packet.getName())).findFirst().orElse(null);

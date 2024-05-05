@@ -1,5 +1,7 @@
 package net.easycloud.base.console;
 
+import net.easycloud.api.console.LogType;
+import net.easycloud.api.console.StaticConsoleInput;
 import net.easycloud.base.Base;
 import net.easycloud.base.service.Service;
 
@@ -18,7 +20,7 @@ public class CachPrintStream extends PrintStream {
     @Override
     public void println(String x) {
         if (Base.getInstance().getServiceProvider().getServices().stream().noneMatch(it -> ((Service) it).isConsole())) {
-            console.getCache().add(x);
+            console.getCache().add(new StaticConsoleInput(System.currentTimeMillis(), x, LogType.INFO));
         }
         super.println(x);
     }

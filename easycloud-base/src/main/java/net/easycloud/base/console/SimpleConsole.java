@@ -1,8 +1,11 @@
 package net.easycloud.base.console;
 
 import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
+import net.easycloud.api.console.LogType;
 import net.easycloud.api.console.Logger;
+import net.easycloud.api.console.StaticConsoleInput;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.UserInterruptException;
@@ -13,7 +16,9 @@ import org.jline.utils.InfoCmp;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 @Getter
@@ -21,8 +26,10 @@ public final class SimpleConsole {
     private final Logger logger;
     private final Terminal terminal;
     private final LineReader lineReader;
-    private final List<String> cache;
+    private final List<StaticConsoleInput> cache;
 
+    @Setter
+    private boolean inService;
     private Thread consoleReadingThread;
     private final List<ConsoleInput> inputs;
 
@@ -43,6 +50,7 @@ public final class SimpleConsole {
                 //.completer(null)
                 .build();
 
+        this.inService = true;
         this.cache = new ArrayList<>();
         this.inputs = new ArrayList<>();
 
