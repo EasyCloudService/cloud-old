@@ -1,16 +1,19 @@
 package net.easycloud.base;
 
+import dev.httpmarco.osgan.networking.server.NettyServer;
+import dev.httpmarco.osgan.networking.server.NettyServerBuilder;
 import lombok.Getter;
 import net.bytemc.evelon.Evelon;
 import net.easycloud.api.conf.FileHelper;
 import net.easycloud.api.github.GithubConfig;
 import net.easycloud.api.github.GithubDownloader;
+import net.easycloud.api.network.packet.defaults.HandshakeAuthenticationPacket;
+import net.easycloud.api.network.packet.defaults.ServiceConnectPacket;
 import net.easycloud.base.command.CommandHandler;
 import net.easycloud.base.console.runner.ConsoleRunner;
 import net.easycloud.base.logger.SimpleLogger;
 import net.easycloud.base.user.UserHandler;
 import net.easycloud.base.rest.RestAPI;
-import net.easycloud.base.server.BaseServer;
 import net.easycloud.base.service.Service;
 import net.easycloud.base.service.SimpleServiceHandler;
 import net.easycloud.base.setup.SetupHandler;
@@ -33,6 +36,8 @@ public final class Base extends CloudDriver {
     private final Logger logger;
     private final DefaultConfiguration configuration;
 
+    @Getter
+    private final NettyServer nettyServer;
     private final SetupHandler setupHandler;
     private final CommandHandler commandHandler;
 
@@ -85,7 +90,21 @@ public final class Base extends CloudDriver {
         printScreen();
 
         this.groupProvider = new SimpleGroupHandler();
-        this.nettyProvider = new BaseServer();
+
+        Base.getInstance().getLogger().log("Netty-Server will be started...");
+        this.nettyServer = new NettyServerBuilder().withPort(8897).onActive(transmit -> {
+            Base.getInstance().getLogger().log("Netty-Server was startet on following port: 8897");
+        }).build();
+        this.nettyServer.listen(HandshakeAuthenticationPacket.class, (transmit, packet) -> {
+            if(!packet.getKey().equals("23645gcji687456zhhj4c5u67z34tx5t6z3hu4x5")) {
+                transmit.channel().close();
+            } else {
+                this.serviceProvider.getServices().forEach(service -> {
+                    transmit.sendPacket(new ServiceConnectPacket(service.getGroup(), service.getId(), service.getPort()));
+                });
+            }
+        });
+
         this.serviceProvider = new SimpleServiceHandler();
         this.commandHandler = new CommandHandler();
         this.velocityProvider = new VelocityProvider();
@@ -133,7 +152,7 @@ public final class Base extends CloudDriver {
     public void onShutdown() {
         running = false;
         printScreen();
-        new Thread(() -> this.nettyProvider.close()).start();
+        new Thread(() -> this.nettyServer.close()).start();
         this.serviceProvider.getServices().forEach(it -> ((Service) it).stop());
         try {
             logger.log("&7Try to delete &9tmp &7directory.");

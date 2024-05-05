@@ -43,7 +43,7 @@ public final class CloudUser {
 
     private void update() {
         CloudDriver.getInstance().getUserProvider().getRepository().query().filter(Filter.match("uuid", uniqueId)).database().update(this);
-        CloudDriver.getInstance().getNettyProvider().sendPacket(new PermissionUpdatePacket(uniqueId));
+        CloudDriver.getInstance().getNettyClient().sendPacket(new PermissionUpdatePacket(uniqueId));
     }
 
     public List<String> getPermissions() {

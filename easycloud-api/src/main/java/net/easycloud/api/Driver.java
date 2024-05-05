@@ -1,8 +1,8 @@
 package net.easycloud.api;
 
+import dev.httpmarco.osgan.networking.client.NettyClient;
 import net.easycloud.api.event.EventHandler;
 import net.easycloud.api.group.GroupProvider;
-import net.easycloud.api.network.NettyProvider;
 import net.easycloud.api.user.UserProvider;
 import net.easycloud.api.service.ServiceProvider;
 import net.easycloud.api.velocity.VelocityProvider;
@@ -14,7 +14,7 @@ public interface Driver {
     @NotNull
     GroupProvider getGroupProvider();
     @NotNull
-    NettyProvider getNettyProvider();
+    NettyClient getNettyClient();
     @NotNull
     ServiceProvider getServiceProvider();
     @NotNull

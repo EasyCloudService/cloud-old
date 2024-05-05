@@ -1,35 +1,34 @@
 package net.easycloud.api.network.packet.defaults;
 
-import lombok.AllArgsConstructor;
+import dev.httpmarco.osgan.networking.Packet;
+import dev.httpmarco.osgan.networking.codec.CodecBuffer;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import net.bytemc.evelon.repository.Filter;
 import net.bytemc.evelon.repository.Repository;
 import net.easycloud.api.group.Group;
-import net.easycloud.api.network.NetworkBuf;
-import net.easycloud.api.network.packet.Packet;
-import org.jetbrains.annotations.NotNull;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public final class ServiceConnectPacket implements Packet {
+public final class ServiceConnectPacket extends Packet {
     private Group group;
     private String name;
     private int port;
 
-    @Override
-    public void write(@NotNull NetworkBuf buf) {
-        buf.writeString(group.getName()).writeString(name).writeInt(port);
+    public ServiceConnectPacket(Group group, String name, int port) {
+        this.group = group;
+        this.name = name;
+        this.port = port;
+
+        this.getBuffer().writeString(this.group.getName()).writeString(this.name).writeInt(this.port);
     }
 
-    @Override
-    public void handle(NetworkBuf buf) {
+    public ServiceConnectPacket(CodecBuffer buffer) {
+        super(buffer);
+
         var repo = Repository.create(Group.class);
-        this.group = repo.query().filter(Filter.match("name", buf.readString()))
+        this.group = repo.query().filter(Filter.match("name", buffer.readString()))
                 .database()
                 .findFirst();
-        this.name = buf.readString();
-        this.port = buf.readInt();
+        this.name = buffer.readString();
+        this.port = buffer.readInt();
     }
 }

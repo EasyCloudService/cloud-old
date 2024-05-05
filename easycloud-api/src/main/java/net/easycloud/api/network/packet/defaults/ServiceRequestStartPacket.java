@@ -1,27 +1,25 @@
 package net.easycloud.api.network.packet.defaults;
 
-import lombok.AllArgsConstructor;
+import dev.httpmarco.osgan.networking.Packet;
+import dev.httpmarco.osgan.networking.codec.CodecBuffer;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import net.easycloud.api.network.NetworkBuf;
-import net.easycloud.api.network.packet.Packet;
-import org.jetbrains.annotations.NotNull;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public final class ServiceRequestStartPacket implements Packet {
+public final class ServiceRequestStartPacket extends Packet {
     private String groupName;
     private int count;
 
-    @Override
-    public void write(@NotNull NetworkBuf buf) {
-        buf.writeString(groupName).writeInt(count);
+    public ServiceRequestStartPacket(String groupName, int count) {
+        this.groupName = groupName;
+        this.count = count;
+
+        this.getBuffer().writeString(this.groupName).writeInt(count);
     }
 
-    @Override
-    public void handle(NetworkBuf buf) {
-        this.groupName = buf.readString();
-        this.count = buf.readInt();
+    public ServiceRequestStartPacket(CodecBuffer buffer) {
+        super(buffer);
+
+        this.groupName = buffer.readString();
+        this.count = buffer.readInt();
     }
 }

@@ -35,6 +35,10 @@
             <id>public-bytemc</id>
             <url>https://nexus.bytemc.de/repository/maven-public/</url>
         </repository>
+        <repository>
+            <id>bytemc</id>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
     </repositories>
 
     <dependencies>

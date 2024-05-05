@@ -1,30 +1,24 @@
 package net.easycloud.api.network.packet.defaults;
 
-import lombok.AllArgsConstructor;
+import dev.httpmarco.osgan.networking.Packet;
+import dev.httpmarco.osgan.networking.codec.CodecBuffer;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import net.bytemc.evelon.repository.Filter;
-import net.bytemc.evelon.repository.Repository;
-import net.easycloud.api.group.Group;
-import net.easycloud.api.network.NetworkBuf;
-import net.easycloud.api.network.packet.Packet;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public final class PlayerConnectPacket implements Packet {
+public final class PlayerConnectPacket extends Packet {
     private UUID uniqueId;
 
-    @Override
-    public void write(@NotNull NetworkBuf buf) {
-        buf.writeUUID(uniqueId);
+    public PlayerConnectPacket(UUID uniqueId) {
+        this.uniqueId = uniqueId;
+
+        this.getBuffer().writeUniqueId(this.uniqueId);
     }
 
-    @Override
-    public void handle(NetworkBuf buf) {
-        this.uniqueId = buf.readUUID();
+    public PlayerConnectPacket(CodecBuffer buffer) {
+        super(buffer);
+
+        this.uniqueId = buffer.readUniqueId();
     }
 }

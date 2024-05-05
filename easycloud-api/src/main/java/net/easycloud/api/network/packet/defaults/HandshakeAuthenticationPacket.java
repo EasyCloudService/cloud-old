@@ -1,24 +1,22 @@
 package net.easycloud.api.network.packet.defaults;
 
-import lombok.AllArgsConstructor;
+import dev.httpmarco.osgan.networking.Packet;
+import dev.httpmarco.osgan.networking.codec.CodecBuffer;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import net.easycloud.api.network.NetworkBuf;
-import net.easycloud.api.network.packet.Packet;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
-public final class HandshakeAuthenticationPacket implements Packet {
+public final class HandshakeAuthenticationPacket extends Packet {
     private String key;
 
-    @Override
-    public void handle(NetworkBuf buf) {
-        this.key = buf.readString();
+    public HandshakeAuthenticationPacket(String key) {
+        this.key = key;
+
+        this.getBuffer().writeString(this.key);
     }
 
-    @Override
-    public void write(NetworkBuf byteBuf) {
-        byteBuf.writeString(this.key);
+    public HandshakeAuthenticationPacket(CodecBuffer buffer) {
+        super(buffer);
+
+        this.key = buffer.readString();
     }
 }

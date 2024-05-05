@@ -25,11 +25,11 @@ public final class SimpleServiceHandler implements ServiceProvider {
         this.services = new ArrayList<>();
         this.servicePrepareHandler = new ServicePrepareHandler();
 
-        Base.getInstance().getNettyProvider().getPacketHandler().subscribe(ServiceRequestStartPacket.class, (channel, packet) -> {
+        Base.getInstance().getNettyServer().listen(ServiceRequestStartPacket.class, (channel, packet) -> {
             start(Base.getInstance().getGroupProvider().getOrThrow(packet.getGroupName()), packet.getCount());
         });
 
-        Base.getInstance().getNettyProvider().getPacketHandler().subscribe(ServiceRequestStopPacket.class, (channel, packet) -> {
+        Base.getInstance().getNettyServer().listen(ServiceRequestStopPacket.class, (channel, packet) -> {
             stop(packet.getServiceId());
         });
 
@@ -59,7 +59,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
 
             services.add(service);
 
-            Base.getInstance().getNettyProvider().sendPacket(new ServiceConnectPacket(group, id, port));
+            Base.getInstance().getNettyServer().sendPacket(new ServiceConnectPacket(group, id, port));
 
             if (count > 1) {
                 start(group, count - 1);
@@ -73,7 +73,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
             services.remove(service);
             ((Service) service).stop();
 
-            Base.getInstance().getNettyProvider().sendPacket(new ServiceDisconnectPacket(service.getGroup(), id, service.getPort()));
+            Base.getInstance().getNettyServer().sendPacket(new ServiceDisconnectPacket(service.getGroup(), id, service.getPort()));
         }
         update();
     }

@@ -23,24 +23,23 @@ public final class ServiceHandler implements ServiceProvider {
         this.services = new ArrayList<>();
         this.consumers = new ArrayList<>();
 
-        var packetHandler = Wrapper.getInstance().getNettyProvider().getPacketHandler();
-        packetHandler.subscribe(ServiceConnectPacket.class, (channel, packet) -> {
+        Wrapper.getInstance().getNettyClient().listen(ServiceConnectPacket.class, (channel, packet) -> {
             services.add(new Service(packet.getGroup(), packet.getName(), packet.getPort()));
         });
 
-        packetHandler.subscribe(ServiceDisconnectPacket.class, (channel, packet) -> {
+        Wrapper.getInstance().getNettyClient().listen(ServiceDisconnectPacket.class, (channel, packet) -> {
             services.removeIf(it -> it.getId().equals(packet.getName()));
         });
     }
 
     @Override
     public void start(Group group, int count) {
-        Wrapper.getInstance().getNettyProvider().sendPacket(new ServiceRequestStartPacket(group.getName(), count));
+        Wrapper.getInstance().getNettyClient().sendPacket(new ServiceRequestStartPacket(group.getName(), count));
     }
 
     @Override
     public void stop(String id) {
-        Wrapper.getInstance().getNettyProvider().sendPacket(new ServiceRequestStopPacket(id));
+        Wrapper.getInstance().getNettyClient().sendPacket(new ServiceRequestStopPacket(id));
     }
 
     @Override

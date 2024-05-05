@@ -20,14 +20,14 @@ public final class UserHandler implements UserProvider {
         this.repository = Repository.create(CloudUser.class);
         this.onlineUsers = new HashMap<>();
 
-        Base.getInstance().getNettyProvider().getPacketHandler().subscribe(PlayerConnectPacket.class, (channel, packet) -> {
+        Base.getInstance().getNettyServer().listen(PlayerConnectPacket.class, (channel, packet) -> {
             var user = createUserIfNotExists(packet.getUniqueId());
             if(user == null) {
                 user = getOfflineUser(packet.getUniqueId());
             }
             this.onlineUsers.put(packet.getUniqueId(), user);
         });
-        Base.getInstance().getNettyProvider().getPacketHandler().subscribe(PlayerDisconnectPacket.class, (channel, packet) -> {
+        Base.getInstance().getNettyServer().listen(PlayerDisconnectPacket.class, (channel, packet) -> {
             this.onlineUsers.remove(packet.getUniqueId());
         });
     }

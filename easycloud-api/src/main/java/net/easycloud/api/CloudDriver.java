@@ -1,8 +1,8 @@
 package net.easycloud.api;
 
+import dev.httpmarco.osgan.networking.client.NettyClient;
 import net.easycloud.api.event.EventHandler;
 import net.easycloud.api.group.GroupProvider;
-import net.easycloud.api.network.NettyProvider;
 import net.easycloud.api.service.ServiceProvider;
 import net.easycloud.api.user.UserProvider;
 import net.easycloud.api.velocity.VelocityProvider;
@@ -14,7 +14,7 @@ public abstract class CloudDriver implements Driver {
 
     protected EventHandler eventHandler;
     protected GroupProvider groupProvider;
-    protected NettyProvider nettyProvider;
+    protected NettyClient nettyClient;
     protected ServiceProvider serviceProvider;
     protected VelocityProvider velocityProvider;
     protected UserProvider userProvider;
@@ -41,8 +41,8 @@ public abstract class CloudDriver implements Driver {
 
     @NotNull
     @Override
-    public NettyProvider getNettyProvider() {
-        return nettyProvider;
+    public NettyClient getNettyClient() {
+        return nettyClient;
     }
 
     @NotNull

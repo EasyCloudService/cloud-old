@@ -35,9 +35,9 @@ public final class SpigotPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AsyncPlayerPreLoginListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerLoginListener(), this);
 
-        CloudDriver.getInstance().getNettyProvider().getPacketHandler().subscribe(PermissionUpdatePacket.class, (channel, packet) -> {
+        CloudDriver.getInstance().getNettyClient().listen(PermissionUpdatePacket.class, (channel, packet) -> {
             System.out.println("UPDATE PLAYER");
-            var player = Bukkit.getPlayer(packet.getUuid());
+            var player = Bukkit.getPlayer(packet.getUniqueId());
             if(!player.isOnline()) {
                 System.out.println("UPDATE PLAYER OFFLINE");
                 return;
