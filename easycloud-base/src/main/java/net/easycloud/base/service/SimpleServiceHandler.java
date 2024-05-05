@@ -71,7 +71,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
     public void stop(String id) {
         for (IService service : services.stream().filter(it -> it.getId().equalsIgnoreCase(id)).toList()) {
             services.remove(service);
-            ((Service) service).stop();
+            ((Service) service).stop(true);
 
             Base.getInstance().getNettyServer().sendPacket(new ServiceDisconnectPacket(service.getGroup(), id, service.getPort()));
         }
