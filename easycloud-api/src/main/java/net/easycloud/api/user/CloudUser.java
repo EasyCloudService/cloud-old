@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.bytemc.evelon.repository.Filter;
+import net.bytemc.evelon.repository.annotations.Entity;
 import net.bytemc.evelon.repository.annotations.PrimaryKey;
 import net.easycloud.api.CloudDriver;
 import net.easycloud.api.network.packet.PermissionUpdatePacket;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
+@Entity(name = "cloudusers")
 public final class CloudUser {
     @PrimaryKey
     private final UUID uniqueId;

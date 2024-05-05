@@ -11,7 +11,7 @@ import net.easycloud.api.group.misc.GroupVersion;
 @Getter
 @Setter
 @AllArgsConstructor
-@Entity(name = "serviceGroup")
+@Entity(name = "groups")
 public final class Group {
     @PrimaryKey
     private final String name;

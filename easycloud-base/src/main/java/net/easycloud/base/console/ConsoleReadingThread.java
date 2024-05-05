@@ -31,14 +31,8 @@ public class ConsoleReadingThread extends Thread {
     public void run() {
         while (!this.isInterrupted()) {
             var line = this.lineReader.readLine(this.consolePrompt);
-
             if (line != null && !line.isEmpty()) {
-                //var input = console.getInputs().poll();
-                //if (input != null) {
-                //input.input().accept(line);
-                //} else {
-
-                if(ConsoleSetup.SETUP_ENABLED) {
+                if (ConsoleSetup.SETUP_ENABLED) {
                     ConsoleSetup.pushLine(line);
                 } else if (Base.getInstance().getServiceProvider().getServices().stream().anyMatch(it -> ((Service) it).isConsole())) {
                     Base.getInstance().getServiceProvider().getServices().stream().filter(it -> ((Service) it).isConsole()).forEach(service -> {
@@ -55,7 +49,6 @@ public class ConsoleReadingThread extends Thread {
                 } else {
                     Base.getInstance().getCommandHandler().runCommand(line.split(" ")[0], line.replace(line.split(" ")[0], "").split(" "));
                 }
-                // }
             }
         }
     }
