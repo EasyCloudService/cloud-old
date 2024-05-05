@@ -43,7 +43,8 @@ public final class FileHelper {
     }
 
     public static <T> T read(Path path, Class<T> clazz) {
-        var file = path.resolve(getName(clazz) + ".json");
+        var name = getName(clazz);
+        var file = path.resolve(name + (name.equals("secret") ? ".key" : ".json"));
         try (Reader reader = new FileReader(file.toFile().getPath())) {
             return GSON.fromJson(reader, clazz);
         } catch (IOException exception) {
