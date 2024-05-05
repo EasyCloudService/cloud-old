@@ -52,12 +52,12 @@ public final class FileHelper {
         }
     }
 
-    @SneakyThrows
     public static void removeDirectory(Path path) {
         try (Stream<Path> pathStream = Files.walk(path)) {
             pathStream.sorted(Comparator.reverseOrder())
                     .map(Path::toFile)
                     .forEach(File::delete);
+        } catch (IOException e) {
         }
         //Files.deleteIfExists(path);
     }

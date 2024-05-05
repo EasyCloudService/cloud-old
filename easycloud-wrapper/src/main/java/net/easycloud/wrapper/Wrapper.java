@@ -23,7 +23,7 @@ public final class Wrapper extends CloudDriver {
 
         this.name = name;
         this.nettyClient = new NettyClientBuilder().withPort(8897).onActive(transmit -> {
-            this.nettyClient.sendPacket(new HandshakeAuthenticationPacket(secret));
+            this.nettyClient.sendPacket(new HandshakeAuthenticationPacket(name, secret));
         }).build();
 
         this.nettyClient.listen(ServiceConnectPacket.class, (transmit, packet) -> {

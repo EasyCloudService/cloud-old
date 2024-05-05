@@ -100,8 +100,13 @@ public final class Base extends CloudDriver {
             Base.getInstance().getLogger().log("Netty-Server was startet on following port: 8897");
         }).build();
         this.nettyServer.listen(HandshakeAuthenticationPacket.class, (transmit, packet) -> {
-            if(!packet.getKey().equals("23645gcji687456zhhj4c5u67z34tx5t6z3hu4x5")) {
+            if(!packet.getKey().equals(secret.value())) {
+                var service = this.serviceProvider.getServices().stream().filter(it -> it.getId().equals(packet.getName())).findFirst().orElse(null);
                 transmit.channel().close();
+
+                if(service != null) {
+                    ((Service) service).stop(true);
+                }
             } else {
                 this.serviceProvider.getServices().forEach(service -> {
                     transmit.sendPacket(new ServiceConnectPacket(service.getGroup(), service.getId(), service.getPort()));
@@ -157,7 +162,7 @@ public final class Base extends CloudDriver {
         running = false;
         printScreen();
         new Thread(() -> this.nettyServer.close()).start();
-        this.serviceProvider.getServices().forEach(it -> ((Service) it).stop());
+        this.serviceProvider.getServices().forEach(it -> ((Service) it).stop(false));
         try {
             logger.log("&7Try to delete &9tmp &7directory.");
             FileHelper.removeDirectory(Path.of("tmp"));

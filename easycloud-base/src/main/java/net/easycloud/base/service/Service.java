@@ -63,7 +63,7 @@ public class Service implements IService {
         }
     }
 
-    public void stop() {
+    public void stop(boolean update) {
         if (this.process != null) {
             this.process.destroy();
             this.process.toHandle().destroyForcibly();
@@ -74,6 +74,9 @@ public class Service implements IService {
             FileHelper.removeDirectory(path);
         }
         System.out.println(id + " was successfully §cstopped&7!");
+        if(update) {
+            ((SimpleServiceHandler) Base.getInstance().getServiceProvider()).update();
+        }
     }
 
     @Override
