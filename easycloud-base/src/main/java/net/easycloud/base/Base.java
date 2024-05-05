@@ -5,7 +5,7 @@ import dev.httpmarco.osgan.networking.server.NettyServerBuilder;
 import lombok.Getter;
 import net.bytemc.evelon.Evelon;
 import net.easycloud.api.configuration.SecretConfiguration;
-import net.easycloud.api.configuration.file.FileHelper;
+import net.easycloud.api.utils.file.FileHelper;
 import net.easycloud.api.github.GithubConfig;
 import net.easycloud.api.github.GithubDownloader;
 import net.easycloud.api.network.packet.HandshakeAuthenticationPacket;

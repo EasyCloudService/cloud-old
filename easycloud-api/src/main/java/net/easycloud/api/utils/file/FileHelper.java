@@ -1,4 +1,4 @@
-package net.easycloud.api.configuration.file;
+package net.easycloud.api.utils.file;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,13 +22,15 @@ public final class FileHelper {
     }
 
     public static void writeIfNotExists(Path path, Object object) {
-        if(!path.resolve(getName(object.getClass()) + ".json").toFile().exists()) {
+        var name = getName(object.getClass());
+        if(!path.resolve(name + (name.equals("secret") ? ".key" : ".json")).toFile().exists()) {
             write(path, object);
         }
     }
 
     public static void write(Path path, Object object) {
-        var file = path.resolve(getName(object.getClass()) + ".json");
+        var name = getName(object.getClass());
+        var file = path.resolve(name + (name.equals("secret") ? ".key" : ".json"));
         if(file.toFile().exists()) {
             file.toFile().delete();
         }

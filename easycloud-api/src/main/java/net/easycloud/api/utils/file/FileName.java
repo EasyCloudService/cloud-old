@@ -1,4 +1,4 @@
-package net.easycloud.api.configuration.file;
+package net.easycloud.api.utils.file;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
