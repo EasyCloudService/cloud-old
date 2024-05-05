@@ -172,7 +172,8 @@ public final class Base extends CloudDriver {
             Thread.sleep(1000);
             logger.log("&7Good bye, see you soon!");
             ((SimpleLogger) logger).getConsole().shutdownReading();
-            System.exit(0);
+            Runtime.getRuntime().halt(0);
+            System.exit(1);
         } catch (InterruptedException exception) {
             //throw new RuntimeException(exception);
         }
