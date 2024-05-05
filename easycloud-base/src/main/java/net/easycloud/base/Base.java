@@ -86,7 +86,7 @@ public final class Base extends CloudDriver {
             }
         }
 
-        FileHelper.writeIfNotExists(Path.of(System.getProperty("user.dir")), new SecretConfiguration("SECRET_" + RandomStringUtil.generate(15)));
+        FileHelper.writeIfNotExists(Path.of(System.getProperty("user.dir")), new SecretConfiguration("SECRET_" + RandomStringUtil.generate(100)));
         var secret = FileHelper.read(Path.of(System.getProperty("user.dir")), SecretConfiguration.class);
         this.configuration = FileHelper.read(Path.of(System.getProperty("user.dir")), DefaultConfiguration.class);
         Evelon.setCradinates(configuration.database());
