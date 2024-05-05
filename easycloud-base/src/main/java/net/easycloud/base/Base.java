@@ -4,11 +4,13 @@ import dev.httpmarco.osgan.networking.server.NettyServer;
 import dev.httpmarco.osgan.networking.server.NettyServerBuilder;
 import lombok.Getter;
 import net.bytemc.evelon.Evelon;
-import net.easycloud.api.conf.FileHelper;
+import net.easycloud.api.configuration.SecretConfiguration;
+import net.easycloud.api.configuration.file.FileHelper;
 import net.easycloud.api.github.GithubConfig;
 import net.easycloud.api.github.GithubDownloader;
-import net.easycloud.api.network.packet.defaults.HandshakeAuthenticationPacket;
-import net.easycloud.api.network.packet.defaults.ServiceConnectPacket;
+import net.easycloud.api.network.packet.HandshakeAuthenticationPacket;
+import net.easycloud.api.network.packet.ServiceConnectPacket;
+import net.easycloud.api.utils.RandomStringUtil;
 import net.easycloud.base.command.CommandHandler;
 import net.easycloud.base.console.runner.ConsoleRunner;
 import net.easycloud.base.logger.SimpleLogger;
@@ -18,7 +20,7 @@ import net.easycloud.base.service.Service;
 import net.easycloud.base.service.SimpleServiceHandler;
 import net.easycloud.base.setup.SetupHandler;
 import net.easycloud.api.CloudDriver;
-import net.easycloud.api.conf.DefaultConfiguration;
+import net.easycloud.api.configuration.DefaultConfiguration;
 import net.easycloud.api.console.LogType;
 import net.easycloud.api.console.Logger;
 import net.easycloud.api.velocity.VelocityProvider;
@@ -84,6 +86,8 @@ public final class Base extends CloudDriver {
             }
         }
 
+        FileHelper.writeIfNotExists(Path.of(System.getProperty("user.dir")), new SecretConfiguration("SECRET_" + RandomStringUtil.generate(15)));
+        var secret = FileHelper.read(Path.of(System.getProperty("user.dir")), SecretConfiguration.class);
         this.configuration = FileHelper.read(Path.of(System.getProperty("user.dir")), DefaultConfiguration.class);
         Evelon.setCradinates(configuration.database());
 

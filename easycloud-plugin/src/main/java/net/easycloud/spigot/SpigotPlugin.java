@@ -2,7 +2,7 @@ package net.easycloud.spigot;
 
 import lombok.Getter;
 import net.easycloud.api.CloudDriver;
-import net.easycloud.api.network.packet.defaults.PermissionUpdatePacket;
+import net.easycloud.api.network.packet.PermissionUpdatePacket;
 import net.easycloud.spigot.listener.AsyncPlayerPreLoginListener;
 import net.easycloud.spigot.listener.PlayerLoginListener;
 import net.kyori.adventure.text.Component;

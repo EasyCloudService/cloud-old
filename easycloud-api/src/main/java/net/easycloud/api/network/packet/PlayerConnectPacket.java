@@ -1,4 +1,4 @@
-package net.easycloud.api.network.packet.defaults;
+package net.easycloud.api.network.packet;
 
 import dev.httpmarco.osgan.networking.Packet;
 import dev.httpmarco.osgan.networking.codec.CodecBuffer;
@@ -7,16 +7,16 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
-public final class PermissionUpdatePacket extends Packet {
+public final class PlayerConnectPacket extends Packet {
     private UUID uniqueId;
 
-    public PermissionUpdatePacket(UUID uniqueId) {
+    public PlayerConnectPacket(UUID uniqueId) {
         this.uniqueId = uniqueId;
 
         this.getBuffer().writeUniqueId(this.uniqueId);
     }
 
-    public PermissionUpdatePacket(CodecBuffer buffer) {
+    public PlayerConnectPacket(CodecBuffer buffer) {
         super(buffer);
 
         this.uniqueId = buffer.readUniqueId();

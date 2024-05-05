@@ -2,10 +2,10 @@ package net.easycloud.wrapper.service;
 
 import lombok.Getter;
 import net.easycloud.api.group.Group;
-import net.easycloud.api.network.packet.defaults.ServiceConnectPacket;
-import net.easycloud.api.network.packet.defaults.ServiceDisconnectPacket;
-import net.easycloud.api.network.packet.defaults.ServiceRequestStartPacket;
-import net.easycloud.api.network.packet.defaults.ServiceRequestStopPacket;
+import net.easycloud.api.network.packet.ServiceConnectPacket;
+import net.easycloud.api.network.packet.ServiceDisconnectPacket;
+import net.easycloud.api.network.packet.ServiceRequestStartPacket;
+import net.easycloud.api.network.packet.ServiceRequestStopPacket;
 import net.easycloud.api.service.IService;
 import net.easycloud.api.service.ServiceProvider;
 import net.easycloud.wrapper.Wrapper;

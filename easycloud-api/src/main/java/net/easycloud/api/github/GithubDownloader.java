@@ -1,7 +1,7 @@
 package net.easycloud.api.github;
 
 import lombok.SneakyThrows;
-import net.easycloud.api.conf.FileHelper;
+import net.easycloud.api.configuration.file.FileHelper;
 
 import java.io.*;
 import java.net.HttpURLConnection;

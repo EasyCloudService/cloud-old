@@ -2,7 +2,7 @@ package net.easycloud.base.service;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.easycloud.api.conf.FileHelper;
+import net.easycloud.api.configuration.file.FileHelper;
 import net.easycloud.api.group.Group;
 import net.easycloud.api.group.misc.GroupType;
 import net.easycloud.api.service.IService;

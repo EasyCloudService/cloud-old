@@ -2,7 +2,7 @@ package net.easycloud.api.github;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.easycloud.api.conf.FileName;
+import net.easycloud.api.configuration.file.FileName;
 
 @Getter
 @AllArgsConstructor

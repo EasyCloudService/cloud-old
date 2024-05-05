@@ -6,7 +6,7 @@ import lombok.Getter;
 import net.bytemc.evelon.repository.Filter;
 import net.bytemc.evelon.repository.annotations.PrimaryKey;
 import net.easycloud.api.CloudDriver;
-import net.easycloud.api.network.packet.defaults.PermissionUpdatePacket;
+import net.easycloud.api.network.packet.PermissionUpdatePacket;
 
 import java.util.Arrays;
 import java.util.List;

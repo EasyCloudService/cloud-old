@@ -1,4 +1,4 @@
-package net.easycloud.api.conf;
+package net.easycloud.api.configuration.file;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

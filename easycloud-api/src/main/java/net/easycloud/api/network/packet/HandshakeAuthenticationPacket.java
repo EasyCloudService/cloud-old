@@ -1,4 +1,4 @@
-package net.easycloud.api.network.packet.defaults;
+package net.easycloud.api.network.packet;
 
 import dev.httpmarco.osgan.networking.Packet;
 import dev.httpmarco.osgan.networking.codec.CodecBuffer;

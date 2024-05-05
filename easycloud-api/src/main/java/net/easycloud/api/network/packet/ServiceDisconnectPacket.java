@@ -1,4 +1,4 @@
-package net.easycloud.api.network.packet.defaults;
+package net.easycloud.api.network.packet;
 
 import dev.httpmarco.osgan.networking.Packet;
 import dev.httpmarco.osgan.networking.codec.CodecBuffer;
@@ -8,12 +8,12 @@ import net.bytemc.evelon.repository.Repository;
 import net.easycloud.api.group.Group;
 
 @Getter
-public final class ServiceConnectPacket extends Packet {
+public final class ServiceDisconnectPacket extends Packet {
     private Group group;
     private String name;
     private int port;
 
-    public ServiceConnectPacket(Group group, String name, int port) {
+    public ServiceDisconnectPacket(Group group, String name, int port) {
         this.group = group;
         this.name = name;
         this.port = port;
@@ -21,7 +21,7 @@ public final class ServiceConnectPacket extends Packet {
         this.getBuffer().writeString(this.group.getName()).writeString(this.name).writeInt(this.port);
     }
 
-    public ServiceConnectPacket(CodecBuffer buffer) {
+    public ServiceDisconnectPacket(CodecBuffer buffer) {
         super(buffer);
 
         var repo = Repository.create(Group.class);

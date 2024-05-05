@@ -4,8 +4,9 @@ import lombok.Getter;
 import net.bytemc.evelon.Evelon;
 import net.bytemc.evelon.repository.Filter;
 import net.bytemc.evelon.repository.Repository;
-import net.easycloud.api.conf.DefaultConfiguration;
-import net.easycloud.api.conf.FileHelper;
+import net.easycloud.api.configuration.DefaultConfiguration;
+import net.easycloud.api.configuration.SecretConfiguration;
+import net.easycloud.api.configuration.file.FileHelper;
 import net.easycloud.api.group.Group;
 import net.easycloud.wrapper.classloader.ApplicationExternalObjectLoader;
 import net.easycloud.wrapper.service.Service;
@@ -26,11 +27,8 @@ public class WrapperBootstrap {
     }
 
     public static void main(String[] args) {
-
-
         var configuration = FileHelper.read(Path.of(System.getProperty("user.dir")).resolve("../../../"), DefaultConfiguration.class);
         Evelon.setCradinates(configuration.database());
-
 
         var repo = Repository.create(Group.class);
         var service = new Service(repo.query().filter(Filter.match("name", args[0])).database().findFirst(), args[1], Integer.parseInt(args[2]));
@@ -43,6 +41,6 @@ public class WrapperBootstrap {
 
         thread = ApplicationExternalObjectLoader.init(service, instrumentation);
 
-        new Wrapper(service.getId());
+        new Wrapper(service.getId(), FileHelper.read(Path.of(System.getProperty("user.dir")).resolve("../../../"), SecretConfiguration.class).value());
     }
 }

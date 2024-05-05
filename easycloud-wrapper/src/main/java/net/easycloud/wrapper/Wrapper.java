@@ -3,8 +3,8 @@ package net.easycloud.wrapper;
 import dev.httpmarco.osgan.networking.client.NettyClientBuilder;
 import lombok.Getter;
 import net.easycloud.api.CloudDriver;
-import net.easycloud.api.network.packet.defaults.HandshakeAuthenticationPacket;
-import net.easycloud.api.network.packet.defaults.ServiceConnectPacket;
+import net.easycloud.api.network.packet.HandshakeAuthenticationPacket;
+import net.easycloud.api.network.packet.ServiceConnectPacket;
 import net.easycloud.wrapper.event.SimpleEventHandler;
 import net.easycloud.wrapper.event.defaults.ServerConnectEvent;
 import net.easycloud.wrapper.group.SimpleGroupHandler;
@@ -18,12 +18,12 @@ public final class Wrapper extends CloudDriver {
 
     private final String name;
 
-    public Wrapper(String name) {
+    public Wrapper(String name, String secret) {
         instance = this;
 
         this.name = name;
         this.nettyClient = new NettyClientBuilder().withPort(8897).onActive(transmit -> {
-            this.nettyClient.sendPacket(new HandshakeAuthenticationPacket("23645gcji687456zhhj4c5u67z34tx5t6z3hu4x5"));
+            this.nettyClient.sendPacket(new HandshakeAuthenticationPacket(secret));
         }).build();
 
         this.nettyClient.listen(ServiceConnectPacket.class, (transmit, packet) -> {
