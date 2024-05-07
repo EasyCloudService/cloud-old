@@ -45,7 +45,7 @@ public final class Base extends CloudDriver {
         instance = this;
 
         this.logger = new SimpleLogger();
-        UpdateHelper.update(jarName, logger);
+        UpdateHelper.update(ignoreUpdate, jarName, logger);
 
         this.setupHandler = new SetupHandler();
 

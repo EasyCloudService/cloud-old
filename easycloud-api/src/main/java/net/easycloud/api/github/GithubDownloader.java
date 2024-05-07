@@ -67,7 +67,8 @@ public class GithubDownloader {
             endIndex = jsonResponse.indexOf("\"", startIndex);
             name = jsonResponse.substring(startIndex, endIndex);
         } else {
-            System.out.println("HTTP error: " + responseCode);
+            System.out.println("Ratelimit exceed. (" + responseCode + ")");
+            return "null;0";
         }
 
         return name + ";" + download;

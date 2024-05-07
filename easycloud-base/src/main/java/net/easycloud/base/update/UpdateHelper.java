@@ -9,7 +9,7 @@ import net.easycloud.base.CloudPath;
 public final class UpdateHelper {
 
     @SneakyThrows
-    public static void update(String jarName, Logger logger) {
+    public static void update(boolean isDisabled, String jarName, Logger logger) {
         logger.log("""
                 %LINE_BREAK%
                 &9        __   __       ___  ___  __
@@ -19,6 +19,11 @@ public final class UpdateHelper {
 
         if(GithubDownloader.isUpdateReady(CloudPath.STORAGE)) {
             logger.log("[&9Github&7] &7An newer release was found.", LogType.EMPTY);
+
+            if(isDisabled) {
+                logger.log("[&9Github&7] &7But sorry. Updates are disabled.", LogType.EMPTY);
+                Thread.sleep(1000);
+            }
 
             int[] sProgress = {0};
             var status = GithubDownloader.updateIfNeeded(CloudPath.STORAGE, progress -> {
