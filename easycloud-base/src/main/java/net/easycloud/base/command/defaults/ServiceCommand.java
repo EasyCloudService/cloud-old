@@ -1,6 +1,5 @@
 package net.easycloud.base.command.defaults;
 
-import net.bytemc.evelon.repository.Filter;
 import net.easycloud.api.console.LogType;
 import net.easycloud.api.service.IService;
 import net.easycloud.base.command.CloudCommand;
@@ -16,7 +15,7 @@ public final class ServiceCommand extends CloudCommand {
 
         if (args.length >= 2) {
             if (args[1].equalsIgnoreCase("shutdown") || args[1].equalsIgnoreCase("stop")) {
-                if (Base.getInstance().getGroupProvider().getRepository().query().database().findAll().isEmpty()) {
+                if (Base.getInstance().getGroupProvider().getRepository().query().find().isEmpty()) {
                     logger.log("There is currently no group!");
                     return;
                 }
@@ -30,9 +29,8 @@ public final class ServiceCommand extends CloudCommand {
             }
             if (args.length == 4) {
                 if (args[1].equalsIgnoreCase("start")) {
-                    Base.getInstance().getGroupProvider().getRepository().query().filter(Filter.match("name", args[2]))
-                            .database()
-                            .findAll().stream().findFirst().ifPresentOrElse(group -> {
+                    Base.getInstance().getGroupProvider().getRepository().query().match("name", args[2])
+                            .find().stream().findFirst().ifPresentOrElse(group -> {
                                 try {
                                     Base.getInstance().getServiceProvider().start(group, Integer.parseInt(args[3]));
                                 } catch (Exception exception) {

@@ -2,8 +2,6 @@ package net.easycloud.base.setup;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import net.bytemc.evelon.DatabaseProtocol;
-import net.bytemc.evelon.cradinates.DatabaseCradinates;
 import net.easycloud.api.configuration.DefaultConfiguration;
 import net.easycloud.api.utils.file.FileHelper;
 
@@ -28,7 +26,7 @@ public final class SetupHandler {
     public void start() {
         onSetup = true;
 
-        ConsoleSetup.subscribe(List.of(
+        /*ConsoleSetup.subscribe(List.of(
                 SetupBuilder.<String>get()
                         .key("database.type")
                         .question("&7What is you database type?")
@@ -64,6 +62,8 @@ public final class SetupHandler {
                     Integer.parseInt(values.get("database.port"))
             ), "easyCloudService-" + new Random().nextInt(100000000, 999999999)));
             onSetup = false;
-        });
+        });*/
+
+        FileHelper.writeIfNotExists(Path.of(System.getProperty("user.dir")), new DefaultConfiguration("easyCloudService-" + new Random().nextInt(100000000, 999999999)));
     }
 }

@@ -1,6 +1,6 @@
 package net.easycloud.api.user;
 
-import net.bytemc.evelon.repository.Repository;
+import dev.httpmarco.evelon.Repository;
 
 import java.util.List;
 import java.util.UUID;

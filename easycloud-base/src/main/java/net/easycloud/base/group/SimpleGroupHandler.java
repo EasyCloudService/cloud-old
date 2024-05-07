@@ -1,8 +1,8 @@
 package net.easycloud.base.group;
 
+import dev.httpmarco.evelon.MariaDbLayer;
+import dev.httpmarco.evelon.Repository;
 import lombok.Getter;
-import net.bytemc.evelon.repository.Filter;
-import net.bytemc.evelon.repository.Repository;
 import net.easycloud.api.group.Group;
 import net.easycloud.api.group.GroupProvider;
 import net.easycloud.api.group.misc.GroupType;
@@ -10,7 +10,6 @@ import net.easycloud.api.group.misc.GroupVersion;
 import net.easycloud.api.misc.DownloadHelper;
 import net.easycloud.api.misc.Reflections;
 import net.easycloud.base.Base;
-import net.easycloud.base.service.SimpleServiceHandler;
 import net.easycloud.base.setup.ConsoleSetup;
 import net.easycloud.base.setup.SetupBuilder;
 
@@ -24,9 +23,9 @@ public final class SimpleGroupHandler implements GroupProvider {
     private final Repository<Group> repository;
 
     public SimpleGroupHandler() {
-        this.repository = Repository.create(Group.class);
+        this.repository = Repository.build(Group.class).withId("groups").withLayer(MariaDbLayer.class).build();
 
-        if(this.repository.query().database().findAll().isEmpty()) {
+        if(this.repository.query().find().isEmpty()) {
             boolean[] setup = {true};
 
             ConsoleSetup.subscribe(List.of(
@@ -62,10 +61,10 @@ public final class SimpleGroupHandler implements GroupProvider {
             }
         }
 
-        repository.query().database().findAll().forEach(it -> {
+        repository.query().find().forEach(it -> {
             Base.getInstance().getLogger().log("&7Loaded &9" + it.getName() + " &7as &9" + it.getType().name() + " &7service-group.");
         });
-        if(repository.query().database().findAll().isEmpty()) {
+        if(repository.query().find().isEmpty()) {
             Base.getInstance().getLogger().log("No service-group was found!");
         }
 
@@ -82,9 +81,7 @@ public final class SimpleGroupHandler implements GroupProvider {
 
     @Override
     public Group getOrThrow(String name) {
-        return repository.query().filter(Filter.match("name", name))
-                .database()
-                .findFirst();
+        return repository.query().match("name", name).findFirst();
     }
 
     @Override

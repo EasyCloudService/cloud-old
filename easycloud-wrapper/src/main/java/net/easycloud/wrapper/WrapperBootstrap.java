@@ -1,9 +1,8 @@
 package net.easycloud.wrapper;
 
+import dev.httpmarco.evelon.MariaDbLayer;
+import dev.httpmarco.evelon.Repository;
 import lombok.Getter;
-import net.bytemc.evelon.Evelon;
-import net.bytemc.evelon.repository.Filter;
-import net.bytemc.evelon.repository.Repository;
 import net.easycloud.api.configuration.DefaultConfiguration;
 import net.easycloud.api.configuration.SecretConfiguration;
 import net.easycloud.api.utils.file.FileHelper;
@@ -28,10 +27,10 @@ public class WrapperBootstrap {
 
     public static void main(String[] args) {
         var configuration = FileHelper.read(Path.of(System.getProperty("user.dir")).resolve("../../../"), DefaultConfiguration.class);
-        Evelon.setCradinates(configuration.database());
+        //Evelon.setCradinates(configuration.database());
 
-        var repo = Repository.create(Group.class);
-        var service = new Service(repo.query().filter(Filter.match("name", args[0])).database().findFirst(), args[1], Integer.parseInt(args[2]));
+        var repo = Repository.build(Group.class).withId("groups").withLayer(MariaDbLayer.class).build();;
+        var service = new Service(repo.query().match("name", args[0]).findFirst(), args[1], Integer.parseInt(args[2]));
 
         try {
             Files.copy(Path.of(System.getProperty("user.dir")).getParent().getParent().getParent().resolve(".cache").resolve("plugin.jar"), service.getDirectory().resolve("plugins").resolve("Cloud-API.jar"), StandardCopyOption.REPLACE_EXISTING);
