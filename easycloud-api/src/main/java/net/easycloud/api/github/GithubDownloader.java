@@ -6,30 +6,40 @@ import net.easycloud.api.utils.file.FileHelper;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.FileChannel;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class GithubDownloader {
 
-    public static boolean updateIfNeeded(Path path) {
+    public static boolean updateIfNeeded(Path path, Consumer<Integer> progress) {
         String latest = getLatest();
         String version = latest.split(";")[0];
         String download = latest.split(";")[1];
 
-        FileHelper.writeIfNotExists(path, new GithubConfig("1"));
-        if(FileHelper.read(path, GithubConfig.class).getVersion().equals(version)) {
+        if (!isUpdateReady(path)) {
             return false;
         }
         try {
-            downloadRelease(download, path.resolve("easycloud-temp.jar"));
+            downloadRelease(download, path.resolve("easycloud-temp.jar"), progress);
             FileHelper.write(path, new GithubConfig(version));
             return true;
         } catch (IOException e) {
             System.err.println("Error: " + e.getMessage());
         }
         return false;
+    }
+
+    public static boolean isUpdateReady(Path path) {
+        FileHelper.writeIfNotExists(path, new GithubConfig("1"));
+        return !FileHelper.read(path, GithubConfig.class).getVersion().equals(getLatest().split(";")[0]);
     }
 
     @SneakyThrows
@@ -63,9 +73,28 @@ public class GithubDownloader {
         return name + ";" + download;
     }
 
-    private static void downloadRelease(String url, Path path) throws IOException {
-        try (InputStream in = new URL(url).openStream()) {
-            Files.copy(in, path, StandardCopyOption.REPLACE_EXISTING);
+    private static void downloadRelease(String url, Path path, Consumer<Integer> progress) throws IOException {
+        URL website = new URL(url);
+        try (InputStream in = website.openStream();
+             ReadableByteChannel rbc = Channels.newChannel(in);
+             FileChannel fileChannel = FileChannel.open(path, StandardOpenOption.CREATE, StandardOpenOption.WRITE)) {
+
+            ByteBuffer buffer = ByteBuffer.allocateDirect(1024);
+            long fileSize = website.openConnection().getContentLengthLong();
+            long totalBytesRead = 0;
+
+            while (totalBytesRead < fileSize) {
+                int bytesRead = rbc.read(buffer);
+                if (bytesRead == -1) break;
+
+                totalBytesRead += bytesRead;
+
+                buffer.flip();
+                fileChannel.write(buffer);
+                buffer.clear();
+
+                progress.accept((int) ((double) totalBytesRead / fileSize * 100));
+            }
         }
     }
 

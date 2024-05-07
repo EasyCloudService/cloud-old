@@ -32,7 +32,9 @@ public class ConsoleReadingThread extends Thread {
         while (!this.isInterrupted()) {
             var line = this.lineReader.readLine(this.consolePrompt);
             if (line != null && !line.isEmpty()) {
-                if (ConsoleSetup.SETUP_ENABLED) {
+                if(Base.getInstance().isRunning()) {
+                    //TODO
+                } if (ConsoleSetup.SETUP_ENABLED) {
                     ConsoleSetup.pushLine(line);
                 } else if (Base.getInstance().getServiceProvider().getServices().stream().anyMatch(it -> ((Service) it).isConsole())) {
                     Base.getInstance().getServiceProvider().getServices().stream().filter(it -> ((Service) it).isConsole()).forEach(service -> {

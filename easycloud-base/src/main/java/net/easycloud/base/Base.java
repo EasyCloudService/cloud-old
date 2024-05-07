@@ -6,13 +6,13 @@ import lombok.Getter;
 import net.easycloud.api.configuration.SecretConfiguration;
 import net.easycloud.api.utils.file.FileHelper;
 import net.easycloud.api.github.GithubConfig;
-import net.easycloud.api.github.GithubDownloader;
 import net.easycloud.api.network.packet.HandshakeAuthenticationPacket;
 import net.easycloud.api.network.packet.ServiceConnectPacket;
 import net.easycloud.api.utils.RandomStringUtil;
 import net.easycloud.base.command.CommandHandler;
 import net.easycloud.base.console.runner.ConsoleRunner;
 import net.easycloud.base.logger.SimpleLogger;
+import net.easycloud.base.update.UpdateHelper;
 import net.easycloud.base.user.UserHandler;
 import net.easycloud.base.rest.RestAPI;
 import net.easycloud.base.service.Service;
@@ -25,7 +25,6 @@ import net.easycloud.api.console.Logger;
 import net.easycloud.api.velocity.VelocityProvider;
 import net.easycloud.base.group.SimpleGroupHandler;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 @SuppressWarnings("ALL")
@@ -33,7 +32,7 @@ import java.nio.file.Path;
 public final class Base extends CloudDriver {
     private static Base instance;
 
-    private boolean running;
+    private boolean running = false;
     private final Logger logger;
     private final DefaultConfiguration configuration;
 
@@ -45,11 +44,13 @@ public final class Base extends CloudDriver {
     public Base(String jarName, boolean ignoreUpdate) {
         instance = this;
 
+        this.logger = new SimpleLogger();
+        UpdateHelper.update(jarName, logger);
+
         this.setupHandler = new SetupHandler();
 
         this.running = true;
-        this.logger = new SimpleLogger();
-        try {
+        /*try {
             var result = false;
             logger.log("Searching for an update...");
             if (ignoreUpdate) {
@@ -69,7 +70,7 @@ public final class Base extends CloudDriver {
             Thread.sleep(1000);
         } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
-        }
+        }*/
 
         if (!Path.of(System.getProperty("user.dir")).resolve("evelon-connection-credentials.json").toFile().exists()) {
             setupHandler.start();
