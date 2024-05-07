@@ -32,6 +32,8 @@ public final class RestAPI {
             if(!checkIfValid(req.queryParams("adminKey"))) return "ERROR";
             return FileHelper.GSON.toJson(Base.getInstance().getGroupProvider().getRepository().query().database().findAll());
         });
+
+        Base.getInstance().getLogger().log("§7RestAPI is listening on following port: 4567");
     }
 
     private boolean checkIfValid(String key) {

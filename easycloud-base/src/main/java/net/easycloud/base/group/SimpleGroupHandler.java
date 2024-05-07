@@ -63,7 +63,7 @@ public final class SimpleGroupHandler implements GroupProvider {
         }
 
         repository.query().database().findAll().forEach(it -> {
-            Base.getInstance().getLogger().log("&7Loaded &9" + it.getName() + " &7as &9" + it.getType().name() + " &7system-group.");
+            Base.getInstance().getLogger().log("&7Loaded &9" + it.getName() + " &7as &9" + it.getType().name() + " &7service-group.");
         });
         if(repository.query().database().findAll().isEmpty()) {
             Base.getInstance().getLogger().log("No service-group was found!");

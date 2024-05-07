@@ -120,7 +120,6 @@ public final class Base extends CloudDriver {
         this.velocityProvider = new VelocityProvider();
         this.userProvider = new UserHandler();
         new RestAPI();
-        logger.log("§7RestAPI is listening on following port: 4567");
         logger.log("§7Cloud was connected to all services.");
 
         new ConsoleRunner();

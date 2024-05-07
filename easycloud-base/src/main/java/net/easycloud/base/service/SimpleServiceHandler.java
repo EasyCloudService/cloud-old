@@ -33,11 +33,18 @@ public final class SimpleServiceHandler implements ServiceProvider {
             stop(packet.getServiceId());
         });
 
-        for (Group group : Base.getInstance().getGroupProvider().getRepository().query().database().findAll()) {
-            if (group.getMinOnline() > 0) {
-                start(group, group.getMinOnline());
+        new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
-        }
+            for (Group group : Base.getInstance().getGroupProvider().getRepository().query().database().findAll()) {
+                if (group.getMinOnline() > 0) {
+                    start(group, group.getMinOnline());
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -47,19 +54,20 @@ public final class SimpleServiceHandler implements ServiceProvider {
             Base.getInstance().getLogger().log("§7Told §bInternalWrapper §7to start §b" + id + "§7...", LogType.WRAPPER);
 
             if (group.getMaxOnline() < (services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count() + 1) && group.getMaxOnline() != -1) {
-                Base.getInstance().getLogger().log("§cCant §7start " + group.getName() + " service-group. Cause: maximum number is reached.", LogType.WARNING);
+                Base.getInstance().getLogger().log("§7Starting the §e" + group.getName() + " §7service-group §efailed§7. §7(§eMaximum number is reached§7).", LogType.WARNING);
                 return;
             }
 
             servicePrepareHandler.createFiles(group, id);
 
-            var port = (group.getType().equals(GroupType.PROXY) ? 25565 : getPort());
+            var port = (group.getType().equals(GroupType.PROXY) ? (25565 + Base.getInstance().getServiceProvider().getServices().stream().filter(it -> it.getGroup().getType().equals(GroupType.PROXY)).toList().size()) : getPort());
             var service = new Service(group, port, id);
             service.setProcess(ServiceProcessBuilder.buildProcess(service));
 
             services.add(service);
 
             Base.getInstance().getNettyServer().sendPacket(new ServiceConnectPacket(group, id, port));
+            Base.getInstance().getLogger().log("§7Service §b" + id + " §7will be running on port§f: §7" + port, LogType.WRAPPER);
 
             if (count > 1) {
                 start(group, count - 1);
@@ -88,7 +96,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
             for (Group group : Base.getInstance().getGroupProvider().getRepository().query().database().findAll()) {
                 var online = services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count();
 
-                if(group.getMaxOnline() > online || group.getMaxOnline() == -1) {
+                if (group.getMaxOnline() > online || group.getMaxOnline() == -1) {
                     if (group.getMinOnline() > services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count()) {
                         start(group, group.getMinOnline());
                     }
