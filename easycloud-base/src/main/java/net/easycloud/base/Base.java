@@ -71,7 +71,7 @@ public final class Base extends CloudDriver {
             throw new RuntimeException(e);
         }
 
-        if (!Path.of(System.getProperty("user.dir")).resolve("config.json").toFile().exists()) {
+        if (!Path.of(System.getProperty("user.dir")).resolve("evelon-connection-credentials.json").toFile().exists()) {
             setupHandler.start();
             while (true) {
                 try {

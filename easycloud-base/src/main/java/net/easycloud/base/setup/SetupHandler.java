@@ -3,10 +3,10 @@ package net.easycloud.base.setup;
 import lombok.AccessLevel;
 import lombok.Getter;
 import net.easycloud.api.configuration.DefaultConfiguration;
+import net.easycloud.api.configuration.hikari.HikariConfiguration;
 import net.easycloud.api.utils.file.FileHelper;
 
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -26,19 +26,19 @@ public final class SetupHandler {
     public void start() {
         onSetup = true;
 
-        /*ConsoleSetup.subscribe(List.of(
-                SetupBuilder.<String>get()
+        ConsoleSetup.subscribe(List.of(
+                /*SetupBuilder.<String>get()
                         .key("database.type")
                         .question("&7What is you database type?")
                         .possibleResults(Arrays.stream(DatabaseProtocol.values()).filter(it -> !it.equals(DatabaseProtocol.H2)).map(Enum::name).toList())
-                        .build(),
+                        .build(),*/
                 SetupBuilder.<String>get()
                         .key("database.host")
                         .question("&7What is you database host?")
                         .build(),
                 SetupBuilder.<Integer>get()
                         .key("database.port")
-                        .question("&7What is you database port?")
+                        .question("&7What is you database port? (default: 3306)")
                         .build(),
                 SetupBuilder.<String>get()
                         .key("database.name")
@@ -53,17 +53,18 @@ public final class SetupHandler {
                         .question("&7What is you database password?")
                         .build()
         ), values -> {
-            FileHelper.writeIfNotExists(Path.of(System.getProperty("user.dir")), new DefaultConfiguration(new DatabaseCradinates(
-                    DatabaseProtocol.valueOf(values.get("database.type")),
+            FileHelper.writeAsList(Path.of(System.getProperty("user.dir")), new HikariConfiguration(
                     values.get("database.host"),
-                    values.get("database.password"),
-                    values.get("database.user"),
                     values.get("database.name"),
+                    values.get("database.user"),
+                    values.get("database.password"),
                     Integer.parseInt(values.get("database.port"))
-            ), "easyCloudService-" + new Random().nextInt(100000000, 999999999)));
-            onSetup = false;
-        });*/
+            ));
 
-        FileHelper.writeIfNotExists(Path.of(System.getProperty("user.dir")), new DefaultConfiguration("easyCloudService-" + new Random().nextInt(100000000, 999999999)));
+            FileHelper.writeIfNotExists(Path.of(System.getProperty("user.dir")), new DefaultConfiguration("easyCloudService-" + new Random().nextInt(100000000, 999999999)));
+            onSetup = false;
+        });
+
+        //FileHelper.writeIfNotExists(Path.of(System.getProperty("user.dir")), new DefaultConfiguration("easyCloudService-" + new Random().nextInt(100000000, 999999999)));
     }
 }

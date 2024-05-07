@@ -7,6 +7,7 @@ import lombok.SneakyThrows;
 import java.io.*;
 import java.nio.file.*;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Stream;
 
 @SuppressWarnings("ALL")
@@ -19,6 +20,19 @@ public final class FileHelper {
             name = clazz.getAnnotation(FileName.class).name();
         }
         return name;
+    }
+
+    public static void writeAsList(Path path, Object object) {
+        var name = getName(object.getClass());
+        var file = path.resolve(name + ".json");
+        if(file.toFile().exists()) {
+            file.toFile().delete();
+        }
+        try (FileWriter writer = new FileWriter(file.toFile().getPath())) {
+            GSON.toJson(List.of(object), writer);
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     public static void writeIfNotExists(Path path, Object object) {
