@@ -49,16 +49,15 @@ public final class VelocityPlugin {
         this.server = server;
         this.logger = logger;
 
-        server.getConsoleCommandSource().sendMessage(Component.text("§b@TheEasyCloud"));
-        server.getConsoleCommandSource().sendMessage(Component.text("§bPlugin §7was §9successfully §7connected to the §9Wrapper§7!"));
+        server.getConsoleCommandSource().sendMessage(Component.text("§aSuccessfully §7injected the §b@EasyCloudService"));
+        server.getConsoleCommandSource().sendMessage(Component.text("§bPlugin §7was §asuccessfully §7connected to the §bWrapper§7!"));
 
-        System.out.println();
         if(!CloudDriver.getInstance().getServiceProvider().getServices().stream().filter(it -> !it.getGroup().getType().equals(GroupType.PROXY)).toList().isEmpty()) {
-            System.out.println("All connected services:");
+            System.out.println("All registered services:");
         }
         for (IService service : CloudDriver.getInstance().getServiceProvider().getServices()) {
             if(!service.getGroup().getType().equals(GroupType.PROXY)) {
-                System.out.println(" §8- §7" + service.getId() + "§7(§e" + service.getGroup().getName() + "§7)");
+                System.out.println("§f- §7" + service.getId() + " §7(§e" + service.getGroup().getName() + "§7)");
                 server.registerServer(new ServerInfo(service.getId(), new InetSocketAddress(service.getPort())));
             }
         }

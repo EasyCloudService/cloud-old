@@ -28,9 +28,8 @@ public final class SpigotPlugin extends JavaPlugin {
         instance = this;
 
         this.permissions = new HashMap<UUID, PermissionAttachment>();
-        Bukkit.getConsoleSender().sendMessage("§b@TheEasyCloud");
-
-        Bukkit.getConsoleSender().sendMessage("§bPlugin §7was §9successfully §7connected to the §9Wrapper§7!");
+        Bukkit.getConsoleSender().sendMessage("§aSuccessfully §7injected the §b@EasyCloudService");
+        Bukkit.getConsoleSender().sendMessage("§bPlugin §7was §asuccessfully §7connected to the §bWrapper§7!");
 
         getServer().getPluginManager().registerEvents(new AsyncPlayerPreLoginListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerLoginListener(), this);
