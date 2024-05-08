@@ -7,6 +7,7 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
+@SuppressWarnings("ALL")
 public final class PlayerConnectPacket extends Packet {
     private UUID uniqueId;
 

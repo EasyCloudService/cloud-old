@@ -5,6 +5,7 @@ import dev.httpmarco.osgan.networking.codec.CodecBuffer;
 import lombok.Getter;
 
 @Getter
+@SuppressWarnings("ALL")
 public final class ServiceRequestStopPacket extends Packet {
     private String serviceId;
 

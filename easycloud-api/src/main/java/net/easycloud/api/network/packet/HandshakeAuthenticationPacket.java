@@ -5,6 +5,7 @@ import dev.httpmarco.osgan.networking.codec.CodecBuffer;
 import lombok.Getter;
 
 @Getter
+@SuppressWarnings("ALL")
 public final class HandshakeAuthenticationPacket extends Packet {
     private String name;
     private String key;

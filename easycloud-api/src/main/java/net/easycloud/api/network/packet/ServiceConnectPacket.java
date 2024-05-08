@@ -8,6 +8,7 @@ import lombok.Getter;
 import net.easycloud.api.group.Group;
 
 @Getter
+@SuppressWarnings("ALL")
 public final class ServiceConnectPacket extends Packet {
     private Group group;
     private String name;

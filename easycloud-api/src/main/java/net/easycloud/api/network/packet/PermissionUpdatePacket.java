@@ -7,6 +7,7 @@ import lombok.Getter;
 import java.util.UUID;
 
 @Getter
+@SuppressWarnings("ALL")
 public final class PermissionUpdatePacket extends Packet {
     private UUID uniqueId;
 
