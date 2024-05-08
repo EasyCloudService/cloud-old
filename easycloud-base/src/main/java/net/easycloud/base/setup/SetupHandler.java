@@ -61,7 +61,10 @@ public final class SetupHandler {
                     Integer.parseInt(values.get("database.port"))
             ));
 
-            FileHelper.writeIfNotExists(Path.of(System.getProperty("user.dir")), new DefaultConfiguration("easyCloudService-" + new Random().nextInt(100000000, 999999999)));
+            var configs = Path.of(System.getProperty("user.dir")).resolve("storage").resolve("data");
+            configs.toFile().mkdirs();
+
+            FileHelper.writeIfNotExists(configs, new DefaultConfiguration("easyCloudService-" + new Random().nextInt(100000000, 999999999)));
             onSetup = false;
         });
 

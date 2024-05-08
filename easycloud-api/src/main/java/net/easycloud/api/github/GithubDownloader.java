@@ -28,7 +28,7 @@ public class GithubDownloader {
             return false;
         }
         try {
-            downloadRelease(download, path.resolve("easycloud-temp.jar"), progress);
+            downloadRelease(download, path.resolve("release.zip"), progress);
             FileHelper.write(path, new GithubConfig(version));
             return true;
         } catch (IOException e) {

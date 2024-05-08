@@ -33,13 +33,13 @@ public class WrapperBootstrap {
         var service = new Service(repo.query().match("name", args[0]).findFirst(), args[1], Integer.parseInt(args[2]));
 
         try {
-            Files.copy(Path.of(System.getProperty("user.dir")).getParent().getParent().getParent().resolve(".cache").resolve("plugin.jar"), service.getDirectory().resolve("plugins").resolve("Cloud-API.jar"), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Path.of(System.getProperty("user.dir")).getParent().getParent().getParent().resolve("storage").resolve("jars").resolve("ECS-Plugin.jar"), service.getDirectory().resolve("plugins").resolve("ECS-Plugin.jar"), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
 
         thread = ApplicationExternalObjectLoader.init(service, instrumentation);
 
-        new Wrapper(service.getId(), FileHelper.read(Path.of(System.getProperty("user.dir")).resolve("../../../"), SecretConfiguration.class).value());
+        new Wrapper(service.getId(), FileHelper.read(Path.of(System.getProperty("user.dir")).resolve("../../../storage/data/"), SecretConfiguration.class).value());
     }
 }

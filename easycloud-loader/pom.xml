@@ -18,7 +18,8 @@
     </properties>
 
     <build>
-        <resources>
+        <finalName>EasyCloudService</finalName>
+        <!--<resources>
             <resource>
                 <targetPath>.</targetPath>
                 <filtering>true</filtering>
@@ -48,7 +49,7 @@
                     <include>easycloud-updater.jar</include>
                 </includes>
             </resource>
-        </resources>
+        </resources>-->
 
         <plugins>
             <plugin>
@@ -80,7 +81,7 @@
                         </goals>
                         <configuration>
                             <target>
-                                <move file="${project.build.directory}/easycloud-loader-1.0-SNAPSHOT.jar" todir="C:\Users\fried\Desktop\Cloud" />
+                                <move file="${project.build.directory}/EasyCloudService.jar" todir="C:\Users\fried\Desktop\Cloud\files" />
                             </target>
                         </configuration>
                     </execution>

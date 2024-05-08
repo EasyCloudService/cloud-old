@@ -9,6 +9,8 @@ import java.nio.file.*;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 @SuppressWarnings("ALL")
 public final class FileHelper {
@@ -16,7 +18,7 @@ public final class FileHelper {
 
     private static String getName(Class<?> clazz) {
         var name = clazz.getSimpleName();
-        if(clazz.isAnnotationPresent(FileName.class)) {
+        if (clazz.isAnnotationPresent(FileName.class)) {
             name = clazz.getAnnotation(FileName.class).name();
         }
         return name;
@@ -25,7 +27,7 @@ public final class FileHelper {
     public static void writeAsList(Path path, Object object) {
         var name = getName(object.getClass());
         var file = path.resolve(name + ".json");
-        if(file.toFile().exists()) {
+        if (file.toFile().exists()) {
             file.toFile().delete();
         }
         try (FileWriter writer = new FileWriter(file.toFile().getPath())) {
@@ -37,7 +39,7 @@ public final class FileHelper {
 
     public static void writeIfNotExists(Path path, Object object) {
         var name = getName(object.getClass());
-        if(!path.resolve(name + (name.equals("secret") ? ".key" : ".json")).toFile().exists()) {
+        if (!path.resolve(name + (name.equals("secret") ? ".key" : ".json")).toFile().exists()) {
             write(path, object);
         }
     }
@@ -45,7 +47,7 @@ public final class FileHelper {
     public static void write(Path path, Object object) {
         var name = getName(object.getClass());
         var file = path.resolve(name + (name.equals("secret") ? ".key" : ".json"));
-        if(file.toFile().exists()) {
+        if (file.toFile().exists()) {
             file.toFile().delete();
         }
 
