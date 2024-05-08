@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -15,7 +13,6 @@ public final class UpdaterBootstrap {
 
     public static void main(String[] args) throws InterruptedException {
         Thread.sleep(1000);
-
 
         var jarPath = Path.of("../");
         var github = Path.of("github");
@@ -35,17 +32,6 @@ public final class UpdaterBootstrap {
 
         unzip(github.resolve("release.zip"), jarPath);
         github.resolve("release.zip").toFile().delete();
-
-        /*Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try {
-                var jar = Path.of("easycloud-temp.jar");
-                Files.copy(jar, Path.of("../" + args[0]), StandardCopyOption.REPLACE_EXISTING);
-                jar.toFile().delete();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }, "Shutdown-thread"));
-        System.exit(0);*/
     }
 
     private static void unzip(Path path, Path dest) {
@@ -75,8 +61,8 @@ public final class UpdaterBootstrap {
                 zis.closeEntry();
                 ze = zis.getNextEntry();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException exception) {
+            throw new RuntimeException(exception);
         }
     }
 }

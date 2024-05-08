@@ -6,9 +6,7 @@ import net.easycloud.api.console.LogType;
 import net.easycloud.api.console.Logger;
 import net.easycloud.api.console.LoggerAnsiFactory;
 import net.easycloud.api.console.StaticConsoleInput;
-import net.easycloud.base.Base;
 import net.easycloud.base.console.SimpleConsole;
-import net.easycloud.base.service.Service;
 import org.jline.utils.InfoCmp;
 
 import java.io.IOException;
@@ -32,26 +30,6 @@ public final class SimpleLogger implements Logger {
 
         System.setOut(new PrintStream(new LoggerOutputStream(this, LogType.INFO), true));
         System.setErr(new PrintStream(new LoggerOutputStream(this, LogType.ERROR), true));
-
-
-
-       /* Builtins builtins = new Builtins(console., configPath, widgetCreator);
-        SystemCompleter systemCompleter = builtins.compileCompletor(); // builtins commands completers
-        systemCompleter.add("test", new StringsCompleter("cmd1"));                  // option descriptions
-        systemCompleter.compile();                                     // prepare it for LineReader
-        LineReader reader = LineReaderBuilder.builder()
-                .terminal(console.getTerminal()).parser(console.getLineReader().getParser())
-                .completer(systemCompleter)
-                .build();
-        builtins.setLineReader(reader);// to complite set builtins lineReader
-*/
-
-
-
-        //var completer = new ArgumentCompleter(
-          //      new StringsCompleter("bar", "baz"),
-            //    new StringsCompleter("foo"),
-              //  new StringsCompleter("ree"));
     }
 
     @Override

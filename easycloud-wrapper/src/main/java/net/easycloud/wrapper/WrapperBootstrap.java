@@ -3,7 +3,6 @@ package net.easycloud.wrapper;
 import dev.httpmarco.evelon.MariaDbLayer;
 import dev.httpmarco.evelon.Repository;
 import lombok.Getter;
-import net.easycloud.api.configuration.DefaultConfiguration;
 import net.easycloud.api.configuration.SecretConfiguration;
 import net.easycloud.api.utils.file.FileHelper;
 import net.easycloud.api.group.Group;
@@ -26,9 +25,6 @@ public class WrapperBootstrap {
     }
 
     public static void main(String[] args) {
-        //var configuration = FileHelper.read(Path.of(System.getProperty("user.dir")).resolve("../../../"), DefaultConfiguration.class);
-        //Evelon.setCradinates(configuration.database());
-
         var repo = Repository.build(Group.class).withId("groups").withLayer(MariaDbLayer.class).build();
         var service = new Service(repo.query().match("name", args[0]).findFirst(), args[1], Integer.parseInt(args[2]));
 

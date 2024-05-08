@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 
 @Getter
 @Plugin(id = "cloud", name = "Cloud", authors = "FlxwDNS, 1Chickxn, Swerion", version = "1.0.0")
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "ClassCanBeRecord"})
 public final class VelocityPlugin {
     @Getter
     private static VelocityPlugin instance;

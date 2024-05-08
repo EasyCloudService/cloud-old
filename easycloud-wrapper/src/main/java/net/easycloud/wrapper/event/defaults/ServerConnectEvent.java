@@ -5,6 +5,7 @@ import lombok.Getter;
 import net.easycloud.api.event.Event;
 import net.easycloud.api.group.Group;
 
+@SuppressWarnings("ALL")
 @Getter
 @AllArgsConstructor
 public final class ServerConnectEvent implements Event {

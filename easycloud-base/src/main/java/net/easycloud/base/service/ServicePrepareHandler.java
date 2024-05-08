@@ -3,7 +3,6 @@ package net.easycloud.base.service;
 import com.google.gson.Gson;
 import net.easycloud.api.CloudDriver;
 import net.easycloud.api.group.Group;
-import net.easycloud.api.group.misc.GroupType;
 import net.easycloud.api.misc.Reflections;
 import net.easycloud.base.Base;
 

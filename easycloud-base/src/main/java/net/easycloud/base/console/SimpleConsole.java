@@ -3,7 +3,6 @@ package net.easycloud.base.console;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import net.easycloud.api.console.LogType;
 import net.easycloud.api.console.Logger;
 import net.easycloud.api.console.StaticConsoleInput;
 import org.jline.reader.LineReader;
@@ -16,9 +15,7 @@ import org.jline.utils.InfoCmp;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 @Getter

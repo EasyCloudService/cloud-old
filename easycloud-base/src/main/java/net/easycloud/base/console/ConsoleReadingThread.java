@@ -2,19 +2,17 @@ package net.easycloud.base.console;
 
 import net.easycloud.api.console.LogType;
 import net.easycloud.api.console.Logger;
-import net.easycloud.api.console.StaticConsoleInput;
 import net.easycloud.base.Base;
 import net.easycloud.base.logger.SimpleLogger;
 import net.easycloud.base.service.Service;
 import net.easycloud.base.setup.ConsoleSetup;
 import org.jline.reader.LineReader;
 
-import java.util.Collections;
-import java.util.Comparator;
-
+@SuppressWarnings("unused")
 public class ConsoleReadingThread extends Thread {
     private final String consolePrompt;
 
+    @SuppressWarnings("FieldCanBeLocal")
     private final SimpleConsole console;
     private final LineReader lineReader;
 
@@ -23,7 +21,6 @@ public class ConsoleReadingThread extends Thread {
 
         this.console = console;
         this.lineReader = console.getLineReader();
-        //this.consolePrompt = logger.format("&feasy&7@&bCloud &7» &r", LogType.EMPTY);
         this.consolePrompt = logger.format("&7▶▷ &fEasy&9Cloud &7» &r", LogType.EMPTY);
     }
 

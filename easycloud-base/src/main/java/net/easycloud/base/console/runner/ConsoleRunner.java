@@ -12,17 +12,6 @@ public final class ConsoleRunner {
     public ConsoleRunner() {
         this.bytes = new byte[2048];
         this.stringBuffer = new StringBuffer();
-
-        /*while (Base.getInstance().isRunning()) {
-            Base.getInstance().getServiceProvider().getServices().forEach(it -> {
-                if (it instanceof Service service) {
-                    this.readStream(service.getProcess().getInputStream(), service.isConsole() ? line -> {
-                        service.getConsoleCache().add(line);
-                        Base.getInstance().getLogger().log("§7[§r" + service.getId() + "§7] §r" + line);
-                    } : service.getConsoleCache()::add);
-                }
-            });
-        }*/
     }
 
     private void readStream(final InputStream inputStream, final Consumer<String> consumer) {
