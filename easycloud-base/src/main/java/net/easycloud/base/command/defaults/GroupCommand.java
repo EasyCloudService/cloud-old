@@ -1,6 +1,6 @@
 package net.easycloud.base.command.defaults;
 
-import net.bytemc.evelon.repository.Filter;
+
 import net.easycloud.api.console.LogType;
 import net.easycloud.api.group.Group;
 import net.easycloud.api.group.misc.GroupType;
@@ -60,9 +60,8 @@ public final class GroupCommand extends CloudCommand {
                                 .possibleResults(Arrays.stream(GroupVersion.values()).map(Enum::name).toList())
                                 .build()
                 ), values -> {
-                    Base.getInstance().getGroupProvider().getRepository().query().filter(Filter.match("name", values.get("group.name")))
-                            .database()
-                            .findAll().stream().findFirst()
+                    Base.getInstance().getGroupProvider().getRepository().query().match("name", values.get("group.name"))
+                            .find().stream().findFirst()
                             .ifPresentOrElse(group -> {
                                 logger.log("Group " + values.get("group.name") + " already exists!", LogType.WARNING);
                             }, () -> {
@@ -83,12 +82,12 @@ public final class GroupCommand extends CloudCommand {
                 return;
             }
             if (args[1].equalsIgnoreCase("list")) {
-                if (Base.getInstance().getGroupProvider().getRepository().query().database().findAll().isEmpty()) {
+                if (Base.getInstance().getGroupProvider().getRepository().query().find().isEmpty()) {
                     logger.log("There is currently no group!");
                     return;
                 }
 
-                Base.getInstance().getGroupProvider().getRepository().query().database().findAll().forEach(group -> {
+                Base.getInstance().getGroupProvider().getRepository().query().find().forEach(group -> {
                     logger.log(group.getName() + " " + argument(group.getMaxMemory() + "mb") + " §7| §f0 Online");
                 });
                 return;
@@ -108,9 +107,8 @@ public final class GroupCommand extends CloudCommand {
             if (args[1].equalsIgnoreCase("create")) {
                 if (args.length == 7) {
                     try {
-                        Base.getInstance().getGroupProvider().getRepository().query().filter(Filter.match("name", args[2]))
-                                .database()
-                                .findAll().stream().findFirst()
+                        Base.getInstance().getGroupProvider().getRepository().query().match("name", args[2])
+                                .find().stream().findFirst()
                                 .ifPresentOrElse(group -> {
                                     logger.log("Group " + args[2] + " already exists!", LogType.WARNING);
                                 }, () -> {
@@ -126,9 +124,8 @@ public final class GroupCommand extends CloudCommand {
             if (args[1].equalsIgnoreCase("delete")) {
                 if (args.length == 2) {
                     try {
-                        Base.getInstance().getGroupProvider().getRepository().query().filter(Filter.match("name", args[2]))
-                                .database()
-                                .findAll().stream().findFirst()
+                        Base.getInstance().getGroupProvider().getRepository().query().match("name", args[2])
+                                .find().stream().findFirst()
                                 .ifPresentOrElse(group -> {
                                     //TODO
                                 }, () -> {

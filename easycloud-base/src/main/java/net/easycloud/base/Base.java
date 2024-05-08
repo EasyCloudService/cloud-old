@@ -3,17 +3,16 @@ package net.easycloud.base;
 import dev.httpmarco.osgan.networking.server.NettyServer;
 import dev.httpmarco.osgan.networking.server.NettyServerBuilder;
 import lombok.Getter;
-import net.bytemc.evelon.Evelon;
 import net.easycloud.api.configuration.SecretConfiguration;
 import net.easycloud.api.utils.file.FileHelper;
 import net.easycloud.api.github.GithubConfig;
-import net.easycloud.api.github.GithubDownloader;
 import net.easycloud.api.network.packet.HandshakeAuthenticationPacket;
 import net.easycloud.api.network.packet.ServiceConnectPacket;
 import net.easycloud.api.utils.RandomStringUtil;
 import net.easycloud.base.command.CommandHandler;
 import net.easycloud.base.console.runner.ConsoleRunner;
 import net.easycloud.base.logger.SimpleLogger;
+import net.easycloud.base.update.UpdateHelper;
 import net.easycloud.base.user.UserHandler;
 import net.easycloud.base.rest.RestAPI;
 import net.easycloud.base.service.Service;
@@ -26,7 +25,6 @@ import net.easycloud.api.console.Logger;
 import net.easycloud.api.velocity.VelocityProvider;
 import net.easycloud.base.group.SimpleGroupHandler;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 @SuppressWarnings("ALL")
@@ -34,7 +32,7 @@ import java.nio.file.Path;
 public final class Base extends CloudDriver {
     private static Base instance;
 
-    private boolean running;
+    private boolean running = false;
     private final Logger logger;
     private final DefaultConfiguration configuration;
 
@@ -46,33 +44,13 @@ public final class Base extends CloudDriver {
     public Base(String jarName, boolean ignoreUpdate) {
         instance = this;
 
-        this.setupHandler = new SetupHandler();
-
-        this.running = true;
         this.logger = new SimpleLogger();
-        try {
-            var result = false;
-            logger.log("Searching for an update...");
-            if (ignoreUpdate) {
-                logger.log("Ignore updates.");
-            } else {
-                result = GithubDownloader.updateIfNeeded(CloudPath.STORAGE);
-                if (result) {
-                    logger.log("An update was found. restarting...");
-                    logger.log("&cPlease wait 5 seconds before starting again!");
-                    Thread.sleep(1000);
-                    new ProcessBuilder("java", "-jar", "updater.jar", jarName).directory(CloudPath.STORAGE.toFile()).start();
-                    System.exit(0);
-                } else {
-                    logger.log("No update was found...");
-                }
-            }
-            Thread.sleep(1000);
-        } catch (InterruptedException | IOException e) {
-            throw new RuntimeException(e);
-        }
+        UpdateHelper.update(ignoreUpdate, jarName, logger);
 
-        if (!Path.of(System.getProperty("user.dir")).resolve("config.json").toFile().exists()) {
+        this.setupHandler = new SetupHandler();
+        this.running = true;
+
+        if (!Path.of(System.getProperty("user.dir")).resolve("evelon-connection-credentials.json").toFile().exists()) {
             setupHandler.start();
             while (true) {
                 try {
@@ -86,10 +64,13 @@ public final class Base extends CloudDriver {
             }
         }
 
-        FileHelper.writeIfNotExists(Path.of(System.getProperty("user.dir")), new SecretConfiguration("SECRET_" + RandomStringUtil.generate(100)));
-        var secret = FileHelper.read(Path.of(System.getProperty("user.dir")), SecretConfiguration.class);
-        this.configuration = FileHelper.read(Path.of(System.getProperty("user.dir")), DefaultConfiguration.class);
-        Evelon.setCradinates(configuration.database());
+        var userDir =  Path.of(System.getProperty("user.dir"));
+        var configs = userDir.resolve("storage").resolve("data");
+        configs.toFile().mkdirs();
+
+        FileHelper.writeIfNotExists(configs, new SecretConfiguration("SECRET_" + RandomStringUtil.generate(100)));
+        var secret = FileHelper.read(configs, SecretConfiguration.class);
+        this.configuration = FileHelper.read(configs, DefaultConfiguration.class);
 
         ((SimpleLogger) Base.getInstance().getLogger()).getConsole().setInService(false);
 
@@ -135,8 +116,8 @@ public final class Base extends CloudDriver {
 
     public String getVersion() {
         var version = "-";
-        if(CloudPath.STORAGE.resolve("github.json").toFile().exists()) {
-            version = FileHelper.read(CloudPath.STORAGE, GithubConfig.class).getVersion();
+        if(CloudPath.STORAGE.resolve("github").resolve("github.json").toFile().exists()) {
+            version = FileHelper.read(CloudPath.STORAGE.resolve("github"), GithubConfig.class).getVersion();
         }
         return version;
     }

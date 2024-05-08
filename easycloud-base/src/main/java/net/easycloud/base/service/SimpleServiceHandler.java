@@ -39,7 +39,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            for (Group group : Base.getInstance().getGroupProvider().getRepository().query().database().findAll()) {
+            for (Group group : Base.getInstance().getGroupProvider().getRepository().query().find()) {
                 if (group.getMinOnline() > 0) {
                     start(group, group.getMinOnline());
                 }
@@ -93,7 +93,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
 
     public void update() {
         new Thread(() -> {
-            for (Group group : Base.getInstance().getGroupProvider().getRepository().query().database().findAll()) {
+            for (Group group : Base.getInstance().getGroupProvider().getRepository().query().find()) {
                 var online = services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count();
 
                 if (group.getMaxOnline() > online || group.getMaxOnline() == -1) {

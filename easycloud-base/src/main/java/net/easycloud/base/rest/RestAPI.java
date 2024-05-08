@@ -26,11 +26,11 @@ public final class RestAPI {
         });
         get("/groups/size", (req, res) -> {
             if(!checkIfValid(req.queryParams("adminKey"))) return "ERROR";
-            return Base.getInstance().getGroupProvider().getRepository().query().database().findAll().size();
+            return Base.getInstance().getGroupProvider().getRepository().query().find().size();
         });
         get("/groups", (req, res) -> {
             if(!checkIfValid(req.queryParams("adminKey"))) return "ERROR";
-            return FileHelper.GSON.toJson(Base.getInstance().getGroupProvider().getRepository().query().database().findAll());
+            return FileHelper.GSON.toJson(Base.getInstance().getGroupProvider().getRepository().query().find());
         });
 
         Base.getInstance().getLogger().log("§7RestAPI is listening on following port: 4567");

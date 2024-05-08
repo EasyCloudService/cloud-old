@@ -1,10 +1,10 @@
 package net.easycloud.api.network.packet;
 
+import dev.httpmarco.evelon.MariaDbLayer;
+import dev.httpmarco.evelon.Repository;
 import dev.httpmarco.osgan.networking.Packet;
 import dev.httpmarco.osgan.networking.codec.CodecBuffer;
 import lombok.Getter;
-import net.bytemc.evelon.repository.Filter;
-import net.bytemc.evelon.repository.Repository;
 import net.easycloud.api.group.Group;
 
 @Getter
@@ -24,10 +24,8 @@ public final class ServiceDisconnectPacket extends Packet {
     public ServiceDisconnectPacket(CodecBuffer buffer) {
         super(buffer);
 
-        var repo = Repository.create(Group.class);
-        this.group = repo.query().filter(Filter.match("name", buffer.readString()))
-                .database()
-                .findFirst();
+        var repo = Repository.build(Group.class).withId("groups").withLayer(MariaDbLayer.class).build();
+        this.group = repo.query().match("name", buffer.readString()).findFirst();
         this.name = buffer.readString();
         this.port = buffer.readInt();
     }

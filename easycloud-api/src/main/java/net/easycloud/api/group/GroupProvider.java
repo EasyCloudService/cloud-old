@@ -1,6 +1,6 @@
 package net.easycloud.api.group;
 
-import net.bytemc.evelon.repository.Repository;
+import dev.httpmarco.evelon.Repository;
 
 public interface GroupProvider {
     Repository<Group> getRepository();
