@@ -21,8 +21,9 @@ public final class UpdateHelper {
             logger.log("[&9Github&7] &7An newer release was found.", LogType.EMPTY);
 
             if(isDisabled) {
-                logger.log("[&9Github&7] &7But sorry. Updates are disabled.", LogType.EMPTY);
+                logger.log("[&9Github&7] &7But sorry. Updates are &cdisabled&7.", LogType.EMPTY);
                 Thread.sleep(1000);
+                return;
             }
 
             int[] sProgress = {0};
@@ -46,5 +47,6 @@ public final class UpdateHelper {
             new ProcessBuilder("java", "-jar", "updater.jar", jarName).directory(CloudPath.STORAGE.toFile()).start();
             System.exit(0);
         }
+        Thread.sleep(1000);
     }
 }
