@@ -1,6 +1,5 @@
 package net.easycloud.base.command.defaults;
 
-
 import net.easycloud.api.console.LogType;
 import net.easycloud.api.group.Group;
 import net.easycloud.api.group.misc.GroupType;
@@ -14,6 +13,7 @@ import net.easycloud.base.setup.SetupBuilder;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Command(name = "group", aliases = {"groups"})
 public final class GroupCommand extends CloudCommand {
@@ -45,9 +45,10 @@ public final class GroupCommand extends CloudCommand {
                                 .key("group.maxPlayers")
                                 .question("&7What is you group maxPlayers?")
                                 .build(),
-                        SetupBuilder.<String>get()
+                        SetupBuilder.<Boolean>get()
                                 .key("group.static")
                                 .question("&7Is your group static?")
+                                .possibleResults(List.of(true, false))
                                 .build(),
                         SetupBuilder.<String>get()
                                 .key("group.type")
@@ -66,6 +67,7 @@ public final class GroupCommand extends CloudCommand {
                                 logger.log("Group " + values.get("group.name") + " already exists!", LogType.WARNING);
                             }, () -> {
                                 Base.getInstance().getGroupProvider().create(new Group(
+                                        UUID.randomUUID(),
                                         values.get("group.name"),
                                         Integer.parseInt(values.get("group.memory")),
                                         Integer.parseInt(values.get("group.minOnline")),
@@ -112,7 +114,7 @@ public final class GroupCommand extends CloudCommand {
                                 .ifPresentOrElse(group -> {
                                     logger.log("Group " + args[2] + " already exists!", LogType.WARNING);
                                 }, () -> {
-                                    Base.getInstance().getGroupProvider().create(new Group(args[2], Integer.parseInt(args[3]), 1, -1, 50, Boolean.parseBoolean(args[6]), "ANVIL", GroupType.valueOf(args[4].toUpperCase()), GroupVersion.valueOf(args[5].toUpperCase())));
+                                    Base.getInstance().getGroupProvider().create(new Group(UUID.randomUUID(), args[2], Integer.parseInt(args[3]), 1, -1, 50, Boolean.parseBoolean(args[6]), "ANVIL", GroupType.valueOf(args[4].toUpperCase()), GroupVersion.valueOf(args[5].toUpperCase())));
                                 });
                         ((SimpleServiceHandler) Base.getInstance().getServiceProvider()).update();
                     } catch (Exception exception) {

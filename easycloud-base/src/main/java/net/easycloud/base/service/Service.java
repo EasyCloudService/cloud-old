@@ -2,6 +2,7 @@ package net.easycloud.base.service;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.easycloud.api.service.state.ServiceState;
 import net.easycloud.api.utils.file.FileHelper;
 import net.easycloud.api.group.Group;
 import net.easycloud.api.group.misc.GroupType;
@@ -17,12 +18,14 @@ import java.util.List;
 @Getter
 public class Service implements IService {
     private final Group group;
-    private final int port;
     private final String id;
+    private final int port;
     private final List<String> consoleCache;
 
     @Setter
     private boolean console;
+    @Setter
+    private ServiceState state;
     private Process process;
     private BufferedWriter writer;
 
@@ -32,6 +35,7 @@ public class Service implements IService {
         this.id = id;
         this.consoleCache = new ArrayList<>();
         this.console = false;
+        this.state = ServiceState.STARTING;
     }
 
     public void setProcess(Process process) {
@@ -77,6 +81,11 @@ public class Service implements IService {
         if(update) {
             ((SimpleServiceHandler) Base.getInstance().getServiceProvider()).update();
         }
+    }
+
+    @Override
+    public ServiceState getState() {
+        return this.state;
     }
 
     @Override

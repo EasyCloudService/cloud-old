@@ -4,10 +4,7 @@ import lombok.Getter;
 import net.easycloud.api.console.LogType;
 import net.easycloud.api.group.Group;
 import net.easycloud.api.group.misc.GroupType;
-import net.easycloud.api.network.packet.ServiceConnectPacket;
-import net.easycloud.api.network.packet.ServiceDisconnectPacket;
-import net.easycloud.api.network.packet.ServiceRequestStartPacket;
-import net.easycloud.api.network.packet.ServiceRequestStopPacket;
+import net.easycloud.api.network.packet.*;
 import net.easycloud.api.service.IService;
 import net.easycloud.api.service.ServiceProvider;
 import net.easycloud.base.service.process.ServiceProcessBuilder;
@@ -31,6 +28,11 @@ public final class SimpleServiceHandler implements ServiceProvider {
 
         Base.getInstance().getNettyServer().listen(ServiceRequestStopPacket.class, (channel, packet) -> {
             stop(packet.getServiceId());
+        });
+
+        Base.getInstance().getNettyServer().listen(ServiceStatePacket.class, (channel, packet) -> {
+            var service = (Service) this.services.stream().filter(it -> it.getId().equalsIgnoreCase(packet.getName())).findFirst().orElseThrow();
+            service.setState(packet.getState());
         });
 
         new Thread(() -> {

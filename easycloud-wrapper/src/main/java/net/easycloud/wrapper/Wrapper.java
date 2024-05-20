@@ -11,8 +11,8 @@ import net.easycloud.wrapper.group.SimpleGroupHandler;
 import net.easycloud.wrapper.user.UserHandler;
 import net.easycloud.wrapper.service.ServiceHandler;
 
-@SuppressWarnings("ALL")
 @Getter
+@SuppressWarnings("ALL")
 public final class Wrapper extends CloudDriver {
     private static Wrapper instance;
 

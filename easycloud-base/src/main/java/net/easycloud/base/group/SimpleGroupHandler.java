@@ -9,6 +9,7 @@ import net.easycloud.api.group.misc.GroupType;
 import net.easycloud.api.group.misc.GroupVersion;
 import net.easycloud.api.misc.DownloadHelper;
 import net.easycloud.api.misc.Reflections;
+import net.easycloud.api.network.packet.GroupCreatePacket;
 import net.easycloud.base.Base;
 import net.easycloud.base.setup.ConsoleSetup;
 import net.easycloud.base.setup.SetupBuilder;
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 public final class SimpleGroupHandler implements GroupProvider {
@@ -41,10 +43,10 @@ public final class SimpleGroupHandler implements GroupProvider {
                             .build()
             ), values -> {
                 if(Boolean.parseBoolean(values.get("service.create.proxy"))) {
-                    create(new Group("Proxy", 512, 1, 1, 50, false, "ANVIL", GroupType.PROXY, GroupVersion.VELOCITY_LATEST));
+                    create(new Group(UUID.randomUUID(), "Proxy", 512, 1, 1, 50, false, "ANVIL", GroupType.PROXY, GroupVersion.VELOCITY_LATEST));
                 }
                 if(Boolean.parseBoolean(values.get("service.create.lobby"))) {
-                    create(new Group("Lobby", 1024, 1, -1, 50, false, "ANVIL", GroupType.LOBBY, GroupVersion.PAPER_1_20_4));
+                    create(new Group(UUID.randomUUID(), "Lobby", 1024, 1, -1, 50, false, "ANVIL", GroupType.LOBBY, GroupVersion.PAPER_1_20_4));
                 }
                 setup[0] = false;
             });
@@ -76,6 +78,10 @@ public final class SimpleGroupHandler implements GroupProvider {
             if(!file.toFile().exists()) {
                 file.toFile().mkdirs();
             }
+        });
+
+        Base.getInstance().getNettyServer().listen(GroupCreatePacket.class, (transmit, packet) -> {
+            create(packet.getGroup());
         });
     }
 

@@ -2,12 +2,10 @@ package net.easycloud.wrapper.service;
 
 import lombok.Getter;
 import net.easycloud.api.group.Group;
-import net.easycloud.api.network.packet.ServiceConnectPacket;
-import net.easycloud.api.network.packet.ServiceDisconnectPacket;
-import net.easycloud.api.network.packet.ServiceRequestStartPacket;
-import net.easycloud.api.network.packet.ServiceRequestStopPacket;
+import net.easycloud.api.network.packet.*;
 import net.easycloud.api.service.IService;
 import net.easycloud.api.service.ServiceProvider;
+import net.easycloud.api.service.state.ServiceState;
 import net.easycloud.wrapper.Wrapper;
 
 import java.util.ArrayList;
@@ -23,12 +21,17 @@ public final class ServiceHandler implements ServiceProvider {
         this.services = new ArrayList<>();
         this.consumers = new ArrayList<>();
 
+        Wrapper.getInstance().getNettyClient().listen(ServiceStatePacket.class, (channel, packet) -> {
+            var service = (Service) this.services.stream().filter(it -> it.getId().equalsIgnoreCase(packet.getName())).findFirst().orElseThrow();
+            service.setState(packet.getState());
+        });
+
         Wrapper.getInstance().getNettyClient().listen(ServiceConnectPacket.class, (channel, packet) -> {
-            services.add(new Service(packet.getGroup(), packet.getName(), packet.getPort()));
+            this.services.add(new Service(packet.getGroup(), packet.getName(), packet.getPort(), ServiceState.STARTING));
         });
 
         Wrapper.getInstance().getNettyClient().listen(ServiceDisconnectPacket.class, (channel, packet) -> {
-            services.removeIf(it -> it.getId().equals(packet.getName()));
+            this.services.removeIf(it -> it.getId().equals(packet.getName()));
         });
     }
 

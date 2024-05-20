@@ -12,13 +12,11 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.ServerInfo;
 import lombok.Getter;
-import net.easycloud.api.network.packet.PlayerConnectPacket;
-import net.easycloud.api.network.packet.PlayerDisconnectPacket;
+import net.easycloud.api.network.packet.*;
+import net.easycloud.api.service.state.ServiceState;
 import net.kyori.adventure.text.Component;
 import net.easycloud.api.CloudDriver;
 import net.easycloud.api.group.misc.GroupType;
-import net.easycloud.api.network.packet.ServiceConnectPacket;
-import net.easycloud.api.network.packet.ServiceDisconnectPacket;
 import net.easycloud.api.service.IService;
 import net.easycloud.velocity.command.CloudCommand;
 import net.easycloud.velocity.command.HubCommand;
@@ -85,6 +83,9 @@ public final class VelocityPlugin {
         commandManager.register(commandManager.metaBuilder("cs").aliases("cloudsystem", "pc", "EasyCloud").plugin(this).build(), new CloudCommand());
         commandManager.register(commandManager.metaBuilder("hub").aliases("lobby", "lobbyserver", "hubschrauber").plugin(this).build(), new HubCommand());
         commandManager.register(commandManager.metaBuilder("perm").aliases("permission").plugin(this).build(), new PermissionCommand());
+
+        var current = CloudDriver.getInstance().getServiceProvider().getCurrentService().getId();
+        CloudDriver.getInstance().getNettyClient().sendPacket(new ServiceStatePacket(current, ServiceState.RUNNING));
     }
 
     @Subscribe

@@ -3,6 +3,8 @@ package net.easycloud.spigot;
 import lombok.Getter;
 import net.easycloud.api.CloudDriver;
 import net.easycloud.api.network.packet.PermissionUpdatePacket;
+import net.easycloud.api.network.packet.ServiceStatePacket;
+import net.easycloud.api.service.state.ServiceState;
 import net.easycloud.spigot.listener.AsyncPlayerPreLoginListener;
 import net.easycloud.spigot.listener.PlayerLoginListener;
 import net.kyori.adventure.text.Component;
@@ -44,6 +46,9 @@ public final class SpigotPlugin extends JavaPlugin {
             System.out.println("UPDATE PLAYER UPDATE");
             updatePlayer(player);
         });
+
+        var current = CloudDriver.getInstance().getServiceProvider().getCurrentService().getId();
+        CloudDriver.getInstance().getNettyClient().sendPacket(new ServiceStatePacket(current, ServiceState.RUNNING));
     }
 
     @Override
@@ -52,6 +57,9 @@ public final class SpigotPlugin extends JavaPlugin {
             it.kick(Component.text("§cService is offline§8!"));
         });
         CloudDriver.getInstance().getServiceProvider().stop(CloudDriver.getInstance().getServiceProvider().getCurrentService().getId());
+
+        var current = CloudDriver.getInstance().getServiceProvider().getCurrentService().getId();
+        CloudDriver.getInstance().getNettyClient().sendPacket(new ServiceStatePacket(current, ServiceState.STOPPED));
     }
 
     public void updatePlayer(Player player) {

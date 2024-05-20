@@ -28,7 +28,7 @@ public final class UpdaterBootstrap {
                 file.delete();
             }
         };
-        List.of("start.bat", "start.sh", "EasyCloudService.jar").forEach(it -> jarPath.resolve(it).toFile().delete());
+        List.of("start.bat", "EasyCloudService.jar").forEach(it -> jarPath.resolve(it).toFile().delete());
 
         unzip(github.resolve("release.zip"), jarPath);
         github.resolve("release.zip").toFile().delete();

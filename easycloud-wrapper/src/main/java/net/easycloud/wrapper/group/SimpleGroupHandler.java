@@ -5,6 +5,15 @@ import dev.httpmarco.evelon.Repository;
 import lombok.Getter;
 import net.easycloud.api.group.Group;
 import net.easycloud.api.group.GroupProvider;
+import net.easycloud.api.group.misc.GroupType;
+import net.easycloud.api.misc.DownloadHelper;
+import net.easycloud.api.misc.Reflections;
+import net.easycloud.api.network.packet.GroupCreatePacket;
+import net.easycloud.wrapper.Wrapper;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
 
 @Getter
 public final class SimpleGroupHandler implements GroupProvider {
@@ -20,8 +29,7 @@ public final class SimpleGroupHandler implements GroupProvider {
     }
 
     @Override
-    //TODO
     public void create(Group group) {
-
+        Wrapper.getInstance().getNettyClient().sendPacket(new GroupCreatePacket(group));
     }
 }

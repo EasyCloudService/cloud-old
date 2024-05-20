@@ -1,6 +1,11 @@
 # IGNORE THIS PART
 bind = "0.0.0.0:25577"
 
+# DO NOT TOUCH!
+config-version = "2.7"
+player-info-forwarding-mode = "modern"
+forwarding-secret-file = "forwarding.secret"
+
 # What should be the MOTD? This gets displayed when the player adds your server to
 # their server list. Only MiniMessage format is accepted.
 motd = "<color:#333333>▶▷</color> <aqua>EasyCloud</aqua> <color:#333333>»</color> <gray>simplicity meets</gray> <aqua><b>performance</b></aqua>\n<color:#333333>➥</color> <gray>download on</gray> <color:#333333>(</color><aqua>easycloudservice.de</aqua><color:#333333>)</color> <color:#333333>(</color><aqua>velocity</aqua><color:#333333>)"
@@ -19,11 +24,6 @@ force-key-authentication = true
 # authentication server, the player is kicked. This disallows some VPN and proxy
 # connections but is a weak form of protection.
 prevent-client-proxy-connections = false
-
-# DO NOT TOUCH!
-config-version = "2.7"
-player-info-forwarding-mode = "modern"
-forwarding-secret-file = "forwarding.secret"
 
 # Announce whether or not your server supports Forge. If you run a modded server, we
 # suggest turning this on.

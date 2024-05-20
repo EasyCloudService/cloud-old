@@ -35,12 +35,12 @@
         <dependency>
             <groupId>dev.httpmarco.evelon</groupId>
             <artifactId>evelon-common</artifactId>
-            <version>1.0.9-20240507.093828-1</version>
+            <version>1.0.21-20240513.124233-1</version>
         </dependency>
         <dependency>
             <groupId>dev.httpmarco.evelon</groupId>
             <artifactId>evelon-sql-mariadb</artifactId>
-            <version>1.0.9-20240507.093828-1</version>
+            <version>1.0.21-20240513.124233-1</version>
         </dependency>
 
         <dependency>

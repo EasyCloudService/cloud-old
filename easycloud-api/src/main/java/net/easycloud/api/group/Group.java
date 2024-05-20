@@ -7,11 +7,14 @@ import lombok.Setter;
 import net.easycloud.api.group.misc.GroupType;
 import net.easycloud.api.group.misc.GroupVersion;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
 public final class Group {
     @PrimaryKey
+    private final UUID uniqueId;
     private final String name;
 
     private int maxMemory;

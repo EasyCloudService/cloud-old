@@ -4,6 +4,7 @@ import dev.httpmarco.evelon.MariaDbLayer;
 import dev.httpmarco.evelon.Repository;
 import lombok.Getter;
 import net.easycloud.api.configuration.SecretConfiguration;
+import net.easycloud.api.service.state.ServiceState;
 import net.easycloud.api.utils.file.FileHelper;
 import net.easycloud.api.group.Group;
 import net.easycloud.wrapper.classloader.ApplicationExternalObjectLoader;
@@ -26,7 +27,7 @@ public class WrapperBootstrap {
 
     public static void main(String[] args) {
         var repo = Repository.build(Group.class).withId("groups").withLayer(MariaDbLayer.class).build();
-        var service = new Service(repo.query().match("name", args[0]).findFirst(), args[1], Integer.parseInt(args[2]));
+        var service = new Service(repo.query().match("name", args[0]).findFirst(), args[1], Integer.parseInt(args[2]), ServiceState.STARTING);
 
         try {
             Files.copy(Path.of(System.getProperty("user.dir")).getParent().getParent().getParent().resolve("storage").resolve("jars").resolve("ECS-Plugin.jar"), service.getDirectory().resolve("plugins").resolve("ECS-Plugin.jar"), StandardCopyOption.REPLACE_EXISTING);
