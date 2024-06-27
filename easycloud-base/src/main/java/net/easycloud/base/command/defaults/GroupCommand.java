@@ -61,12 +61,12 @@ public final class GroupCommand extends CloudCommand {
                                 .possibleResults(Arrays.stream(GroupVersion.values()).map(Enum::name).toList())
                                 .build()
                 ), values -> {
-                    Base.getInstance().getGroupProvider().getRepository().query().match("name", values.get("group.name"))
+                    Base.getInstance().groupProvider().getRepository().query().match("name", values.get("group.name"))
                             .find().stream().findFirst()
                             .ifPresentOrElse(group -> {
                                 logger.log("Group " + values.get("group.name") + " already exists!", LogType.WARNING);
                             }, () -> {
-                                Base.getInstance().getGroupProvider().create(new Group(
+                                Base.getInstance().groupProvider().create(new Group(
                                         UUID.randomUUID(),
                                         values.get("group.name"),
                                         Integer.parseInt(values.get("group.memory")),
@@ -79,17 +79,17 @@ public final class GroupCommand extends CloudCommand {
                                         GroupVersion.valueOf(values.get("group.version"))
                                 ));
                             });
-                    ((SimpleServiceHandler) Base.getInstance().getServiceProvider()).update();
+                    ((SimpleServiceHandler) Base.getInstance().serviceProvider()).update();
                 });
                 return;
             }
             if (args[1].equalsIgnoreCase("list")) {
-                if (Base.getInstance().getGroupProvider().getRepository().query().find().isEmpty()) {
+                if (Base.getInstance().groupProvider().getRepository().query().find().isEmpty()) {
                     logger.log("There is currently no group!");
                     return;
                 }
 
-                Base.getInstance().getGroupProvider().getRepository().query().find().forEach(group -> {
+                Base.getInstance().groupProvider().getRepository().query().find().forEach(group -> {
                     logger.log(group.getName() + " " + argument(group.getMaxMemory() + "mb") + " §7| §f0 Online");
                 });
                 return;
@@ -109,14 +109,14 @@ public final class GroupCommand extends CloudCommand {
             if (args[1].equalsIgnoreCase("create")) {
                 if (args.length == 7) {
                     try {
-                        Base.getInstance().getGroupProvider().getRepository().query().match("name", args[2])
+                        Base.getInstance().groupProvider().getRepository().query().match("name", args[2])
                                 .find().stream().findFirst()
                                 .ifPresentOrElse(group -> {
                                     logger.log("Group " + args[2] + " already exists!", LogType.WARNING);
                                 }, () -> {
-                                    Base.getInstance().getGroupProvider().create(new Group(UUID.randomUUID(), args[2], Integer.parseInt(args[3]), 1, -1, 50, Boolean.parseBoolean(args[6]), "ANVIL", GroupType.valueOf(args[4].toUpperCase()), GroupVersion.valueOf(args[5].toUpperCase())));
+                                    Base.getInstance().groupProvider().create(new Group(UUID.randomUUID(), args[2], Integer.parseInt(args[3]), 1, -1, 50, Boolean.parseBoolean(args[6]), "ANVIL", GroupType.valueOf(args[4].toUpperCase()), GroupVersion.valueOf(args[5].toUpperCase())));
                                 });
-                        ((SimpleServiceHandler) Base.getInstance().getServiceProvider()).update();
+                        ((SimpleServiceHandler) Base.getInstance().serviceProvider()).update();
                     } catch (Exception exception) {
                         logger.log("Please provide valid values!", LogType.ERROR);
                     }
@@ -126,14 +126,14 @@ public final class GroupCommand extends CloudCommand {
             if (args[1].equalsIgnoreCase("delete")) {
                 if (args.length == 2) {
                     try {
-                        Base.getInstance().getGroupProvider().getRepository().query().match("name", args[2])
+                        Base.getInstance().groupProvider().getRepository().query().match("name", args[2])
                                 .find().stream().findFirst()
                                 .ifPresentOrElse(group -> {
                                     //TODO
                                 }, () -> {
                                     logger.log("Group " + args[2] + " does not exists!", LogType.WARNING);
                                 });
-                        ((SimpleServiceHandler) Base.getInstance().getServiceProvider()).update();
+                        ((SimpleServiceHandler) Base.getInstance().serviceProvider()).update();
                     } catch (Exception exception) {
                         logger.log("Please provide valid values!", LogType.ERROR);
                     }

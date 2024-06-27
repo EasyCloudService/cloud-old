@@ -33,8 +33,8 @@ public class ConsoleReadingThread extends Thread {
                     //TODO
                 } if (ConsoleSetup.SETUP_ENABLED) {
                     ConsoleSetup.pushLine(line);
-                } else if (Base.getInstance().getServiceProvider().getServices().stream().anyMatch(it -> ((Service) it).isConsole())) {
-                    Base.getInstance().getServiceProvider().getServices().stream().filter(it -> ((Service) it).isConsole()).forEach(service -> {
+                } else if (Base.getInstance().serviceProvider().getServices().stream().anyMatch(it -> ((Service) it).isConsole())) {
+                    Base.getInstance().serviceProvider().getServices().stream().filter(it -> ((Service) it).isConsole()).forEach(service -> {
                         if (line.equalsIgnoreCase("leave")) {
                             ((Service) service).setConsole(false);
                             ((SimpleLogger) Base.getInstance().getLogger()).getConsole().clearConsole();

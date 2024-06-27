@@ -36,7 +36,7 @@ public final class SpigotPlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new AsyncPlayerPreLoginListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerLoginListener(), this);
 
-        CloudDriver.getInstance().getNettyClient().listen(PermissionUpdatePacket.class, (channel, packet) -> {
+        CloudDriver.instance().nettyClient().listen(PermissionUpdatePacket.class, (channel, packet) -> {
             System.out.println("UPDATE PLAYER");
             var player = Bukkit.getPlayer(packet.getUniqueId());
             if(!player.isOnline()) {
@@ -47,8 +47,8 @@ public final class SpigotPlugin extends JavaPlugin {
             updatePlayer(player);
         });
 
-        var current = CloudDriver.getInstance().getServiceProvider().getCurrentService().getId();
-        CloudDriver.getInstance().getNettyClient().sendPacket(new ServiceStatePacket(current, ServiceState.RUNNING));
+        var current = CloudDriver.instance().serviceProvider().getCurrentService().getId();
+        CloudDriver.instance().nettyClient().sendPacket(new ServiceStatePacket(current, ServiceState.RUNNING));
     }
 
     @Override
@@ -56,10 +56,10 @@ public final class SpigotPlugin extends JavaPlugin {
         Bukkit.getOnlinePlayers().forEach(it -> {
             it.kick(Component.text("§cService is offline§8!"));
         });
-        CloudDriver.getInstance().getServiceProvider().stop(CloudDriver.getInstance().getServiceProvider().getCurrentService().getId());
+        CloudDriver.instance().serviceProvider().stop(CloudDriver.instance().serviceProvider().getCurrentService().getId());
 
-        var current = CloudDriver.getInstance().getServiceProvider().getCurrentService().getId();
-        CloudDriver.getInstance().getNettyClient().sendPacket(new ServiceStatePacket(current, ServiceState.STOPPED));
+        var current = CloudDriver.instance().serviceProvider().getCurrentService().getId();
+        CloudDriver.instance().nettyClient().sendPacket(new ServiceStatePacket(current, ServiceState.STOPPED));
     }
 
     public void updatePlayer(Player player) {
@@ -67,11 +67,11 @@ public final class SpigotPlugin extends JavaPlugin {
             getPermissions().get(player.getUniqueId()).unsetPermission(permission);
         });
 
-        if(CloudDriver.getInstance().getUserProvider().getUser(player.getUniqueId()).getPermissions().stream().anyMatch(it -> it.equals("*"))) {
+        if(CloudDriver.instance().userProvider().getUser(player.getUniqueId()).getPermissions().stream().anyMatch(it -> it.equals("*"))) {
             player.setOp(true);
         } else {
             player.setOp(false);
-            CloudDriver.getInstance().getUserProvider().getUser(player.getUniqueId()).getPermissions().forEach(permission -> getPermissions().get(player.getUniqueId()).setPermission(permission, true));
+            CloudDriver.instance().userProvider().getUser(player.getUniqueId()).getPermissions().forEach(permission -> getPermissions().get(player.getUniqueId()).setPermission(permission, true));
         }
     }
 }

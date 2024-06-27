@@ -1,6 +1,7 @@
 package net.easycloud.api;
 
 import dev.httpmarco.osgan.networking.client.NettyClient;
+import lombok.experimental.Accessors;
 import net.easycloud.api.event.EventHandler;
 import net.easycloud.api.group.GroupProvider;
 import net.easycloud.api.service.ServiceProvider;
@@ -9,6 +10,7 @@ import net.easycloud.api.velocity.VelocityProvider;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("ALL")
+@Accessors(fluent = true)
 public abstract class CloudDriver implements Driver {
     private static CloudDriver instance;
 
@@ -23,43 +25,44 @@ public abstract class CloudDriver implements Driver {
         instance = this;
     }
 
-    public static CloudDriver getInstance() {
+    public static CloudDriver instance() {
         return instance;
     }
 
+
     @NotNull
     @Override
-    public EventHandler getEventHandler() {
+    public EventHandler eventProvider() {
         return eventHandler;
     }
 
     @NotNull
     @Override
-    public GroupProvider getGroupProvider() {
+    public GroupProvider groupProvider() {
         return groupProvider;
     }
 
     @NotNull
     @Override
-    public NettyClient getNettyClient() {
+    public NettyClient nettyClient() {
         return nettyClient;
     }
 
     @NotNull
     @Override
-    public ServiceProvider getServiceProvider() {
+    public ServiceProvider serviceProvider() {
         return serviceProvider;
     }
 
     @NotNull
     @Override
-    public VelocityProvider getVelocityProvider() {
+    public VelocityProvider velocityProvider() {
         return velocityProvider;
     }
 
     @NotNull
     @Override
-    public UserProvider getUserProvider() {
+    public UserProvider userProvider() {
         return userProvider;
     }
 }

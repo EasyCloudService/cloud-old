@@ -41,8 +41,8 @@ public final class CloudUser {
     }
 
     private void update() {
-        CloudDriver.getInstance().getUserProvider().getRepository().query().update(this);
-        CloudDriver.getInstance().getNettyClient().sendPacket(new PermissionUpdatePacket(uniqueId));
+        CloudDriver.instance().userProvider().getRepository().query().update(this);
+        CloudDriver.instance().nettyClient().sendPacket(new PermissionUpdatePacket(uniqueId));
     }
 
     public List<String> getPermissions() {

@@ -48,10 +48,10 @@ public final class VelocityPlugin {
         server.getConsoleCommandSource().sendMessage(Component.text("§aSuccessfully §7injected the §b@EasyCloudService"));
         server.getConsoleCommandSource().sendMessage(Component.text("§bPlugin §7was §asuccessfully §7connected to the §bWrapper§7!"));
 
-        if(!CloudDriver.getInstance().getServiceProvider().getServices().stream().filter(it -> !it.getGroup().getType().equals(GroupType.PROXY)).toList().isEmpty()) {
+        if(!CloudDriver.instance().serviceProvider().getServices().stream().filter(it -> !it.getGroup().getType().equals(GroupType.PROXY)).toList().isEmpty()) {
             System.out.println("All registered services:");
         }
-        for (IService service : CloudDriver.getInstance().getServiceProvider().getServices()) {
+        for (IService service : CloudDriver.instance().serviceProvider().getServices()) {
             if(!service.getGroup().getType().equals(GroupType.PROXY)) {
                 System.out.println("§f- §7" + service.getId() + " §7(§e" + service.getGroup().getName() + "§7)");
                 server.registerServer(new ServerInfo(service.getId(), new InetSocketAddress(service.getPort())));
@@ -59,7 +59,7 @@ public final class VelocityPlugin {
         }
         System.out.println();
 
-        CloudDriver.getInstance().getNettyClient().listen(ServiceConnectPacket.class, (channel, packet) -> {
+        CloudDriver.instance().nettyClient().listen(ServiceConnectPacket.class, (channel, packet) -> {
             if(server.getServer(packet.getName()).isEmpty() && !packet.getGroup().getType().equals(GroupType.PROXY)) {
                 System.out.println("Service " + packet.getName() + " will be started...");
                 server.getAllPlayers().forEach(it -> it.sendMessage(Component.text("§bEasyCloud §8» §e" + packet.getName() + " §7was §astarted§8!")));
@@ -67,7 +67,7 @@ public final class VelocityPlugin {
             }
         });
 
-        CloudDriver.getInstance().getNettyClient().listen(ServiceDisconnectPacket.class, (channel, packet) -> {
+        CloudDriver.instance().nettyClient().listen(ServiceDisconnectPacket.class, (channel, packet) -> {
             if(server.getServer(packet.getName()).isPresent() && !packet.getGroup().getType().equals(GroupType.PROXY)) {
                 System.out.println("Service " + packet.getName() + " will be stopped...");
                 server.getAllPlayers().forEach(it -> it.sendMessage(Component.text("§bEasyCloud §8» §e" + packet.getName() + " §7was §cstopped§8!")));
@@ -84,17 +84,17 @@ public final class VelocityPlugin {
         commandManager.register(commandManager.metaBuilder("hub").aliases("lobby", "lobbyserver", "hubschrauber").plugin(this).build(), new HubCommand());
         commandManager.register(commandManager.metaBuilder("perm").aliases("permission").plugin(this).build(), new PermissionCommand());
 
-        var current = CloudDriver.getInstance().getServiceProvider().getCurrentService().getId();
-        CloudDriver.getInstance().getNettyClient().sendPacket(new ServiceStatePacket(current, ServiceState.RUNNING));
+        var current = CloudDriver.instance().serviceProvider().getCurrentService().getId();
+        CloudDriver.instance().nettyClient().sendPacket(new ServiceStatePacket(current, ServiceState.RUNNING));
     }
 
     @Subscribe
     public void onKickedFromServer(KickedFromServerEvent event) {
-        CloudDriver.getInstance().getUserProvider().removeUser(event.getPlayer().getUniqueId());
-        CloudDriver.getInstance().getNettyClient().sendPacket(new PlayerDisconnectPacket(event.getPlayer().getUniqueId()));
+        CloudDriver.instance().userProvider().removeUser(event.getPlayer().getUniqueId());
+        CloudDriver.instance().nettyClient().sendPacket(new PlayerDisconnectPacket(event.getPlayer().getUniqueId()));
 
         server.getAllServers().stream()
-                .filter(it -> CloudDriver.getInstance().getGroupProvider().getOrThrow(it.getServerInfo().getName().split("-")[0].replace("-", "")).getType().equals(GroupType.LOBBY))
+                .filter(it -> CloudDriver.instance().groupProvider().getOrThrow(it.getServerInfo().getName().split("-")[0].replace("-", "")).getType().equals(GroupType.LOBBY))
                 .findFirst()
                 .ifPresentOrElse(it -> event.setResult(KickedFromServerEvent.RedirectPlayer.create(it)),
                         () -> event.getPlayer().disconnect(Component.text("§cNo fallback server!")));
@@ -102,21 +102,21 @@ public final class VelocityPlugin {
 
     @Subscribe
     public void onProxyShutdown(ProxyShutdownEvent event) {
-        CloudDriver.getInstance().getServiceProvider().stop(CloudDriver.getInstance().getServiceProvider().getCurrentService().getId());
+        CloudDriver.instance().serviceProvider().stop(CloudDriver.instance().serviceProvider().getCurrentService().getId());
     }
 
     @Subscribe
     public void onPlayerDisconnect(DisconnectEvent event) {
-        CloudDriver.getInstance().getUserProvider().removeUser(event.getPlayer().getUniqueId());
-        CloudDriver.getInstance().getNettyClient().sendPacket(new PlayerDisconnectPacket(event.getPlayer().getUniqueId()));
+        CloudDriver.instance().userProvider().removeUser(event.getPlayer().getUniqueId());
+        CloudDriver.instance().nettyClient().sendPacket(new PlayerDisconnectPacket(event.getPlayer().getUniqueId()));
     }
 
     @Subscribe
     public void onPlayerChooseInitialServer(PlayerChooseInitialServerEvent event) {
-        CloudDriver.getInstance().getUserProvider().createUserIfNotExists(event.getPlayer().getUniqueId());
-        CloudDriver.getInstance().getNettyClient().sendPacket(new PlayerConnectPacket(event.getPlayer().getUniqueId()));
+        CloudDriver.instance().userProvider().createUserIfNotExists(event.getPlayer().getUniqueId());
+        CloudDriver.instance().nettyClient().sendPacket(new PlayerConnectPacket(event.getPlayer().getUniqueId()));
         server.getAllServers().stream()
-                .filter(it -> CloudDriver.getInstance().getGroupProvider().getOrThrow(it.getServerInfo().getName().split("-")[0].replace("-", "")).getType().equals(GroupType.LOBBY))
+                .filter(it -> CloudDriver.instance().groupProvider().getOrThrow(it.getServerInfo().getName().split("-")[0].replace("-", "")).getType().equals(GroupType.LOBBY))
                 .findFirst()
                 .ifPresentOrElse(event::setInitialServer, () -> event.getPlayer().disconnect(Component.text("§cNo fallback server!")));
     }

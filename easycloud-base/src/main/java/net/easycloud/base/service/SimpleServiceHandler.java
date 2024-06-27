@@ -23,7 +23,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
         this.servicePrepareHandler = new ServicePrepareHandler();
 
         Base.getInstance().getNettyServer().listen(ServiceRequestStartPacket.class, (channel, packet) -> {
-            start(Base.getInstance().getGroupProvider().getOrThrow(packet.getGroupName()), packet.getCount());
+            start(Base.getInstance().groupProvider().getOrThrow(packet.getGroupName()), packet.getCount());
         });
 
         Base.getInstance().getNettyServer().listen(ServiceRequestStopPacket.class, (channel, packet) -> {
@@ -41,7 +41,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            for (Group group : Base.getInstance().getGroupProvider().getRepository().query().find()) {
+            for (Group group : Base.getInstance().groupProvider().getRepository().query().find()) {
                 if (group.getMinOnline() > 0) {
                     start(group, group.getMinOnline());
                 }
@@ -62,7 +62,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
 
             servicePrepareHandler.createFiles(group, id);
 
-            var port = (group.getType().equals(GroupType.PROXY) ? (25565 + Base.getInstance().getServiceProvider().getServices().stream().filter(it -> it.getGroup().getType().equals(GroupType.PROXY)).toList().size()) : getPort());
+            var port = (group.getType().equals(GroupType.PROXY) ? (25565 + Base.getInstance().serviceProvider().getServices().stream().filter(it -> it.getGroup().getType().equals(GroupType.PROXY)).toList().size()) : getPort());
             var service = new Service(group, port, id);
             service.setProcess(ServiceProcessBuilder.buildProcess(service));
 
@@ -95,7 +95,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
 
     public void update() {
         new Thread(() -> {
-            for (Group group : Base.getInstance().getGroupProvider().getRepository().query().find()) {
+            for (Group group : Base.getInstance().groupProvider().getRepository().query().find()) {
                 var online = services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count();
 
                 if (group.getMaxOnline() > online || group.getMaxOnline() == -1) {

@@ -46,7 +46,7 @@ public final class ServicePrepareHandler {
 
                     velocity.put("enabled", true);
                     velocity.put("online-mode", true);
-                    velocity.put("secret", Base.getInstance().getVelocityProvider().getPrivateKey());
+                    velocity.put("secret", Base.getInstance().velocityProvider().getPrivateKey());
                     proxies.put("velocity", velocity);
                     data.put("proxies", proxies);
 
@@ -80,7 +80,7 @@ public final class ServicePrepareHandler {
                     if(!tmp.resolve("velocity.toml").toFile().exists()) {
                         Files.copy(Objects.requireNonNull(Base.class.getClassLoader().getResourceAsStream("default-velocity.toml")), tmp.resolve("velocity.toml"), StandardCopyOption.REPLACE_EXISTING);
                     }
-                    Files.write(tmp.resolve("forwarding.secret"), List.of(CloudDriver.getInstance().getVelocityProvider().getPrivateKey()));
+                    Files.write(tmp.resolve("forwarding.secret"), List.of(CloudDriver.instance().velocityProvider().getPrivateKey()));
                 } catch (IOException exception) {
                     throw new RuntimeException(exception);
                 }

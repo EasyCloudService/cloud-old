@@ -17,7 +17,7 @@ public final class HubCommand implements SimpleCommand {
         if(source instanceof Player player) {
             // LOBBY GROUP
             VelocityPlugin.getInstance().getServer().getAllServers().stream().filter(it -> {
-                return CloudDriver.getInstance().getGroupProvider().getOrThrow(it.getServerInfo().getName().split("-")[0].replace("-", "")).getType().equals(GroupType.LOBBY);
+                return CloudDriver.instance().groupProvider().getOrThrow(it.getServerInfo().getName().split("-")[0].replace("-", "")).getType().equals(GroupType.LOBBY);
             }).findFirst().ifPresentOrElse(server -> {
                 player.createConnectionRequest(server).fireAndForget();
             }, () -> {

@@ -10,17 +10,17 @@ import org.jetbrains.annotations.NotNull;
 
 public interface Driver {
     @NotNull
-    EventHandler getEventHandler();
+    EventHandler eventProvider();
     @NotNull
-    GroupProvider getGroupProvider();
+    GroupProvider groupProvider();
     @NotNull
-    NettyClient getNettyClient();
+    NettyClient nettyClient();
     @NotNull
-    ServiceProvider getServiceProvider();
+    ServiceProvider serviceProvider();
     @NotNull
-    VelocityProvider getVelocityProvider();
+    VelocityProvider velocityProvider();
     @NotNull
-    UserProvider getUserProvider();
+    UserProvider userProvider();
 
     void onShutdown();
 }

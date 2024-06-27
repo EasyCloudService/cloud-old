@@ -15,7 +15,7 @@ public final class ScreenCommand extends CloudCommand {
         var logger = Base.getInstance().getLogger();
 
         if (args.length == 2) {
-            Base.getInstance().getServiceProvider().getServices().stream().filter(service -> service.getId().equalsIgnoreCase(args[1])).findFirst().ifPresentOrElse(service -> {
+            Base.getInstance().serviceProvider().getServices().stream().filter(service -> service.getId().equalsIgnoreCase(args[1])).findFirst().ifPresentOrElse(service -> {
                 var baseService = (Service) service;
                 ((SimpleLogger) Base.getInstance().getLogger()).getConsole().clearConsole();
                 ((SimpleLogger) Base.getInstance().getLogger()).getConsole().setInService(true);

@@ -14,8 +14,8 @@ public final class PermissionCommand implements SimpleCommand {
         CommandSource source = invocation.source();
         String[] args = invocation.arguments();
         if (source instanceof Player player) {
-            if (CloudDriver.getInstance().getUserProvider().getUser(player.getUniqueId()) != null) {
-                if (CloudDriver.getInstance().getUserProvider().getUser(player.getUniqueId()).getPermissions().stream().noneMatch(it -> it.equals("*") || it.equals("cloud.control") || it.equals("cloud.*"))) {
+            if (CloudDriver.instance().userProvider().getUser(player.getUniqueId()) != null) {
+                if (CloudDriver.instance().userProvider().getUser(player.getUniqueId()).getPermissions().stream().noneMatch(it -> it.equals("*") || it.equals("cloud.control") || it.equals("cloud.*"))) {
                     source.sendMessage(Component.text("§bEasyCloud §8» §cYou don't have permission for that§8!"));
                     return;
                 }
@@ -25,7 +25,7 @@ public final class PermissionCommand implements SimpleCommand {
         if (args.length >= 1) {
             if (args[0].equalsIgnoreCase("user")) {
                 if (args.length == 5) {
-                    var user = CloudDriver.getInstance().getUserProvider().getUser(UUIDFetcher.getUUID(args[1]));
+                    var user = CloudDriver.instance().userProvider().getUser(UUIDFetcher.getUUID(args[1]));
                     if (user == null) {
                         source.sendMessage(Component.text("§bEasyCloud §8» §cUser does not exists§8!"));
                         return;
@@ -42,7 +42,7 @@ public final class PermissionCommand implements SimpleCommand {
                     }
                 }
                 if (args.length == 2) {
-                    var user = CloudDriver.getInstance().getUserProvider().getUser(UUIDFetcher.getUUID(args[1]));
+                    var user = CloudDriver.instance().userProvider().getUser(UUIDFetcher.getUUID(args[1]));
                     source.sendMessage(Component.text());
                     source.sendMessage(Component.text("§bEasyCloud §8» §e" + args[1]));
                     for (String permission : user.getPermissions()) {
@@ -58,7 +58,7 @@ public final class PermissionCommand implements SimpleCommand {
             if (args[0].equalsIgnoreCase("group")) {
                 if (args.length == 2) {
                     source.sendMessage(Component.text("§bEasyCloud §8» §7Service will be §cstopped§8..."));
-                    CloudDriver.getInstance().getServiceProvider().stop(args[1]);
+                    CloudDriver.instance().serviceProvider().stop(args[1]);
                     return;
                 }
                 source.sendMessage(Component.text("§bEasyCloud §8» §7/cs stop §8[§7service§8]"));

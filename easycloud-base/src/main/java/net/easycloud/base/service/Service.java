@@ -79,7 +79,7 @@ public class Service implements IService {
         }
         System.out.println(id + " was successfully §cstopped&7!");
         if(update) {
-            ((SimpleServiceHandler) Base.getInstance().getServiceProvider()).update();
+            ((SimpleServiceHandler) Base.getInstance().serviceProvider()).update();
         }
     }
 
