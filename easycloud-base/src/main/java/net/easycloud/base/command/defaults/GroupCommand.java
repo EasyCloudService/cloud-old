@@ -7,6 +7,7 @@ import net.easycloud.api.group.misc.GroupVersion;
 import net.easycloud.base.command.CloudCommand;
 import net.easycloud.base.command.Command;
 import net.easycloud.base.Base;
+import net.easycloud.base.group.SimpleGroupHandler;
 import net.easycloud.base.service.SimpleServiceHandler;
 import net.easycloud.base.setup.ConsoleSetup;
 import net.easycloud.base.setup.SetupBuilder;
@@ -24,63 +25,7 @@ public final class GroupCommand extends CloudCommand {
 
         if (args.length >= 2) {
             if (args[1].equalsIgnoreCase("setup")) {
-                ConsoleSetup.subscribe(List.of(
-                        SetupBuilder.<String>get()
-                                .key("group.name")
-                                .question("&7What is you group name?")
-                                .build(),
-                        SetupBuilder.<String>get()
-                                .key("group.memory")
-                                .question("&7What is you group memory?")
-                                .build(),
-                        SetupBuilder.<Integer>get()
-                                .key("group.minOnline")
-                                .question("&7What is you group minOnline count?")
-                                .build(),
-                        SetupBuilder.<String>get()
-                                .key("group.maxOnline")
-                                .question("&7What is you group maxOnline count? (-1 = unlimited)")
-                                .build(),
-                        SetupBuilder.<String>get()
-                                .key("group.maxPlayers")
-                                .question("&7What is you group maxPlayers?")
-                                .build(),
-                        SetupBuilder.<Boolean>get()
-                                .key("group.static")
-                                .question("&7Is your group static?")
-                                .possibleResults(List.of(true, false))
-                                .build(),
-                        SetupBuilder.<String>get()
-                                .key("group.type")
-                                .question("&7What is you group type?")
-                                .possibleResults(Arrays.stream(GroupType.values()).map(Enum::name).toList())
-                                .build(),
-                        SetupBuilder.<String>get()
-                                .key("group.version")
-                                .question("&7What is you group version?")
-                                .possibleResults(Arrays.stream(GroupVersion.values()).map(Enum::name).toList())
-                                .build()
-                ), values -> {
-                    Base.instance().groupProvider().getRepository().query().match("name", values.get("group.name"))
-                            .find().stream().findFirst()
-                            .ifPresentOrElse(group -> {
-                                logger.log("Group " + values.get("group.name") + " already exists!", LogType.WARNING);
-                            }, () -> {
-                                Base.instance().groupProvider().create(new Group(
-                                        UUID.randomUUID(),
-                                        values.get("group.name"),
-                                        Integer.parseInt(values.get("group.memory")),
-                                        Integer.parseInt(values.get("group.minOnline")),
-                                        Integer.parseInt(values.get("group.maxOnline")),
-                                        Integer.parseInt(values.get("group.maxPlayers")),
-                                        Boolean.parseBoolean(values.get("group.static")),
-                                        "ANVIL",
-                                        GroupType.valueOf(values.get("group.type")),
-                                        GroupVersion.valueOf(values.get("group.version"))
-                                ));
-                            });
-                    ((SimpleServiceHandler) Base.instance().serviceProvider()).update();
-                });
+                ((SimpleGroupHandler) Base.instance().groupProvider()).groupSetup();
                 return;
             }
             if (args[1].equalsIgnoreCase("list")) {

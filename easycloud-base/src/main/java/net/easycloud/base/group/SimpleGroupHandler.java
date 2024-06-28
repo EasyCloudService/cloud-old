@@ -3,6 +3,7 @@ package net.easycloud.base.group;
 import dev.httpmarco.evelon.MariaDbLayer;
 import dev.httpmarco.evelon.Repository;
 import lombok.Getter;
+import net.easycloud.api.console.LogType;
 import net.easycloud.api.group.Group;
 import net.easycloud.api.group.GroupProvider;
 import net.easycloud.api.group.misc.GroupType;
@@ -11,12 +12,14 @@ import net.easycloud.api.misc.DownloadHelper;
 import net.easycloud.api.misc.Reflections;
 import net.easycloud.api.network.packet.GroupCreatePacket;
 import net.easycloud.base.Base;
+import net.easycloud.base.service.SimpleServiceHandler;
 import net.easycloud.base.setup.ConsoleSetup;
 import net.easycloud.base.setup.SetupBuilder;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,39 +31,7 @@ public final class SimpleGroupHandler implements GroupProvider {
         this.repository = Repository.build(Group.class).withId("groups").withLayer(MariaDbLayer.class).build();
 
         if(this.repository.query().find().isEmpty()) {
-            boolean[] setup = {true};
-
-            ConsoleSetup.subscribe(List.of(
-                    SetupBuilder.<Boolean>get()
-                            .key("service.create.proxy")
-                            .question("&7Dou you want to create a proxy?")
-                            .possibleResults(List.of(true, false))
-                            .build(),
-                    SetupBuilder.<Boolean>get()
-                            .key("service.create.lobby")
-                            .question("&7Dou you want to create a lobby? (1.20.4)")
-                            .possibleResults(List.of(true, false))
-                            .build()
-            ), values -> {
-                if(Boolean.parseBoolean(values.get("service.create.proxy"))) {
-                    create(new Group(UUID.randomUUID(), "Proxy", 512, 1, 1, 50, false, "ANVIL", GroupType.PROXY, GroupVersion.VELOCITY_LATEST));
-                }
-                if(Boolean.parseBoolean(values.get("service.create.lobby"))) {
-                    create(new Group(UUID.randomUUID(), "Lobby", 1024, 1, -1, 50, false, "ANVIL", GroupType.LOBBY, GroupVersion.PAPER_1_20_4));
-                }
-                setup[0] = false;
-            });
-
-            while (true) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-                if(!setup[0]) {
-                    break;
-                }
-            }
+            Base.instance().logger().log("No group was found! Please setup a group first. (group setup)", LogType.WARNING);
         }
 
         repository.query().find().forEach(it -> {
@@ -82,6 +53,66 @@ public final class SimpleGroupHandler implements GroupProvider {
 
         Base.instance().nettyServer().listen(GroupCreatePacket.class, (transmit, packet) -> {
             create(packet.getGroup());
+        });
+    }
+
+    public void groupSetup() {
+        ConsoleSetup.subscribe(List.of(
+                SetupBuilder.<String>get()
+                        .key("group.name")
+                        .question("&7What is you group name?")
+                        .build(),
+                SetupBuilder.<String>get()
+                        .key("group.memory")
+                        .question("&7What is you group memory?")
+                        .build(),
+                SetupBuilder.<Integer>get()
+                        .key("group.minOnline")
+                        .question("&7What is you group minOnline count?")
+                        .build(),
+                SetupBuilder.<String>get()
+                        .key("group.maxOnline")
+                        .question("&7What is you group maxOnline count? (-1 = unlimited)")
+                        .build(),
+                SetupBuilder.<String>get()
+                        .key("group.maxPlayers")
+                        .question("&7What is you group maxPlayers?")
+                        .build(),
+                SetupBuilder.<Boolean>get()
+                        .key("group.static")
+                        .question("&7Is your group static?")
+                        .possibleResults(List.of(true, false))
+                        .build(),
+                SetupBuilder.<String>get()
+                        .key("group.type")
+                        .question("&7What is you group type?")
+                        .possibleResults(Arrays.stream(GroupType.values()).map(Enum::name).toList())
+                        .build(),
+                SetupBuilder.<String>get()
+                        .key("group.version")
+                        .question("&7What is you group version?")
+                        .possibleResults(Arrays.stream(GroupVersion.values()).map(Enum::name).toList())
+                        .build()
+        ), values -> {
+            Base.instance().groupProvider().getRepository().query().match("name", values.get("group.name"))
+                    .find().stream().findFirst()
+                    .ifPresentOrElse(group -> {
+                        Base.instance().logger().log("Group " + values.get("group.name") + " already exists!", LogType.WARNING);
+                    }, () -> {
+                        Base.instance().groupProvider().create(new Group(
+                                UUID.randomUUID(),
+                                values.get("group.name"),
+                                Integer.parseInt(values.get("group.memory")),
+                                Integer.parseInt(values.get("group.minOnline")),
+                                Integer.parseInt(values.get("group.maxOnline")),
+                                Integer.parseInt(values.get("group.maxPlayers")),
+                                Boolean.parseBoolean(values.get("group.static")),
+                                "ANVIL",
+                                GroupType.valueOf(values.get("group.type")),
+                                GroupVersion.valueOf(values.get("group.version"))
+                        ));
+                    });
+            ((SimpleServiceHandler) Base.instance().serviceProvider()).update();
         });
     }
 
