@@ -2,6 +2,7 @@ package net.easycloud.base.service;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import net.easycloud.api.console.LogType;
 import net.easycloud.api.service.state.ServiceState;
 import net.easycloud.api.utils.file.FileHelper;
@@ -68,7 +69,12 @@ public class Service implements IService {
         }
     }
 
+    @SneakyThrows
     public void stop(boolean update) {
+        execute("stop");
+
+        Thread.sleep(500);
+
         if (this.process != null) {
             this.process.destroy();
             this.process.toHandle().destroyForcibly();
