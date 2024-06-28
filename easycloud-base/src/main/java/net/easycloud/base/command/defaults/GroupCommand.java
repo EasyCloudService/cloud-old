@@ -69,7 +69,7 @@ public final class GroupCommand extends CloudCommand {
                 }
             }
             if (args[1].equalsIgnoreCase("delete")) {
-                if (args.length == 2) {
+                if (args.length == 3) {
                     try {
                         Base.instance().groupProvider().getRepository().query().match("name", args[2])
                                 .find().stream().findFirst()
