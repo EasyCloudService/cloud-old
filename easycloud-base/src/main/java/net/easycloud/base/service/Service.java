@@ -49,7 +49,7 @@ public class Service implements IService {
                     //System.out.println(id + " ADDED LINE " + consoleCache.size());
                     consoleCache.add(line);
                     if (console) {
-                        Base.getInstance().getLogger().log("§7[§r" + id + "§7] §r" + line);
+                        Base.instance().logger().log("§7[§r" + id + "§7] §r" + line);
                     }
                 }
             } catch (IOException exception) {
@@ -79,7 +79,7 @@ public class Service implements IService {
         }
         System.out.println(id + " was successfully §cstopped&7!");
         if(update) {
-            ((SimpleServiceHandler) Base.getInstance().serviceProvider()).update();
+            ((SimpleServiceHandler) Base.instance().serviceProvider()).update();
         }
     }
 

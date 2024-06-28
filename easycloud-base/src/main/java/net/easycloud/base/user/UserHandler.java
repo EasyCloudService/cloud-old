@@ -20,14 +20,14 @@ public final class UserHandler implements UserProvider {
         this.repository = Repository.build(CloudUser.class).withId("users").withLayer(MariaDbLayer.class).build();
         this.onlineUsers = new HashMap<>();
 
-        Base.getInstance().getNettyServer().listen(PlayerConnectPacket.class, (channel, packet) -> {
+        Base.instance().nettyServer().listen(PlayerConnectPacket.class, (channel, packet) -> {
             var user = createUserIfNotExists(packet.getUniqueId());
             if(user == null) {
                 user = getOfflineUser(packet.getUniqueId());
             }
             this.onlineUsers.put(packet.getUniqueId(), user);
         });
-        Base.getInstance().getNettyServer().listen(PlayerDisconnectPacket.class, (channel, packet) -> {
+        Base.instance().nettyServer().listen(PlayerDisconnectPacket.class, (channel, packet) -> {
             this.onlineUsers.remove(packet.getUniqueId());
         });
     }

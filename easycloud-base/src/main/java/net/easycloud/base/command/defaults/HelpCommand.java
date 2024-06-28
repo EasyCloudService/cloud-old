@@ -9,8 +9,8 @@ public final class HelpCommand extends CloudCommand {
 
     @Override
     protected void execute(String[] args) {
-        Base.getInstance().getLogger().log("");
-        Base.getInstance().getCommandHandler().getCommands().forEach(command -> {
+        Base.instance().logger().log("");
+        Base.instance().commandHandler().getCommands().forEach(command -> {
             StringBuilder builder = new StringBuilder();
             builder.append("§7[§f").append(command.getName());
             for (String alias : command.getAliases()) {
@@ -18,8 +18,8 @@ public final class HelpCommand extends CloudCommand {
             }
             builder.append("§7]");
 
-            Base.getInstance().getLogger().log(builder + " §7- §f" + command.getDescription());
+            Base.instance().logger().log(builder + " §7- §f" + command.getDescription());
         });
-        Base.getInstance().getLogger().log("");
+        Base.instance().logger().log("");
     }
 }

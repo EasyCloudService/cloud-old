@@ -64,10 +64,10 @@ public final class SimpleGroupHandler implements GroupProvider {
         }
 
         repository.query().find().forEach(it -> {
-            Base.getInstance().getLogger().log("&7Loaded &9" + it.getName() + " &7as &9" + it.getType().name() + " &7service-group.");
+            Base.instance().logger().log("&7Loaded &9" + it.getName() + " &7as &9" + it.getType().name() + " &7service-group.");
         });
         if(repository.query().find().isEmpty()) {
-            Base.getInstance().getLogger().log("No service-group was found!");
+            Base.instance().logger().log("No service-group was found!");
         }
 
         var files = List.of(Path.of(
@@ -80,7 +80,7 @@ public final class SimpleGroupHandler implements GroupProvider {
             }
         });
 
-        Base.getInstance().getNettyServer().listen(GroupCreatePacket.class, (transmit, packet) -> {
+        Base.instance().nettyServer().listen(GroupCreatePacket.class, (transmit, packet) -> {
             create(packet.getGroup());
         });
     }
@@ -92,7 +92,7 @@ public final class SimpleGroupHandler implements GroupProvider {
 
     @Override
     public void create(Group group) {
-        Base.getInstance().getLogger().log("Group " + group.getName() + " will be created...");
+        Base.instance().logger().log("Group " + group.getName() + " will be created...");
 
         Path directory = Path.of(System.getProperty("user.dir") + File.separator +  "template" + File.separator + group.getType().getFolder() + File.separator + group.getName());
         Reflections.createPath(directory);
@@ -111,6 +111,6 @@ public final class SimpleGroupHandler implements GroupProvider {
 
         repository.query().create(group);
 
-        Base.getInstance().getLogger().log("Group " + group.getName() + " was successfully created!");
+        Base.instance().logger().log("Group " + group.getName() + " was successfully created!");
     }
 }

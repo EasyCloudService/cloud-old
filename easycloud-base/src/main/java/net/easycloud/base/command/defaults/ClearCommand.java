@@ -9,6 +9,6 @@ public final class ClearCommand extends CloudCommand {
 
     @Override
     protected void execute(String[] args) {
-        Base.getInstance().printScreen();
+        Base.instance().printScreen();
     }
 }

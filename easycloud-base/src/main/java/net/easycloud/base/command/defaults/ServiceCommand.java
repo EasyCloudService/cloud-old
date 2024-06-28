@@ -11,17 +11,17 @@ public final class ServiceCommand extends CloudCommand {
 
     @Override
     protected void execute(String[] args) {
-        var logger = Base.getInstance().getLogger();
+        var logger = Base.instance().logger();
 
         if (args.length >= 2) {
             if (args[1].equalsIgnoreCase("shutdown") || args[1].equalsIgnoreCase("stop")) {
-                if (Base.getInstance().groupProvider().getRepository().query().find().isEmpty()) {
+                if (Base.instance().groupProvider().getRepository().query().find().isEmpty()) {
                     logger.log("There is currently no group!");
                     return;
                 }
 
-                Base.getInstance().serviceProvider().getServices().stream().filter(it -> it.getId().equalsIgnoreCase(args[2])).findFirst().ifPresentOrElse(service -> {
-                    Base.getInstance().serviceProvider().stop(service.getId());
+                Base.instance().serviceProvider().getServices().stream().filter(it -> it.getId().equalsIgnoreCase(args[2])).findFirst().ifPresentOrElse(service -> {
+                    Base.instance().serviceProvider().stop(service.getId());
                 }, () -> {
                     logger.log("Please provide a valid service!", LogType.ERROR);
                 });
@@ -29,10 +29,10 @@ public final class ServiceCommand extends CloudCommand {
             }
             if (args.length == 4) {
                 if (args[1].equalsIgnoreCase("start")) {
-                    Base.getInstance().groupProvider().getRepository().query().match("name", args[2])
+                    Base.instance().groupProvider().getRepository().query().match("name", args[2])
                             .find().stream().findFirst().ifPresentOrElse(group -> {
                                 try {
-                                    Base.getInstance().serviceProvider().start(group, Integer.parseInt(args[3]));
+                                    Base.instance().serviceProvider().start(group, Integer.parseInt(args[3]));
                                 } catch (Exception exception) {
                                     logger.log("Please provide valid values!", LogType.ERROR);
                                 }
@@ -43,7 +43,7 @@ public final class ServiceCommand extends CloudCommand {
                 }
             }
             if (args[1].equalsIgnoreCase("list")) {
-                for (IService service : Base.getInstance().serviceProvider().getServices()) {
+                for (IService service : Base.instance().serviceProvider().getServices()) {
                     logger.log("&7[&rOnline&7] &7[&f" + service.getGroup().getType() + "&7] &9" + service.getId());
                 }
                 return;

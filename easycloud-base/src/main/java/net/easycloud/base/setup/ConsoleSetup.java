@@ -18,17 +18,17 @@ public final class ConsoleSetup {
     private static Consumer<Map<String, String>> consumer;
 
     private static void nextLine() {
-        ((SimpleLogger) Base.getInstance().getLogger()).getConsole().clearConsole();
+        ((SimpleLogger) Base.instance().logger()).getConsole().clearConsole();
 
         if(list.isEmpty()) {
             consumer.accept(cache);
             cache.clear();
             SETUP_ENABLED = false;
-            Base.getInstance().getLogger().log("&rSetup was &asucessfully &rfinished&7.", LogType.SUCCESS);
+            Base.instance().logger().log("&rSetup was &asucessfully &rfinished&7.", LogType.SUCCESS);
             return;
         }
         var item = list.getFirst();
-        Base.getInstance().getLogger().log("&7" + item.question(), LogType.INFO);
+        Base.instance().logger().log("&7" + item.question(), LogType.INFO);
         if(item.possible() != null) {
             var stringbuilder = new StringBuilder();
             item.possible().forEach(it -> {
@@ -36,7 +36,7 @@ public final class ConsoleSetup {
                 stringbuilder.append("&e").append(it);
             });
 
-            Base.getInstance().getLogger().log("&f[" + stringbuilder + "&f]", LogType.INFO);
+            Base.instance().logger().log("&f[" + stringbuilder + "&f]", LogType.INFO);
         }
     }
 
@@ -45,7 +45,7 @@ public final class ConsoleSetup {
         if(item.possible() != null) {
             var result = item.possible().stream().filter(it -> it.toString().equalsIgnoreCase(line)).findFirst().orElse(null);
             if(result == null) {
-                Base.getInstance().getLogger().log("&cInvalid answer.", LogType.ERROR);
+                Base.instance().logger().log("&cInvalid answer.", LogType.ERROR);
                 return;
             }
         }

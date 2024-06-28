@@ -22,15 +22,15 @@ public final class SimpleServiceHandler implements ServiceProvider {
         this.services = new ArrayList<>();
         this.servicePrepareHandler = new ServicePrepareHandler();
 
-        Base.getInstance().getNettyServer().listen(ServiceRequestStartPacket.class, (channel, packet) -> {
-            start(Base.getInstance().groupProvider().getOrThrow(packet.getGroupName()), packet.getCount());
+        Base.instance().nettyServer().listen(ServiceRequestStartPacket.class, (channel, packet) -> {
+            start(Base.instance().groupProvider().getOrThrow(packet.getGroupName()), packet.getCount());
         });
 
-        Base.getInstance().getNettyServer().listen(ServiceRequestStopPacket.class, (channel, packet) -> {
+        Base.instance().nettyServer().listen(ServiceRequestStopPacket.class, (channel, packet) -> {
             stop(packet.getServiceId());
         });
 
-        Base.getInstance().getNettyServer().listen(ServiceStatePacket.class, (channel, packet) -> {
+        Base.instance().nettyServer().listen(ServiceStatePacket.class, (channel, packet) -> {
             var service = (Service) this.services.stream().filter(it -> it.getId().equalsIgnoreCase(packet.getName())).findFirst().orElseThrow();
             service.setState(packet.getState());
         });
@@ -41,7 +41,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            for (Group group : Base.getInstance().groupProvider().getRepository().query().find()) {
+            for (Group group : Base.instance().groupProvider().getRepository().query().find()) {
                 if (group.getMinOnline() > 0) {
                     start(group, group.getMinOnline());
                 }
@@ -53,23 +53,23 @@ public final class SimpleServiceHandler implements ServiceProvider {
     public void start(Group group, int count) {
         new Thread(() -> {
             String id = group.getName() + "-" + (services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count() + 1);
-            Base.getInstance().getLogger().log("§7Told §bInternalWrapper §7to start §b" + id + "§7...", LogType.WRAPPER);
+            Base.instance().logger().log("§7Told §bInternalWrapper §7to start §b" + id + "§7...", LogType.WRAPPER);
 
             if (group.getMaxOnline() < (services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count() + 1) && group.getMaxOnline() != -1) {
-                Base.getInstance().getLogger().log("§7Starting the §e" + group.getName() + " §7service-group §efailed§7. §7(§eMaximum number is reached§7).", LogType.WARNING);
+                Base.instance().logger().log("§7Starting the §e" + group.getName() + " §7service-group §efailed§7. §7(§eMaximum number is reached§7).", LogType.WARNING);
                 return;
             }
 
             servicePrepareHandler.createFiles(group, id);
 
-            var port = (group.getType().equals(GroupType.PROXY) ? (25565 + Base.getInstance().serviceProvider().getServices().stream().filter(it -> it.getGroup().getType().equals(GroupType.PROXY)).toList().size()) : getPort());
+            var port = (group.getType().equals(GroupType.PROXY) ? (25565 + Base.instance().serviceProvider().getServices().stream().filter(it -> it.getGroup().getType().equals(GroupType.PROXY)).toList().size()) : getPort());
             var service = new Service(group, port, id);
             service.setProcess(ServiceProcessBuilder.buildProcess(service));
 
             services.add(service);
 
-            Base.getInstance().getNettyServer().sendPacket(new ServiceConnectPacket(group, id, port));
-            Base.getInstance().getLogger().log("§7Service §b" + id + " §7will be running on port§f: §7" + port, LogType.WRAPPER);
+            Base.instance().nettyServer().sendPacket(new ServiceConnectPacket(group, id, port));
+            Base.instance().logger().log("§7Service §b" + id + " §7will be running on port§f: §7" + port, LogType.WRAPPER);
 
             if (count > 1) {
                 start(group, count - 1);
@@ -83,7 +83,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
             services.remove(service);
             ((Service) service).stop(true);
 
-            Base.getInstance().getNettyServer().sendPacket(new ServiceDisconnectPacket(service.getGroup(), id, service.getPort()));
+            Base.instance().nettyServer().sendPacket(new ServiceDisconnectPacket(service.getGroup(), id, service.getPort()));
         }
         update();
     }
@@ -95,7 +95,7 @@ public final class SimpleServiceHandler implements ServiceProvider {
 
     public void update() {
         new Thread(() -> {
-            for (Group group : Base.getInstance().groupProvider().getRepository().query().find()) {
+            for (Group group : Base.instance().groupProvider().getRepository().query().find()) {
                 var online = services.stream().filter(it -> it.getGroup().getName().equals(group.getName())).count();
 
                 if (group.getMaxOnline() > online || group.getMaxOnline() == -1) {

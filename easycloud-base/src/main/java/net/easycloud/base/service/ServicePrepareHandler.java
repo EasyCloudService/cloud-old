@@ -46,7 +46,7 @@ public final class ServicePrepareHandler {
 
                     velocity.put("enabled", true);
                     velocity.put("online-mode", true);
-                    velocity.put("secret", Base.getInstance().velocityProvider().getPrivateKey());
+                    velocity.put("secret", Base.instance().velocityProvider().getPrivateKey());
                     proxies.put("velocity", velocity);
                     data.put("proxies", proxies);
 

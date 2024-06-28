@@ -22,7 +22,7 @@ public final class CommandHandler {
         commands.add(new ServiceCommand());
         commands.add(new StopCommand());
 
-        Base.getInstance().getLogger().log("Commands was loaded successfully.");
+        Base.instance().logger().log("Commands was loaded successfully.");
     }
 
     public void addCommand(CloudCommand cloudCommand) {
@@ -37,7 +37,7 @@ public final class CommandHandler {
                 return Arrays.stream(it.getAliases()).anyMatch(it2 -> Arrays.stream(it2.split(", ")).anyMatch(it3 -> it3.equalsIgnoreCase(command)));
             }
         }).findFirst().ifPresentOrElse(it -> it.execute(args), () -> {
-            Base.getInstance().getLogger().log("Command: " + command + " does not exists!", LogType.ERROR);
+            Base.instance().logger().log("Command: " + command + " does not exists!", LogType.ERROR);
         });
     }
 }

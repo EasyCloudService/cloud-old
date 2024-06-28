@@ -3,6 +3,7 @@ package net.easycloud.base;
 import dev.httpmarco.osgan.networking.server.NettyServer;
 import dev.httpmarco.osgan.networking.server.NettyServerBuilder;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 import net.easycloud.api.configuration.SecretConfiguration;
 import net.easycloud.api.utils.file.FileHelper;
 import net.easycloud.api.github.GithubConfig;
@@ -27,8 +28,9 @@ import net.easycloud.base.group.SimpleGroupHandler;
 
 import java.nio.file.Path;
 
-@SuppressWarnings("ALL")
 @Getter
+@Accessors(fluent = true)
+@SuppressWarnings("ALL")
 public final class Base extends CloudDriver {
     private static Base instance;
 
@@ -36,7 +38,6 @@ public final class Base extends CloudDriver {
     private final Logger logger;
     private final DefaultConfiguration configuration;
 
-    @Getter
     private final NettyServer nettyServer;
     private final SetupHandler setupHandler;
     private final CommandHandler commandHandler;
@@ -54,6 +55,7 @@ public final class Base extends CloudDriver {
             setupHandler.start();
             while (true) {
                 try {
+
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
@@ -72,15 +74,13 @@ public final class Base extends CloudDriver {
         var secret = FileHelper.read(configs, SecretConfiguration.class);
         this.configuration = FileHelper.read(configs, DefaultConfiguration.class);
 
-        ((SimpleLogger) Base.getInstance().getLogger()).getConsole().setInService(false);
+        ((SimpleLogger) Base.instance().logger()).getConsole().setInService(false);
 
         printScreen();
 
-        this.groupProvider = new SimpleGroupHandler();
-
-        Base.getInstance().getLogger().log("Netty-Server will be started...");
+        Base.instance().logger().log("Netty-Server will be started...");
         this.nettyServer = new NettyServerBuilder().withPort(8897).build();
-        Base.getInstance().getLogger().log("Netty-Server was startet on following port: 8897");
+        Base.instance().logger().log("Netty-Server was startet on following port: 8897");
         this.nettyServer.listen(HandshakeAuthenticationPacket.class, (transmit, packet) -> {
             if(!packet.getKey().equals(secret.value())) {
                 var service = this.serviceProvider.getServices().stream().filter(it -> it.getId().equals(packet.getName())).findFirst().orElse(null);
@@ -95,6 +95,8 @@ public final class Base extends CloudDriver {
                 });
             }
         });
+
+        this.groupProvider = new SimpleGroupHandler();
 
         this.serviceProvider = new SimpleServiceHandler();
         this.commandHandler = new CommandHandler();
@@ -129,12 +131,12 @@ public final class Base extends CloudDriver {
                   &7____ ____ ____ _   _ &9____ _    ____ _  _ ___
                   &7|___ |__| [__   \\_/  &9|    |    |  | |  | |  \\
                   &7|___ |  | ___]   |   &9|___ |___ |__| |__| |__/
-                  &7[&f%RELEASE%&7] Powered by &b@FlxwDNS&7, &b@1Chickxn &7and &b@Swerion
+                  &7[&f%RELEASE%&7] Hosted on &9dashserv.io
                 
                 """.replace("%RELEASE%", getVersion()).replace("%LINE_BREAK%", "\n".repeat(100)), LogType.EMPTY);
     }
 
-    public static Base getInstance() {
+    public static Base instance() {
         return (Base) instance;
     }
 

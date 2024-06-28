@@ -29,24 +29,24 @@ public class ConsoleReadingThread extends Thread {
         while (!this.isInterrupted()) {
             var line = this.lineReader.readLine(this.consolePrompt);
             if (line != null && !line.isEmpty()) {
-                if(Base.getInstance().isRunning()) {
+                if(Base.instance().running()) {
                     //TODO
                 } if (ConsoleSetup.SETUP_ENABLED) {
                     ConsoleSetup.pushLine(line);
-                } else if (Base.getInstance().serviceProvider().getServices().stream().anyMatch(it -> ((Service) it).isConsole())) {
-                    Base.getInstance().serviceProvider().getServices().stream().filter(it -> ((Service) it).isConsole()).forEach(service -> {
+                } else if (Base.instance().serviceProvider().getServices().stream().anyMatch(it -> ((Service) it).isConsole())) {
+                    Base.instance().serviceProvider().getServices().stream().filter(it -> ((Service) it).isConsole()).forEach(service -> {
                         if (line.equalsIgnoreCase("leave")) {
                             ((Service) service).setConsole(false);
-                            ((SimpleLogger) Base.getInstance().getLogger()).getConsole().clearConsole();
-                            ((SimpleLogger) Base.getInstance().getLogger()).getConsole().getCache().forEach(it -> Base.getInstance().getLogger().log(it.getInput(), it.getLogType()));
-                            ((SimpleLogger) Base.getInstance().getLogger()).getConsole().setInService(false);
+                            ((SimpleLogger) Base.instance().logger()).getConsole().clearConsole();
+                            ((SimpleLogger) Base.instance().logger()).getConsole().getCache().forEach(it -> Base.instance().logger().log(it.getInput(), it.getLogType()));
+                            ((SimpleLogger) Base.instance().logger()).getConsole().setInService(false);
 
                             return;
                         }
                         ((Service) service).execute(line);
                     });
                 } else {
-                    Base.getInstance().getCommandHandler().runCommand(line.split(" ")[0], line.replace(line.split(" ")[0], "").split(" "));
+                    Base.instance().commandHandler().runCommand(line.split(" ")[0], line.replace(line.split(" ")[0], "").split(" "));
                 }
             }
         }

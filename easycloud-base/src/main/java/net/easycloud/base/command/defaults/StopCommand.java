@@ -9,6 +9,6 @@ public final class StopCommand extends CloudCommand {
 
     @Override
     protected void execute(String[] args) {
-        Base.getInstance().onShutdown();
+        Base.instance().onShutdown();
     }
 }

@@ -10,33 +10,33 @@ public final class RestAPI {
         get("/valid", (req, res) -> checkIfValid(req.queryParams("adminKey")));
         get("/users/size", (req, res) -> {
             if(!checkIfValid(req.queryParams("adminKey"))) return "ERROR";
-            return Base.getInstance().userProvider().getUsers().size();
+            return Base.instance().userProvider().getUsers().size();
         });
         get("/users", (req, res) -> {
             if(!checkIfValid(req.queryParams("adminKey"))) return "ERROR";
-            return FileHelper.GSON.toJson(Base.getInstance().userProvider().getUsers());
+            return FileHelper.GSON.toJson(Base.instance().userProvider().getUsers());
         });
         get("/users/online/size", (req, res) -> {
             if(!checkIfValid(req.queryParams("adminKey"))) return "ERROR";
-            return Base.getInstance().userProvider().getOnlineUsers().size();
+            return Base.instance().userProvider().getOnlineUsers().size();
         });
         get("/users/online", (req, res) -> {
             if(!checkIfValid(req.queryParams("adminKey"))) return "ERROR";
-            return FileHelper.GSON.toJson(Base.getInstance().userProvider().getOnlineUsers());
+            return FileHelper.GSON.toJson(Base.instance().userProvider().getOnlineUsers());
         });
         get("/groups/size", (req, res) -> {
             if(!checkIfValid(req.queryParams("adminKey"))) return "ERROR";
-            return Base.getInstance().groupProvider().getRepository().query().find().size();
+            return Base.instance().groupProvider().getRepository().query().find().size();
         });
         get("/groups", (req, res) -> {
             if(!checkIfValid(req.queryParams("adminKey"))) return "ERROR";
-            return FileHelper.GSON.toJson(Base.getInstance().groupProvider().getRepository().query().find());
+            return FileHelper.GSON.toJson(Base.instance().groupProvider().getRepository().query().find());
         });
 
-        Base.getInstance().getLogger().log("§7RestAPI is listening on following port: 4567");
+        Base.instance().logger().log("§7RestAPI is listening on following port: 4567");
     }
 
     private boolean checkIfValid(String key) {
-        return Base.getInstance().getConfiguration().adminKey().equals(key);
+        return Base.instance().configuration().adminKey().equals(key);
     }
 }
