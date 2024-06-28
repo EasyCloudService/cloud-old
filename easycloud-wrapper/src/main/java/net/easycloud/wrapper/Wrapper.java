@@ -2,6 +2,7 @@ package net.easycloud.wrapper;
 
 import dev.httpmarco.osgan.networking.client.NettyClientBuilder;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 import net.easycloud.api.CloudDriver;
 import net.easycloud.api.network.packet.HandshakeAuthenticationPacket;
 import net.easycloud.api.network.packet.ServiceConnectPacket;
@@ -12,6 +13,7 @@ import net.easycloud.wrapper.user.UserHandler;
 import net.easycloud.wrapper.service.ServiceHandler;
 
 @Getter
+@Accessors(fluent = true)
 @SuppressWarnings("ALL")
 public final class Wrapper extends CloudDriver {
     private static Wrapper instance;
@@ -43,7 +45,7 @@ public final class Wrapper extends CloudDriver {
         WrapperBootstrap.getThread().interrupt();
     }
 
-    public static Wrapper getInstance() {
+    public static Wrapper instance() {
         return (Wrapper) instance;
     }
 }

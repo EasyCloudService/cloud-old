@@ -23,6 +23,6 @@ public final class SimpleGroupHandler implements GroupProvider {
 
     @Override
     public void create(Group group) {
-        Wrapper.getInstance().nettyClient().sendPacket(new GroupCreatePacket(group));
+        Wrapper.instance().nettyClient().sendPacket(new GroupCreatePacket(group));
     }
 }

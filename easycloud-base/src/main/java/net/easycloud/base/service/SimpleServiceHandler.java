@@ -30,6 +30,10 @@ public final class SimpleServiceHandler implements ServiceProvider {
             stop(packet.getServiceId());
         });
 
+        Base.instance().nettyServer().listen(ServiceDisconnectPacket.class, (channel, packet) -> {
+            this.services.removeIf(it -> packet.getName().equals(it.getId()));
+        });
+
         Base.instance().nettyServer().listen(ServiceStatePacket.class, (channel, packet) -> {
             var service = (Service) this.services.stream().filter(it -> it.getId().equalsIgnoreCase(packet.getName())).findFirst().orElseThrow();
             service.setState(packet.getState());
@@ -80,12 +84,12 @@ public final class SimpleServiceHandler implements ServiceProvider {
     @Override
     public void stop(String id) {
         for (IService service : services.stream().filter(it -> it.getId().equalsIgnoreCase(id)).toList()) {
-            services.remove(service);
             ((Service) service).stop(true);
 
             Base.instance().nettyServer().sendPacket(new ServiceDisconnectPacket(service.getGroup(), id, service.getPort()));
+            this.services.remove(service);
         }
-        update();
+        //update();
     }
 
     @Override

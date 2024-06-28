@@ -2,6 +2,7 @@ package net.easycloud.base.service;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.easycloud.api.console.LogType;
 import net.easycloud.api.service.state.ServiceState;
 import net.easycloud.api.utils.file.FileHelper;
 import net.easycloud.api.group.Group;
@@ -77,7 +78,8 @@ public class Service implements IService {
             var path = Path.of(System.getProperty("user.dir") + File.separator + "tmp" + File.separator + group.getType().getFolder() + File.separator + id);
             FileHelper.removeDirectory(path);
         }
-        System.out.println(id + " was successfully §cstopped&7!");
+        Base.instance().logger().log(id + " was successfully §cstopped&7!", LogType.WRAPPER);
+
         if(update) {
             ((SimpleServiceHandler) Base.instance().serviceProvider()).update();
         }

@@ -31,7 +31,6 @@
             <version>2.10.1</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>dev.httpmarco.evelon</groupId>
             <artifactId>evelon-common</artifactId>
@@ -42,7 +41,6 @@
             <artifactId>evelon-sql-mariadb</artifactId>
             <version>1.0.21-20240513.124233-1</version>
         </dependency>
-
         <dependency>
             <groupId>org.fusesource.jansi</groupId>
             <artifactId>jansi</artifactId>

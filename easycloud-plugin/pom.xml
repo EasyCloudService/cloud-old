@@ -87,7 +87,7 @@
                         <configuration>
                             <target>
                                 <move file="${project.build.directory}/ECS-Plugin.jar"
-                                      todir="C/home/radik/Schreibtisch/EasyCloud/Build/storage/jars"/>
+                                      todir="/home/radik/Schreibtisch/EasyCloud/Build/storage/jars"/>
                             </target>
                         </configuration>
                     </execution>

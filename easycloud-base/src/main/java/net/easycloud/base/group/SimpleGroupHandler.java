@@ -30,15 +30,11 @@ public final class SimpleGroupHandler implements GroupProvider {
     public SimpleGroupHandler() {
         this.repository = Repository.build(Group.class).withId("groups").withLayer(MariaDbLayer.class).build();
 
-        if(this.repository.query().find().isEmpty()) {
-            Base.instance().logger().log("No group was found! Please setup a group first. (group setup)", LogType.WARNING);
-        }
-
-        repository.query().find().forEach(it -> {
+        this.repository.query().find().forEach(it -> {
             Base.instance().logger().log("&7Loaded &9" + it.getName() + " &7as &9" + it.getType().name() + " &7service-group.");
         });
-        if(repository.query().find().isEmpty()) {
-            Base.instance().logger().log("No service-group was found!");
+        if(this.repository.query().find().isEmpty()) {
+            Base.instance().logger().log("No service-group was found! Please setup a group first. (group setup)", LogType.WARNING);
         }
 
         var files = List.of(Path.of(
