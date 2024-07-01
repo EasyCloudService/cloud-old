@@ -1,7 +1,7 @@
 package net.easycloud.api.network.packet;
 
-import dev.httpmarco.evelon.MariaDbLayer;
 import dev.httpmarco.evelon.Repository;
+import dev.httpmarco.evelon.sql.h2.H2Layer;
 import dev.httpmarco.osgan.networking.Packet;
 import dev.httpmarco.osgan.networking.codec.CodecBuffer;
 import lombok.Getter;
@@ -25,7 +25,7 @@ public final class ServiceDisconnectPacket extends Packet {
     public ServiceDisconnectPacket(CodecBuffer buffer) {
         super(buffer);
 
-        var repo = Repository.build(Group.class).withId("groups").withLayer(MariaDbLayer.class).build();
+        var repo = Repository.build(Group.class).withId("groups").withLayer(H2Layer.class).build();
         this.group = repo.query().match("name", buffer.readString()).findFirst();
         this.name = buffer.readString();
         this.port = buffer.readInt();

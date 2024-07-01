@@ -71,7 +71,7 @@
                         <configuration>
                             <target>
                                 <move file="${project.build.directory}/wrapper.jar"
-                                      todir="/home/radik/Schreibtisch/EasyCloud/Build/storage"/>
+                                      todir="C:\Users\fried\Desktop\EasyCloudService\build\storage"/>
                             </target>
                         </configuration>
                     </execution>

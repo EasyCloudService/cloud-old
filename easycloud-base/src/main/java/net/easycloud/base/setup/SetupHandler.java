@@ -24,14 +24,9 @@ public final class SetupHandler {
     }
 
     public void start() {
-        onSetup = true;
+        // onSetup = true;
 
-        ConsoleSetup.subscribe(List.of(
-                /*SetupBuilder.<String>get()
-                        .key("database.type")
-                        .question("&7What is you database type?")
-                        .possibleResults(Arrays.stream(DatabaseProtocol.values()).filter(it -> !it.equals(DatabaseProtocol.H2)).map(Enum::name).toList())
-                        .build(),*/
+       /* ConsoleSetup.subscribe(List.of(
                 SetupBuilder.<String>get()
                         .key("database.host")
                         .question("&7What is you database host?")
@@ -59,14 +54,15 @@ public final class SetupHandler {
                     values.get("database.user"),
                     values.get("database.password"),
                     Integer.parseInt(values.get("database.port"))
-            ));
+            ));*/
 
-            var configs = Path.of(System.getProperty("user.dir")).resolve("storage").resolve("data");
-            configs.toFile().mkdirs();
+        FileHelper.writeAsList(Path.of(System.getProperty("user.dir")), new HikariConfiguration());
+        var configs = Path.of(System.getProperty("user.dir")).resolve("storage").resolve("data");
+        configs.toFile().mkdirs();
 
-            FileHelper.writeIfNotExists(configs, new DefaultConfiguration("easyCloudService-" + new Random().nextInt(100000000, 999999999)));
-            onSetup = false;
-        });
+        FileHelper.writeIfNotExists(configs, new DefaultConfiguration("easyCloudService-" + new Random().nextInt(100000000, 999999999)));
+        //onSetup = false;
+        // });
 
         //FileHelper.writeIfNotExists(Path.of(System.getProperty("user.dir")), new DefaultConfiguration("easyCloudService-" + new Random().nextInt(100000000, 999999999)));
     }

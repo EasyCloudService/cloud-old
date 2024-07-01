@@ -1,7 +1,7 @@
 package net.easycloud.wrapper.user;
 
-import dev.httpmarco.evelon.MariaDbLayer;
 import dev.httpmarco.evelon.Repository;
+import dev.httpmarco.evelon.sql.h2.H2Layer;
 import lombok.Getter;
 import net.easycloud.api.user.UserProvider;
 import net.easycloud.api.user.CloudUser;
@@ -17,7 +17,7 @@ public final class UserHandler implements UserProvider {
     private final Map<UUID, CloudUser> onlineUsers;
 
     public UserHandler() {
-        this.repository = Repository.build(CloudUser.class).withId("users").withLayer(MariaDbLayer.class).build();;
+        this.repository = Repository.build(CloudUser.class).withId("users").withLayer(H2Layer.class).build();;
         this.onlineUsers = new HashMap<>();
     }
 

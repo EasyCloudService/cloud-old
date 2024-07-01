@@ -38,7 +38,7 @@
         </dependency>
         <dependency>
             <groupId>dev.httpmarco.evelon</groupId>
-            <artifactId>evelon-sql-mariadb</artifactId>
+            <artifactId>evelon-sql-h2</artifactId>
             <version>1.0.40-SNAPSHOT</version>
         </dependency>
         <dependency>

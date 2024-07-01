@@ -1,7 +1,7 @@
 package net.easycloud.wrapper.group;
 
-import dev.httpmarco.evelon.MariaDbLayer;
 import dev.httpmarco.evelon.Repository;
+import dev.httpmarco.evelon.sql.h2.H2Layer;
 import lombok.Getter;
 import net.easycloud.api.group.Group;
 import net.easycloud.api.group.GroupProvider;
@@ -13,7 +13,7 @@ public final class SimpleGroupHandler implements GroupProvider {
     private final Repository<Group> repository;
 
     public SimpleGroupHandler() {
-        this.repository = Repository.build(Group.class).withId("groups").withLayer(MariaDbLayer.class).build();
+        this.repository = Repository.build(Group.class).withId("groups").withLayer(H2Layer.class).build();
     }
 
     @Override

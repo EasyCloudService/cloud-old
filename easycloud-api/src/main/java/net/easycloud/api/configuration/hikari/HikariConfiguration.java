@@ -4,21 +4,16 @@ import dev.httpmarco.evelon.layer.connection.ConnectionAuthentication;
 import lombok.Getter;
 import net.easycloud.api.utils.file.FileName;
 
+import java.nio.file.Path;
+
 @Getter
 @FileName(name = "evelon-connection-credentials")
 public class HikariConfiguration extends ConnectionAuthentication {
-    private final String hostname;
-    private final String database;
-    private final String username;
-    private final String password;
-    private final int port;
+    private final String path;
 
-    public HikariConfiguration(String hostname, String database, String username, String password, int port) {
-        super("MARIADB", true);
-        this.hostname = hostname;
-        this.database = database;
-        this.username = username;
-        this.password = password;
-        this.port = port;
+    public HikariConfiguration() {
+        super("H2", true);
+        this.path = Path.of("storage/database.h2").toAbsolutePath().toString();
     }
 }
+

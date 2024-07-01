@@ -34,7 +34,7 @@
                         </goals>
                         <configuration>
                             <target>
-                                <move file="${project.build.directory}/loader.jar" todir="/home/radik/Schreibtisch/EasyCloud/Build/storage"/>
+                                <move file="${project.build.directory}/loader.jar" todir="C:\Users\fried\Desktop\EasyCloudService\build\storage"/>
                             </target>
                         </configuration>
                     </execution>

@@ -1,7 +1,7 @@
 package net.easycloud.wrapper;
 
-import dev.httpmarco.evelon.MariaDbLayer;
 import dev.httpmarco.evelon.Repository;
+import dev.httpmarco.evelon.sql.h2.H2Layer;
 import lombok.Getter;
 import net.easycloud.api.configuration.SecretConfiguration;
 import net.easycloud.api.service.state.ServiceState;
@@ -26,7 +26,7 @@ public class WrapperBootstrap {
     }
 
     public static void main(String[] args) {
-        var repo = Repository.build(Group.class).withId("groups").withLayer(MariaDbLayer.class).build();
+        var repo = Repository.build(Group.class).withId("groups").withLayer(H2Layer.class).build();
         var service = new Service(repo.query().match("name", args[0]).findFirst(), args[1], Integer.parseInt(args[2]), ServiceState.STARTING);
 
         try {

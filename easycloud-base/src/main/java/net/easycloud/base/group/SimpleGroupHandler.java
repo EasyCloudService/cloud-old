@@ -1,7 +1,7 @@
 package net.easycloud.base.group;
 
-import dev.httpmarco.evelon.MariaDbLayer;
 import dev.httpmarco.evelon.Repository;
+import dev.httpmarco.evelon.sql.h2.H2Layer;
 import lombok.Getter;
 import net.easycloud.api.console.LogType;
 import net.easycloud.api.group.Group;
@@ -28,7 +28,7 @@ public final class SimpleGroupHandler implements GroupProvider {
     private final Repository<Group> repository;
 
     public SimpleGroupHandler() {
-        this.repository = Repository.build(Group.class).withId("groups").withLayer(MariaDbLayer.class).build();
+        this.repository = Repository.build(Group.class).withId("groups").withLayer(H2Layer.class).build();
 
         this.repository.query().find().forEach(it -> {
             Base.instance().logger().log("&7Loaded &9" + it.getName() + " &7as &9" + it.getType().name() + " &7service-group.");
