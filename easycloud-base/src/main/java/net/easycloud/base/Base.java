@@ -59,7 +59,6 @@ public final class Base extends CloudDriver {
             setupHandler.start();
             while (true) {
                 try {
-
                     Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);

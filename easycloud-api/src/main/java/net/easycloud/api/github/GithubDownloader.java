@@ -36,7 +36,7 @@ public class GithubDownloader {
     }
 
     public static boolean isUpdateReady(Path path) {
-        FileHelper.writeIfNotExists(path, new GithubConfig("1"));
+        FileHelper.writeIfNotExists(path, new GithubConfig("0"));
         return !FileHelper.read(path, GithubConfig.class).getVersion().equals(getLatest().split(";")[0]);
     }
 

@@ -13,7 +13,7 @@ public class HikariConfiguration extends ConnectionAuthentication {
 
     public HikariConfiguration() {
         super("H2", true);
-        this.path = Path.of("storage/database.h2").toAbsolutePath().toString();
+        this.path = Path.of("storage/h2/db.h2").toAbsolutePath().toString();
     }
 }
 

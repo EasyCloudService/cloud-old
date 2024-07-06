@@ -59,11 +59,10 @@ public final class SetupHandler {
         FileHelper.writeAsList(Path.of(System.getProperty("user.dir")), new HikariConfiguration());
         var configs = Path.of(System.getProperty("user.dir")).resolve("storage").resolve("data");
         configs.toFile().mkdirs();
-
         FileHelper.writeIfNotExists(configs, new DefaultConfiguration("easyCloudService-" + new Random().nextInt(100000000, 999999999)));
+
+        Path.of(System.getProperty("user.dir")).resolve("storage").resolve("h2").toFile().mkdirs();
         //onSetup = false;
         // });
-
-        //FileHelper.writeIfNotExists(Path.of(System.getProperty("user.dir")), new DefaultConfiguration("easyCloudService-" + new Random().nextInt(100000000, 999999999)));
     }
 }

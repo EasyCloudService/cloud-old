@@ -20,7 +20,6 @@ import net.easycloud.api.group.misc.GroupType;
 import net.easycloud.api.service.IService;
 import net.easycloud.velocity.command.CloudCommand;
 import net.easycloud.velocity.command.HubCommand;
-import net.easycloud.velocity.command.PermissionCommand;
 
 import java.net.InetSocketAddress;
 import java.util.logging.Logger;
@@ -80,9 +79,8 @@ public final class VelocityPlugin {
     public void onInitialize(ProxyInitializeEvent event) {
         CommandManager commandManager = server.getCommandManager();
 
-        commandManager.register(commandManager.metaBuilder("cs").aliases("cloudsystem", "pc", "EasyCloud").plugin(this).build(), new CloudCommand());
+        commandManager.register(commandManager.metaBuilder("cs").aliases("cloudsystem").plugin(this).build(), new CloudCommand());
         commandManager.register(commandManager.metaBuilder("hub").aliases("lobby", "lobbyserver", "hubschrauber").plugin(this).build(), new HubCommand());
-        commandManager.register(commandManager.metaBuilder("perm").aliases("permission").plugin(this).build(), new PermissionCommand());
 
         var current = CloudDriver.instance().serviceProvider().getCurrentService().getId();
         CloudDriver.instance().nettyClient().sendPacket(new ServiceStatePacket(current, ServiceState.RUNNING));

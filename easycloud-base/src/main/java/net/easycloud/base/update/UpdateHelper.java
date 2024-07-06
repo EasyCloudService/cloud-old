@@ -16,9 +16,9 @@ public final class UpdateHelper {
                 &9 |    ||__) |  \\  /\\   |  |__  |__)
                 &9  \\__/ |    |__/ /--\\  |  |___ |  \\
                 &7[&9Github&7] &7Searching for an newer release...""".replace("%LINE_BREAK%", "\n".repeat(100)));
-        CloudPath.STORAGE.resolve("github").toFile().mkdirs();
+        CloudPath.STORAGE.resolve("tmp").toFile().mkdirs();
 
-        if (GithubDownloader.isUpdateReady(CloudPath.STORAGE.resolve("github"))) {
+        if (GithubDownloader.isUpdateReady(CloudPath.STORAGE.resolve("tmp"))) {
             logger.log("[&9Github&7] &7An newer release was found.", LogType.EMPTY);
 
             if (isDisabled) {

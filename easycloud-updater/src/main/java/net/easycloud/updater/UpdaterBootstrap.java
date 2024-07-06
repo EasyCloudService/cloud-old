@@ -15,7 +15,7 @@ public final class UpdaterBootstrap {
         Thread.sleep(1000);
 
         var jarPath = Path.of("../");
-        var github = Path.of("github");
+        var tmp = Path.of("tmp");
 
         jarPath.resolve("storage").resolve("jars").toFile().delete();
         for (File file : jarPath.resolve("storage").toFile().listFiles()) {
@@ -30,8 +30,8 @@ public final class UpdaterBootstrap {
         };
         List.of("start.bat", "EasyCloudService.jar").forEach(it -> jarPath.resolve(it).toFile().delete());
 
-        unzip(github.resolve("release.zip"), jarPath);
-        github.resolve("release.zip").toFile().delete();
+        unzip(tmp.resolve("release.zip"), jarPath);
+        tmp.resolve("release.zip").toFile().delete();
     }
 
     private static void unzip(Path path, Path dest) {

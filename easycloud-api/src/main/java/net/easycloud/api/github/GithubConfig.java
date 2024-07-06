@@ -6,7 +6,7 @@ import net.easycloud.api.utils.file.FileName;
 
 @Getter
 @AllArgsConstructor
-@FileName(name = "github")
+@FileName(name = "version")
 @SuppressWarnings("ClassCanBeRecord")
 public final class GithubConfig {
     private final String version;

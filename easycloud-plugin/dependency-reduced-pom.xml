@@ -8,7 +8,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>easycloud-plugin</artifactId>
   <build>
-    <finalName>ECS-Plugin</finalName>
+    <finalName>CloudInject-Plugin</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
