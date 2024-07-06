@@ -7,7 +7,7 @@ import net.easycloud.api.utils.file.FileName;
 import java.nio.file.Path;
 
 @Getter
-@FileName(name = "evelon-connection-credentials")
+@FileName(name = "sql")
 public class HikariConfiguration extends ConnectionAuthentication {
     private final String path;
 

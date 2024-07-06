@@ -1,5 +1,6 @@
 package net.easycloud.base;
 
+import dev.httpmarco.evelon.layer.connection.ConnectionAuthenticationPath;
 import dev.httpmarco.osgan.networking.server.NettyServer;
 import dev.httpmarco.osgan.networking.server.NettyServerBuilder;
 import lombok.Getter;
@@ -51,7 +52,10 @@ public final class Base extends CloudDriver {
         this.setupHandler = new SetupHandler();
         this.running = true;
 
-        if (!Path.of(System.getProperty("user.dir")).resolve("evelon-connection-credentials.json").toFile().exists()) {
+        var sqlConfig = Path.of(System.getProperty("user.dir")).resolve("sql.json").toAbsolutePath();
+        ConnectionAuthenticationPath.set(sqlConfig.toString());
+
+        if (sqlConfig.toFile().exists()) {
             setupHandler.start();
             while (true) {
                 try {

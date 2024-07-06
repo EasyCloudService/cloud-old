@@ -28,7 +28,7 @@ public final class ServicePrepareHandler {
         Reflections.copy(Path.of(System.getProperty("user.dir") + File.separator + "template" + File.separator + "EVERY"), tmp);
 
         try {
-            Files.copy(Path.of("evelon-connection-credentials.json"), tmp.resolve("evelon-connection-credentials.json"), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Path.of("sql.json"), tmp.resolve("evelon-connection-credentials.json"), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
