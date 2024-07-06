@@ -50,7 +50,7 @@ public final class UserHandler implements UserProvider {
     @Override
     public CloudUser createUserIfNotExists(UUID uuid) {
         if(!repository.query().match("uniqueId", uuid).exists()) {
-            var user = new CloudUser(uuid, "");
+            var user = new CloudUser(uuid);
             repository.query().create(user);
             return user;
         }
