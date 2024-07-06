@@ -55,7 +55,7 @@ public final class Base extends CloudDriver {
         var sqlConfig = Path.of(System.getProperty("user.dir")).resolve("sql.json").toAbsolutePath();
         ConnectionAuthenticationPath.set(sqlConfig.toString());
 
-        if (sqlConfig.toFile().exists()) {
+        if (!sqlConfig.toFile().exists()) {
             setupHandler.start();
             while (true) {
                 try {
