@@ -16,10 +16,10 @@ public final class UpdateHelper {
         CloudPath.STORAGE.resolve("tmp").toFile().mkdirs();
 
         if (GithubDownloader.isUpdateReady(CloudPath.STORAGE.resolve("tmp"))) {
-            logger.log("[&cGithub&7] &7Following version was found: &7[&f" + GithubDownloader.getLatest() + "&7]", LogType.EMPTY);
+            logger.log("[&cGithub&7] &7Following version was found: &7[&f" + GithubDownloader.getLatest().split(";")[0] + "&7]", LogType.EMPTY);
             if (isDisabled) {
                 logger.log("[&cGithub&7] &7But updates are disabled. Cause &7[&f--ignore-update&7]", LogType.EMPTY);
-                Thread.sleep(500);
+                Thread.sleep(1000);
                 return;
             }
 

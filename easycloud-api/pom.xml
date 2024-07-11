@@ -34,12 +34,12 @@
         <dependency>
             <groupId>dev.httpmarco.evelon</groupId>
             <artifactId>evelon-common</artifactId>
-            <version>1.0.41-SNAPSHOT</version>
+            <version>1.0.43-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>dev.httpmarco.evelon</groupId>
             <artifactId>evelon-sql-h2</artifactId>
-            <version>1.0.41-SNAPSHOT</version>
+            <version>1.0.43-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.fusesource.jansi</groupId>

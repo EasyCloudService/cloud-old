@@ -42,9 +42,9 @@ public class GithubDownloader {
 
     @SneakyThrows
     public static String getLatest() {
-        String urlString = "https://api.github.com/repos/EasyCloudService/cloud/releases/latest";
-        URL url = new URL(urlString);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        var urlString = "https://api.github.com/repos/EasyCloudService/cloud/releases/latest";
+        var url = new URL(urlString);
+        var connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.connect();
 
