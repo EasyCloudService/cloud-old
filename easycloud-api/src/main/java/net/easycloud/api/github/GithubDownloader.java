@@ -48,8 +48,8 @@ public class GithubDownloader {
         connection.setRequestMethod("GET");
         connection.connect();
 
-        String name = "";
-        String download = "";
+        String name;
+        String download;
 
         int responseCode = connection.getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {

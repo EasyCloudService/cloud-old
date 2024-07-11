@@ -12,18 +12,14 @@ public final class UpdateHelper {
     public static void update(boolean isDisabled, String jarName, Logger logger) {
         logger.log("""
                 %LINE_BREAK%
-                &9        __   __       ___  ___  __
-                &9 |    ||__) |  \\  /\\   |  |__  |__)
-                &9  \\__/ |    |__/ /--\\  |  |___ |  \\
-                &7[&9Github&7] &7Searching for an newer release...""".replace("%LINE_BREAK%", "\n".repeat(100)));
+                &7[&cGithub&7] &7Searching for an newer release...""".replace("%LINE_BREAK%", "\n".repeat(100)));
         CloudPath.STORAGE.resolve("tmp").toFile().mkdirs();
 
         if (GithubDownloader.isUpdateReady(CloudPath.STORAGE.resolve("tmp"))) {
-            logger.log("[&9Github&7] &7An newer release was found.", LogType.EMPTY);
-
+            logger.log("[&cGithub&7] &7Following version was found: &7[&f" + GithubDownloader.getLatest() + "&7]", LogType.EMPTY);
             if (isDisabled) {
-                logger.log("[&9Github&7] &7But sorry. Updates are &cdisabled&7.", LogType.EMPTY);
-                Thread.sleep(1000);
+                logger.log("[&cGithub&7] &7But updates are disabled. Cause &7[&f--ignore-update&7]", LogType.EMPTY);
+                Thread.sleep(500);
                 return;
             }
 
@@ -38,8 +34,8 @@ public final class UpdateHelper {
             if (!status) {
                 logger.log("&cNo update was found...", LogType.ERROR);
             } else {
-                logger.log("&cRESTARTING...");
-                logger.log("&cPlease wait 5 seconds before starting again!");
+                logger.log("&cTry to shutdown...");
+                logger.log("&cYou have to restart in 10seconds.");
 
                 Thread.sleep(1000);
 
