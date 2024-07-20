@@ -24,7 +24,7 @@ public final class UpdateHelper {
             }
 
             int[] sProgress = {0};
-            var status = GithubDownloader.updateIfNeeded(CloudPath.STORAGE.resolve("github"), progress -> {
+            var status = GithubDownloader.updateIfNeeded(CloudPath.STORAGE.resolve("tmp"), progress -> {
                 if (sProgress[0] + 10 > progress) {
                     return;
                 }
