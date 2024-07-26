@@ -2,9 +2,9 @@
 ![Logo](https://easycloudservice.de/cdn/banner.png)
 # EasyCloudService
 
-Download: https://github.com/EasyCloudService/cloud/releases
+Download: https://github.com/EasyCloudService/cloud-old/releases
 
-## How do I setup the cloud?
+## How do I setup modules?
 [Tutorial](https://github.com/EasyCloudService/modules/releases/tag/release)
 
 ## FAQ
